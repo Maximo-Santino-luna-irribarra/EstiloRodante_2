@@ -5,13 +5,19 @@
     --text-color: #eee;
 }
 
-body {
-    background-color: var(--main-color);
-    color: var(--text-color);
-    min-height: 100dvh;
-    font-family: cursive;
-    font-weight: 100;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 
 .nav a{
   font-size: 1.3em;
@@ -33,31 +39,29 @@ body {
     border-radius: 30%;
 }
 
-main{
-    justify-content: space-around;
-    margin-top: 1.5em;
-    color: var(--text-color);
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
 }
 
-aside{
-    width: 22dvw;
-    padding: 0 2em;
-    border-radius: 20px;
-    margin-top: 1.3em;
-    max-height: 90vh;
-    overflow: hidden;
-    top: 1rem;
+
+.products {
+    width: 100%;
 }
+aside {
+    width: 100%;
+}
+
 
 .minPrice, .maxPrice{
     width: 100%;
     height: 1.4em;
 }
 
-.products{
-    width: 70dvw;
-    min-height: 70dvh;
-}
 
 .productsBox{
     padding: 1em .2em;
