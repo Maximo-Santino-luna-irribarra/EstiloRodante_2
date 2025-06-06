@@ -160,37 +160,29 @@ const writeProduct = (tipo, marca, modelo, medida, indiceCarga, indiceVelocidad,
     if (!filterProducts(tipo, marca, modelo, tecnologias, precio)) return;
 
     const product = document.createElement("div");
-    product.className = "col";
+    product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+
     product.innerHTML = `
-        <div class="card h-100 shadow p-4 rounded-4 border-light">
-            <div class="row g-4 align-items-start">
-                <div class="col-md-4 text-center">
-                    <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" alt="Producto" style="width: 140px; height: 140px;">
-                    <p class="mt-3 fw-bold text-primary fs-5">$${precio}</p>
-                </div>
-                <div class="col-md-8">
-                    <h5 class="card-title text-uppercase">${modelo} ${medida}</h5>
-                    <ul class="list-unstyled ps-3 small">
-                        <li><strong>Tipo:</strong> ${tipo}</li>
-                        <li><strong>Marca:</strong> ${marca}</li>
-                        <li><strong>Modelo:</strong> ${modelo}</li>
-                        <li><strong>Medida:</strong> ${medida}</li>
-                        <li><strong>Indice de carga:</strong> ${indiceCarga}</li>
-                        <li><strong>Indice de Velocidad:</strong> ${indiceVelocidad}</li>
-                        <li><strong>Tecnología:</strong> ${tecnologias}</li>
-                        <li><strong>Precio:</strong> $${precio}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-                <button class="btn btn-danger btn-sm px-5">Eliminar</button>
-                <button class="btn btn-primary btn-sm px-5">Editar</button>
-            </div>
+    <div class="card product-box text-center p-3 shadow rounded-4">
+        <div class="product-image-wrapper mx-auto mb-3">
+            <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
+
+        <h5 class="fw-bold text-dark mb-1">Modelo: ${modelo}</h5>
+        <p class="text-primary fw-semibold fs-5 mb-3">precio: $${precio}</p>
+        <p class = mb-3">Marca:${marca}</p>
+
+        <div class="d-flex justify-content-end gap-2 mt-auto">
+            <button class="btn btn-outline-danger btn-sm">Eliminar</button>
+            <button class="btn btn-outline-success btn-sm">Agregar</button>
+        </div>
+    </div>
     `;
 
     box.appendChild(product);
 };
+
+
 
 const writeLlanta = (nombre, marca, modelo, material, diametro, ancho, stock, alto, url, precio) => {
     if (!filterProducts("Llantas", marca, modelo, material, precio)) return;

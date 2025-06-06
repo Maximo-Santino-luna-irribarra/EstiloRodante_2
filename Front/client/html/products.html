@@ -8,18 +8,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="/Front/client/css/styleProducts.css">
 </head>
-<body class="min-vh-100 d-flex flex-column justify-content-between">
-    
-    <header class="bg-dark d-flex align-items-center py-2 px-3 sticky-top shadow justify-content-between">
-        <h1 class="text-white">EstiloRodante</h1>
-        <nav class="nav">
+
+<header class="bg-dark text-white py-3" margin-bottom: 20px; position: sticky; top: 0; z-index: 1000;">
+    <nav class="container d-flex justify-content-between align-items-center" >
+    <h1 class="text-white">EstiloRodante</h1>   
+    <input type="text" class="form-control w-25" placeholder="Search by name..." />
+        <div class="nav" >
             <a class="nav-link text-white" href="/Front/client/html/home.html">Home</a>
             <a class="nav-link text-white" href="/Front/client/html/products.html">Products</a>
             <a class="nav-link text-white" href="/Front/client/html/cart.html">Cart</a>
-        </nav>
-        <img id="logoPage" src="/Front/images/assets/logoPage.png" alt="LogoPagina" class="img-fluid mt-2" style="height: 50px;">
-    </header>
+            <img id="logoPage" src="/Front/images/assets/logoPage.png" alt="LogoPagina" class="img-fluid mx-auto d-block mt-2" style="max-width: 50px;  padding: 5px;">
+        </div>
+    </nav>
 
+</header>
+  
+<body class="min-vh-100 d-flex flex-column justify-content-between"></body>
     <aside class="aside-fixed bg-black p-4 rounded shadow-sm">
         <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
             Resultados de llantas
@@ -28,12 +32,14 @@
 
             <div>
                 <label for="types" class="form-label fw-semibold">Types</label>
-                 <select class="option form-select form-select-sm" name="type" id="types">
-                    <option value="Todos">Todos</option>
-                    <option value="rin">Rin</option>
-                    <option value="neumatico">Neumatico</option>
-                    <option value="wheel">Rueda</option>
+                <select id="ordenar" class="custom-select">
+                    <option value="">Ordenar</option>
+                    <option value="precio-asc">Precio: menor a mayor</option>
+                    <option value="precio-desc">Precio: mayor a menor</option>
+                    <option value="nombre-asc">Nombre: A-Z</option>
+                    <option value="nombre-desc">Nombre: Z-A</option>
                 </select>
+
             </div>
 
             <div>
@@ -108,8 +114,8 @@
     <main class="d-flex" style="margin-left: 300px;">
         <section class="py-5 px-3 rounded-4 w-100">
             <div class="container">
-                <div class="order mb-4 text-end">
-                    <select id="ordenar" class="form-select w-auto">
+                <div class="mb-4 text-end">
+                    <select id="ordenar" class="custom-select">
                         <option value="">Ordenar</option>
                         <option value="precio-asc">Precio: menor a mayor</option>
                         <option value="precio-desc">Precio: mayor a menor</option>
