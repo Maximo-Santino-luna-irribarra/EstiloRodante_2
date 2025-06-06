@@ -1,0 +1,106 @@
+:root {
+    --main-color: #021526;
+    --second-color: #bfbfbf;
+    --back-color: #5354cE;
+    --text-color: #eee;
+}
+
+body {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    min-height: 100dvh;
+    font-family: cursive;
+    font-weight: 100;
+}
+
+.nav a{
+  font-size: 1.3em;
+  margin: 0 1em;
+  border-radius: 20px;
+  color: var(--text-color);
+}
+
+.nav a:hover{
+  background-color: var(--text-color);
+  color: var(--main-color);
+}
+
+#logoPage {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 1em;
+    border-radius: 30%;
+}
+
+main{
+    justify-content: space-around;
+    margin-top: 1.5em;
+    color: var(--text-color);
+}
+
+aside{
+    width: 22dvw;
+    padding: 0 2em;
+    border-radius: 20px;
+    margin-top: 1.3em;
+    max-height: 90vh;
+    overflow: hidden;
+    top: 1rem;
+}
+
+.minPrice, .maxPrice{
+    width: 100%;
+    height: 1.4em;
+}
+
+.products{
+    width: 70dvw;
+    min-height: 70dvh;
+}
+
+.productsBox{
+    padding: 1em .2em;
+}
+
+.product{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    margin: .5em;
+    border: 1px solid black;
+    background-color: var(--second-color);
+    color: var(--main-color);
+}
+
+.productImage img{
+    width: 50%;
+}
+
+.productDesc{
+    width: 100%;
+}
+
+.productButtons{
+    width: 50%;
+    align-self: end;
+    display: flex;
+}
+
+
+.order{
+    background-color: var(--second-color);
+    justify-self: end;
+}
+
+.aside-fixed {
+    position: fixed;
+    left: 0;
+    top: 100px;
+    right: 30px;
+    width: 200px;
+    height: 40em;
+    z-index: 1000;
+    padding: 10px;
+    margin-left: 5em;
+}

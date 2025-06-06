@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstiloRodante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="styleHome.css">
+</head>
+<body class="min-vh-100 d-flex flex-column justify-content-between">
+    <header class="bg-dark d-flex align-items-center py-2 sticky-top shadow justify-content-between">
+        <h1 class="text-white">
+            EstiloRodante
+        </h1>
+        <nav class="nav">
+            <a class="nav-link" href="/Front/Front_Client/home.html">Home</a>
+            <a class="nav-link" href="/Front/Front_Client/products.html">Products</a>
+            <a class="nav-link" href="/Front/Front_Client/cart.html">Cart</a>
+        </nav>
+        <img id="logoPage" src="/Img/logoPage.png" alt="LogoPagina" class="img-fluid mt-2">
+    </header>
+
+    <main class="d-flex text-light">
+        <div class="content flex-grow-1 border-end">
+            <section class="section1 min-vh-100">
+                <h3 class="display-1 mx-3 mb-3">Bienvenido Santiago a EstiloRodante !</h3>
+            </section>
+            <section class="section2 min-vh-100">
+                <h3 class="mx-3 mb-3 display-1">Productos</h3>
+                <div class="productsSelection d-flex justify-content-around py-4">
+
+                    <a class="p-4 rounded-circle border border-5 border-dark" href="/Front/Front_Client/products.html?type=llanta"><img src="/Img/rin.png" alt="rins"></a>
+                    <a class="p-4 rounded-circle border border-5 border-dark" href="/Front/Front_Client/products.html?type=neumatico"><img src="/Img/cubierta.png" alt="cubiertas"></a>
+                    <a class="p-4 rounded-circle border border-5 border-dark" href="/Front/Front_Client/products.html?type=wheels"><img src="/Img/wheel.png" alt="wheels"></a>
+                </div>
+            </section>
+        </div>
+        <aside class="position-sticky d-flex flex-column align-items-center justify-content-between">
+            <h3>Ofertas</h3>
+            <button id="btnUp" class="material-symbols-outlined">keyboard_arrow_up</button>
+            
+                <div id="productCarousel" class="d-flex flex-column overflow-hidden overflow-hidden" style="height: 320px; width: 100%;">
+                    <div id="carouselInner" class="d-flex flex-column align-items-center">
+                        <a><img src="/Img/cubierta.png" alt=""></a>
+                        <a><img src="/Img/rin.png" alt=""></a>
+                        <a><img src="/Img/wheel.png" alt=""></a>
+                        <a><img src="/Img/rin.png" alt=""></a>
+                        <a><img src="/Img/cubierta.png" alt=""></a>
+                        <a><img src="/Img/cubierta.png" alt=""></a>
+                        <a><img src="/Img/cubierta.png" alt=""></a>
+                        <a><img src="/Img/rin.png" alt=""></a>
+                        <a><img src="/Img/wheel.png" alt=""></a>
+                        <a><img src="/Img/rin.png" alt=""></a>
+                    </div>
+                </div>
+
+            
+            <button id="btnDown" class="material-symbols-outlined">keyboard_arrow_down</button>
+        </aside>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center p-3">
+    <h5>Santi Luna and Santi Martinez</h5>
+    <p class="mb-0">© Todos los derechos reservados</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="/Front/Scrpits/home.js"></script>
+</body>
+</html>
