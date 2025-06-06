@@ -122,7 +122,7 @@ const writeProduct = (tipo, marca, modelo, medida, indiceCarga, indiceVelocidad,
                 <div class="card h-100 shadow p-4 rounded-4 border-light">
                 <div class="row g-4 align-items-start">
                     <div class="col-md-4 text-center">
-                    <img src="/Img/wheel.png" class="" alt="Producto" style="width: 140px; height: 140px;">
+                    <img src="Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="" alt="Producto" style="width: 140px; height: 140px;">
                     <p class="mt-3 fw-bold text-primary fs-5">$${precio}</p>
                     </div>
                     <div class="col-md-8">
