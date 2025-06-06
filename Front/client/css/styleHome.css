@@ -50,12 +50,12 @@ body {
 }
 
 .section1{
-  background-image: url(/Img/bg1.jpg);
+  background-image: url(/Front/images/assets/bg1.jpg);
   background-size: cover;
 }
 
 .section2{
-  background-image: url(/Img/bg2.jpg);
+  background-image: url(/Front/images/assets/bg2.jpg);
   background-size: cover;
 }
 
