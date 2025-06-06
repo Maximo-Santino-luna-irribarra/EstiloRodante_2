@@ -1,6 +1,17 @@
 const box = document.querySelector("#productsBox")
 const listaProductos = []
-localStorage.setItem("carro", "[]")
+localStorage.setItem("carro", `[{
+        "nombre": "Llanta Fiat",
+        "precio": 1750000,
+        "marca": "Fiat",
+        "modelo": "Argo",
+        "material": "Aleación de aluminio",
+        "diametro": 17,
+        "ancho": null,
+        "stock": "En stock",
+        "alto": "111",
+        "url": "introducir imagen"
+      }]`)
 let productosPrecios = 0
 let productosContador = 0
 
@@ -58,9 +69,9 @@ const crearResumen = () =>{
           <p class="fw-bold">Total: $${productosPrecios + productosContador * 500}</p>
         `
         if(verificarVacio()){
-            ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" disabled>Generar Ticket</button>`
+            ticket.innerHTML += `<button class="btn btn-light w-100 mt-2">Generar Ticket</button>`
         }else{
-             ticket.innerHTML += `<button class="btn btn-light w-100 mt-2">Generar Ticket</button>`
+             ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" disabled>Generar Ticket</button>`
         }
     ticketBox.appendChild(ticket)
     }
