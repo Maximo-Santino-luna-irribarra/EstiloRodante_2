@@ -28,6 +28,7 @@ const setProductos = () =>{
     })};
 
 const crearProducto = (element) =>{
+    let cantidad = 1
     let product = document.createElement('div')
     product.className = 'col'
     product.innerHTML = `
@@ -47,14 +48,36 @@ const crearProducto = (element) =>{
             </div> 
             <div class="d-flex justify-content-around mt-4">
             <div class="contador">
-                <button class="boton"">-</button>
-                <span id="cantidad" class="cantidad">1</span>
-                <button class="boton"">+</button>
+                <button class="boton btn-restar">-</button>
+                <span id="cantidad" class="cantidad">${cantidad}</span>
+                <button class="boton btn-sumar">+</button>
             </div>
             </div>
             `
             box.appendChild(product)
-    }
+            const btnSumar = product.querySelector('.btn-sumar')
+            const btnRestar = product.querySelector('.btn-restar')
+            const spanCantidad = product.querySelector('.cantidad')
+            
+            btnSumar.addEventListener('click', () => {
+                cantidad++
+                spanCantidad.textContent = cantidad
+                productosContador++
+                productosPrecios += element.precio
+                actualizarResumen()
+            })
+
+            btnRestar.addEventListener('click', () => {
+                if (cantidad > 1) {
+                    cantidad--
+                    spanCantidad.textContent = cantidad
+                    productosContador--
+                    productosPrecios -= element.precio
+                    actualizarResumen()
+                }
+            })
+        }
+
 
 const ticketBox = document.querySelector(".ticket")
 
@@ -76,6 +99,22 @@ const crearResumen = () =>{
     ticketBox.appendChild(ticket)
     }
 
+const actualizarResumen = () => {
+    ticketBox.innerHTML = ''
+
+    ticket = document.createElement('div')
+    ticket.className = "aside-ticket shadow"
+    ticket.innerHTML = `
+        <h5>Resumen</h5>
+        <p>Productos: $${productosPrecios}</p>
+        <p>Impuestos: $${productosContador * 500}</p>
+        <hr class="border-light"/>
+        <p class="fw-bold">Total: $${productosPrecios + productosContador * 500}</p>
+        <button class="btn btn-light w-100 mt-2" ${productosContador > 0 ? '' : 'disabled'}>Generar Ticket</button>
+    `
+    ticketBox.appendChild(ticket)
+}
+
 
 const verificarVacio = () =>{
     if(box.innerHTML == ''){
@@ -91,5 +130,5 @@ const verificarVacio = () =>{
 
 setProductos()
 verificarVacio()
-crearResumen()
+actualizarResumen() 
 
