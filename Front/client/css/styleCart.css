@@ -33,12 +33,6 @@ html, body {
     border-radius: 30%;
 }
 
-.product-card {
-    background-color: var(--second-color);
-    color: var(--main-color);
-    border-radius: 10px;
-}
-
 .btn-control {
     width: 35px;
     height: 35px;
@@ -50,4 +44,132 @@ html, body {
     color: var(--text-color);
     border-radius: 15px;
     padding: 1rem;
+}
+
+.productsBox{
+    padding: 1em .2em;
+}
+
+.product{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    margin: .5em;
+    border: 1px solid black;
+    background-color: var(--second-color);
+    color: var(--main-color);
+}
+
+.productImage img{
+    width: 50%;
+}
+
+.productDesc{
+    width: 100%;
+}
+
+.productButtons{
+    width: 50%;
+    align-self: end;
+    display: flex;
+}
+
+
+.order{
+    background-color: var(--second-color);
+    justify-self: end;
+}
+
+.aside-fixed {
+    position: fixed;
+    left: 0;
+    top: 100px;
+    right: 30px;
+    width: 200px;
+    height: 40em;
+    z-index: 1000;
+    padding: 10px;
+    margin-left: 5em;
+}
+
+.product-box {
+    min-height: 320px;
+    background: linear-gradient(to bottom right, #fdfdfd, #f0f8ff);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-box:hover {
+    transform: scale(1.02);
+}
+
+.product-image-wrapper {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #000;
+    padding: 4px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.product-image{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.custom-select {
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 40px 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 12px 40px 12px 16px;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    transition: 0.3s;
+    cursor: pointer;
+    width: 250px;
+}
+
+.custom-select:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    outline: none;
+}
+
+.custom-select option {
+    padding: 10px;
+    color: #333;
 }

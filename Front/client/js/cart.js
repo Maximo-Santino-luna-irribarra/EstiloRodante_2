@@ -1,4 +1,4 @@
-const box = document.querySelector("#productsBox")
+const box = document.querySelector(".box")
 const listaProductos = []
 let productosPrecios = 0
 let productosContador = 0
@@ -20,27 +20,22 @@ const crearProducto = (element) =>{
     let product = document.createElement('div')
     product.className = 'col'
     product.innerHTML = `
-            <div class="card shadow p-4 rounded-4" style="max-width: 500px; border: 2px solid #000; margin: auto;">
-            <div class="row g-4 align-items-start">
-            <div class="col-md-4 text-center">
-            <img src="/Front/images/llantas/audi_r18-c451-618950a78f90f7c56616357782879910-640-0.png" class="rounded-circle" alt="Producto" style="width: 140px; height: 140px;">
+            <div class="card product-box text-center p-3 shadow rounded-4">
+            <div class="product-image-wrapper mx-auto mb-3">
+                <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="product-image" alt="${element.modelo}">
             </div>
-            <div class="col-md-8">
-            <h5 class="card-title display-5">${element.nombre}</h5>
-            <ul class="list-unstyled ps-3">
-                <li class="h4 fw-lighter">Marca: ${element.marca}</li>
-                <li class="h4 fw-lighter">Modelo: ${element.modelo}</li>
-                <li class="h4">$${element.precio}</li>
-            </ul>
-            </div>
-            </div> 
-            <div class="d-flex justify-content-around mt-4">
-            <div class="contador">
+            <h5 class="fw-bold text-dark mb-1">Modelo: ${element.nombre}</h5>
+            <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${element.precio}</p>
+            <p class="mb-3">Marca: ${element.marca}</p>
+            <div class="d-flex justify-content-end gap-2 mt-auto">
+                <div class="contador">
                 <button class="boton btn-restar">-</button>
                 <span id="cantidad" class="cantidad">${cantidad}</span>
                 <button class="boton btn-sumar">+</button>
+                </div>
             </div>
             </div>
+            
             `
             box.appendChild(product)
             const btnSumar = product.querySelector('.btn-sumar')
