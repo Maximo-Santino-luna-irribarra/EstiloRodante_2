@@ -1,22 +1,10 @@
 const box = document.querySelector("#productsBox")
 const listaProductos = []
-localStorage.setItem("carro", `[{
-        "nombre": "Llanta Fiat",
-        "precio": 1750000,
-        "marca": "Fiat",
-        "modelo": "Argo",
-        "material": "Aleación de aluminio",
-        "diametro": 17,
-        "ancho": null,
-        "stock": "En stock",
-        "alto": "111",
-        "url": "introducir imagen"
-      }]`)
 let productosPrecios = 0
 let productosContador = 0
 
 const getProductos = () =>{
-    return localStorage.getItem('carro')
+    return localStorage.getItem('carrito')
 }
 
 const setProductos = () =>{
