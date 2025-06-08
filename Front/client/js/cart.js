@@ -28,11 +28,11 @@ const crearProducto = (element) =>{
             <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${element.precio}</p>
             <p class="mb-3">Marca: ${element.marca}</p>
             <div class="d-flex justify-content-end gap-2 mt-auto">
-                <div class="contador">
-                <button class="boton btn-restar">-</button>
-                <span id="cantidad" class="cantidad">${cantidad}</span>
-                <button class="boton btn-sumar">+</button>
-                </div>
+                <div class="contador d-flex align-items-center gap-2">
+                <button class="btn btn-outline-danger rounded-circle btn-restar fw-bold px-3">-</button>
+                <span class="cantidad fs-5 fw-semibold">${cantidad}</span>
+                <button class="btn btn-outline-success rounded-circle btn-sumar fw-bold px-3">+</button>
+            </div>
             </div>
             </div>
             
@@ -51,14 +51,26 @@ const crearProducto = (element) =>{
             })
 
             btnRestar.addEventListener('click', () => {
-                if (cantidad > 1) {
-                    cantidad--
-                    spanCantidad.textContent = cantidad
-                    productosContador--
-                    productosPrecios -= element.precio
-                    actualizarResumen()
-                }
-            })
+            if (cantidad > 1) {
+                cantidad--
+                spanCantidad.textContent = cantidad
+                productosContador--
+                productosPrecios -= element.precio
+            } else {
+                // Si queda solo 1 y se presiona restar, eliminar el producto
+                product.remove()
+                productosContador--
+                productosPrecios -= element.precio
+
+                // Eliminar también del array listaProductos o lista si es necesario
+                const carritoActual = JSON.parse(localStorage.getItem('carrito')) || []
+                const nuevoCarrito = carritoActual.filter(item => !(item.nombre === element.nombre && item.marca === element.marca))
+                localStorage.setItem('carrito', JSON.stringify(nuevoCarrito))
+            }
+
+            actualizarResumen()
+            verificarVacio()
+        })
         }
 
 
