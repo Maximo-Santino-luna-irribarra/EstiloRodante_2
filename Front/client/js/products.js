@@ -8,7 +8,8 @@ const ordenarSelect = document.getElementById("ordenar");
 const searchInput = document.querySelector('input[type="text"]');
 const contenedorProductos = document.querySelector(".box");
 const url = "/Front/objects/productos_combinados.json"
-
+const productosPorPagina = 12;
+let paginaActual = 1;
 let productos = []
 let carrito = cargarCarrito();
 
@@ -94,6 +95,42 @@ const writeLlanta = (llanta) => {
     contenedorProductos.appendChild(product);
 };
 
+function mostrarProductos(pagina) {
+    contenedorProductos.innerHTML = "";
+
+    const inicio = (pagina - 1) * productosPorPagina;
+    const fin = inicio + productosPorPagina;
+    const productosPagina = productosFiltrados.slice(inicio, fin);
+
+    productosPagina.forEach((producto) => {
+    if (producto.tipo === "llanta") {
+        writeLlanta(producto);
+    } else if (producto.tipo === "neumatico") {
+        writeneumatico(producto);
+    }
+    });
+}
+
+function generarPaginacion() {
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+    const paginacion = document.getElementById("pagination");
+    paginacion.innerHTML = "";
+
+    for (let i = 1; i <= totalPaginas; i++) {
+    const li = document.createElement("li");
+    li.className = `page-item ${i === paginaActual ? "active" : ""}`;
+    li.innerHTML = `<button class="page-link">${i}</button>`;
+
+    li.querySelector("button").addEventListener("click", () => {
+        paginaActual = i;
+        mostrarProductos(paginaActual);
+        generarPaginacion();
+    });
+
+    paginacion.appendChild(li);
+}
+}
+
 function combinarProductos(datosJson) {
     const llantas = datosJson.productos.llantas.map(p => ({
         ...p,
@@ -138,9 +175,10 @@ function filtrar(productos) {
         case "nombre-desc": filtrados.sort((a, b) => b.nombre.localeCompare(a.nombre)); break;
     }
 
-    filtrados.forEach(p => {
-        p.tipo === "llanta" ? writeLlanta(p) : writeneumatico(p);
-    });
+    productosFiltrados = filtrados;
+    paginaActual = 1;
+    mostrarProductos(paginaActual);
+    generarPaginacion();
 }
 
 function agregarAlCarrito(producto) {
@@ -185,3 +223,34 @@ async function init() {
 }
 
 init();
+
+
+
+
+function mostrarAlerta(nombre, precio) {
+const alerta = document.getElementById("alerta-carrito");
+const contenido = document.getElementById("alerta-contenido");
+
+contenido.textContent = `Producto añadido: ${nombre} - $${precio}`;
+alerta.style.display = "block";
+
+// Ocultar automáticamente a los 3 segundos
+setTimeout(() => {
+    alerta.style.display = "none";
+}, 3000);
+}
+
+function ocultarAlerta() {
+document.getElementById("alerta-carrito").style.display = "none";
+}
+
+// Evento para detectar clicks en botones de agregar
+document.addEventListener("click", function (e) {
+if (e.target.classList.contains("btn-agregar")) {
+    const card = e.target.closest(".card");
+    const nombre = card.querySelector("h5").textContent.replace("Modelo: ", "");
+    const precio = card.querySelector(".text-primary").textContent.replace("Precio: $", "");
+
+    mostrarAlerta(nombre, precio);
+}
+});
