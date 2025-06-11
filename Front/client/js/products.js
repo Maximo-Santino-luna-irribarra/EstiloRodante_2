@@ -112,7 +112,7 @@ function mostrarProductos(pagina) {
 }
 
 function generarPaginacion() {
-    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+    const totalPaginas = productosFiltrados.length / productosPorPagina
     const paginacion = document.getElementById("pagination");
     paginacion.innerHTML = "";
 
@@ -220,6 +220,7 @@ async function init() {
     maxPriceInput.addEventListener("input", () => filtrar(productosCombinados));
     ordenarSelect.addEventListener("change", () => filtrar(productosCombinados));
     searchInput.addEventListener("input", () => filtrar(productosCombinados));
+
 }
 
 init();
