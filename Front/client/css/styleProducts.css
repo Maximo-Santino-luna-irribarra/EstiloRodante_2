@@ -1,8 +1,13 @@
 :root {
+    --card-text: #000;
     --main-color: #021526;
     --second-color: #bfbfbf;
     --back-color: #5354cE;
     --text-color: #eee;
+
+    --card-bg: #fdfdfd;
+    --card-bg-gradient: linear-gradient(to bottom right, #fdfdfd, #f0f8ff);
+    --card-text: #000;
 }
 
 body {
@@ -106,6 +111,8 @@ aside{
 }
 
 .product-box {
+    background: var(--card-bg-gradient);
+    color: var(--card-text);
     height: 100%;
     min-height: 320px;
     background: linear-gradient(to bottom right, #fdfdfd, #f0f8ff);
@@ -185,4 +192,32 @@ aside{
 .custom-select option {
     padding: 10px;
     color: #333;
+}
+
+/* Modo noche */
+
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+    --card-text: #f0f0f0;
+
+}
+
+body.dark-mode .product-box {
+    background: linear-gradient(to bottom right, #1e1e1e, #2a2a2a);
+}
+
+body.dark-mode .custom-select {
+     --card-bg: #1e1e1e;
+    --card-bg-gradient: linear-gradient(to bottom right, #1e1e1e, #2a2a2a);
+    --card-text: #f0f0f0;
+}
+
+body.dark-mode .nav a {
+    color: #fff;
+}
+
+body.dark-mode .nav a:hover {
+    background-color: #fff;
+    color: #121212;
 }
