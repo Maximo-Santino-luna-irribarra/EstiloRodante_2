@@ -1,4 +1,4 @@
-// Obtener elementos del DOM necesarios para filtros, búsqueda y orden
+// Elementos del DOM
 const tipoSelect = document.getElementById("types");
 const marcaSelect = document.querySelector('select[name="brands"]');
 const modeloSelect = document.querySelector('select[name="models"]');
@@ -7,192 +7,251 @@ const maxPriceInput = document.querySelector(".maxPrice");
 const ordenarSelect = document.getElementById("ordenar");
 const searchInput = document.querySelector('input[type="text"]');
 const contenedorProductos = document.querySelector(".box");
-
-// Ruta al archivo JSON de productos
 const url = "/Front/objects/productos_combinados.json"
-
-// Configuraciones para paginación
 const productosPorPagina = 12;
 let paginaActual = 1;
-
-// Variables para guardar productos y carrito
 let productos = []
-let carrito = cargarCarrito(); // Se carga el carrito desde localStorage
-let productosFiltrados = [];   // Lista filtrada para mostrar en pantalla
+let carrito = cargarCarrito();
 
-// Función asíncrona que carga los productos desde el archivo JSON
 async function ingresarMercaderia (url)
 {
-    const response = await fetch(url);     // Se hace la petición al archivo
-    productos = await response.json();     // Se convierte la respuesta en JSON
+    const response = await fetch(url);
+    productos = await response.json();
     return productos
 }
 
-// Función que filtra productos según los campos seleccionados por el usuario
-function filtrar(productos) {
-    const tipo = tipoSelect.value;
-    const marca = marcaSelect.value;
-    const modelo = modeloSelect.value;
-    const minPrice = parseFloat(minPriceInput.value) || 0;
-    const maxPrice = parseFloat(maxPriceInput.value) || Number.POSITIVE_INFINITY;
-    const ordenar = ordenarSelect.value;
-    const search = searchInput.value.toLowerCase();
+function filtrar() {
+    const busqueda = document.querySelector('.search-bar').value.toLowerCase();
+    const filtrados = productos.filter(producto => producto.nombre.toLowerCase().includes(busqueda));
+    MostrarProductos(filtrados);
+    writeProduct(filtrados);
+}
 
-    // Se aplican todos los filtros
-    let resultado = productos.filter(producto => {
-        const cumpleTipo = tipo === "todos" || producto.tipo === tipo;
-        const cumpleMarca = marca === "todas" || producto.marca === marca;
-        const cumpleModelo = modelo === "todos" || producto.modelo === modelo;
-        const cumplePrecio = producto.precio >= minPrice && producto.precio <= maxPrice;
-        const cumpleBusqueda = producto.nombre.toLowerCase().includes(search);
-        return cumpleTipo && cumpleMarca && cumpleModelo && cumplePrecio && cumpleBusqueda;
+const writeneumatico = (neumatico) => {
+    const { id, marca, modelo, precio, nombre } = neumatico;
+
+    const product = document.createElement("div");
+    product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+    product.innerHTML = `
+    <div class="card product-box text-center p-3 shadow rounded-4">
+        <div class="product-image-wrapper mx-auto mb-3">
+            <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
+        </div>
+        <h5 class="fw-bold text-dark mb-1">Modelo: ${nombre}</h5>
+        <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
+        <p class="mb-3">Marca: ${marca}</p>
+        <div class="d-flex justify-content-end gap-2 mt-auto">
+            <button class="btn btn-outline-danger btn-sm btn-eliminar">Eliminar</button>
+            <button class="btn btn-outline-success btn-sm btn-agregar">Agregar al carrito</button>
+        </div>
+    </div>`;
+
+    const btnAgregar = product.querySelector(".btn-agregar");
+    const btnEliminar = product.querySelector(".btn-eliminar");
+
+    btnAgregar.addEventListener("click", () => {
+            agregarAlCarrito(neumatico);
+        }
+    );
+
+    btnEliminar.addEventListener("click", () => {
+        eliminarDelCarrito(neumatico);
     });
 
-    // Se aplica ordenamiento si corresponde
-    if (ordenar === "precioAsc") {
-        resultado.sort((a, b) => a.precio - b.precio);
-    } else if (ordenar === "precioDesc") {
-        resultado.sort((a, b) => b.precio - a.precio);
-    } else if (ordenar === "alfabetico") {
-        resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
-    }
-
-    productosFiltrados = resultado;
-    mostrarProductos(paginaActual);
-    generarPaginacion();
-}
-
-// Une productos de llantas y neumáticos en un solo array y les agrega un campo "tipo"
-function combinarProductos(datosJson) {
-    const llantas = datosJson.llantas.map(llanta => ({ ...llanta, tipo: "llanta" }));
-    const neumaticos = datosJson.neumaticos.map(neumatico => ({ ...neumatico, tipo: "neumatico" }));
-    return [...llantas, ...neumaticos]; // Retorna los productos combinados
-}
-
-// Crea una tarjeta de producto para un neumático
-const writeneumatico = (neumatico) => {
-    const neumaticoCard = document.createElement("div");
-    neumaticoCard.classList.add("card");
-    neumaticoCard.innerHTML = `
-        <h2>${neumatico.nombre}</h2>
-        <p>Precio: $${neumatico.precio}</p>
-        <p>Marca: ${neumatico.marca}</p>
-        <img src="${neumatico.imagen}" alt="${neumatico.nombre}">
-        <button onclick="agregarAlCarrito(${neumatico.id}, 'neumatico')">Agregar al carrito</button>
-        <button onclick="eliminarDelCarrito(${neumatico.id}, 'neumatico')">Eliminar del carrito</button>
-    `;
-    contenedorProductos.appendChild(neumaticoCard);
+    contenedorProductos.appendChild(product);
 };
 
-// Crea una tarjeta de producto para una llanta
 const writeLlanta = (llanta) => {
-    const llantaCard = document.createElement("div");
-    llantaCard.classList.add("card");
-    llantaCard.innerHTML = `
-        <h2>${llanta.nombre}</h2>
-        <p>Precio: $${llanta.precio}</p>
-        <p>Marca: ${llanta.marca}</p>
-        <img src="${llanta.imagen}" alt="${llanta.nombre}">
-        <button onclick="agregarAlCarrito(${llanta.id}, 'llanta')">Agregar al carrito</button>
-        <button onclick="eliminarDelCarrito(${llanta.id}, 'llanta')">Eliminar del carrito</button>
+    const { id, nombre, marca, modelo, precio } = llanta;
+
+    const product = document.createElement("div");
+    product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+    product.innerHTML = `
+        <div class="card product-box text-center p-3 shadow rounded-4">
+            <div class="product-image-wrapper mx-auto mb-3">
+                <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
+            </div>
+            <h5 class="fw-bold text-dark mb-1">Modelo: ${nombre}</h5>
+            <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
+            <p class="mb-3">Marca: ${marca}</p>
+            <div class="d-flex justify-content-end gap-2 mt-auto">
+                <button class="btn btn-outline-danger btn-sm btn-eliminar">Eliminar</button>
+                <button class="btn btn-outline-success btn-sm btn-agregar"> Agregar al carrito"</button>
+            </div>
+        </div>
     `;
-    contenedorProductos.appendChild(llantaCard);
+
+    const btnAgregar = product.querySelector(".btn-agregar");
+    const btnEliminar = product.querySelector(".btn-eliminar");
+
+    btnAgregar.addEventListener("click", () => {
+            agregarAlCarrito(llanta);
+    });
+
+    btnEliminar.addEventListener("click", () => {
+        eliminarDelCarrito(llanta);
+    });
+
+    contenedorProductos.appendChild(product);
 };
 
-// Muestra los productos de la página actual en pantalla
 function mostrarProductos(pagina) {
     contenedorProductos.innerHTML = "";
+
     const inicio = (pagina - 1) * productosPorPagina;
     const fin = inicio + productosPorPagina;
     const productosPagina = productosFiltrados.slice(inicio, fin);
 
-    productosPagina.forEach(producto => {
-        if (producto.tipo === "neumatico") {
-            writeneumatico(producto);
-        } else {
-            writeLlanta(producto);
-        }
+    productosPagina.forEach((producto) => {
+    if (producto.tipo === "llanta") {
+        writeLlanta(producto);
+    } else if (producto.tipo === "neumatico") {
+        writeneumatico(producto);
+    }
     });
 }
 
-// Crea la paginación en base a la cantidad de productos filtrados
 function generarPaginacion() {
-    const paginacion = document.getElementById("paginacion");
+    const totalPaginas = productosFiltrados.length / productosPorPagina
+    const paginacion = document.getElementById("pagination");
     paginacion.innerHTML = "";
-    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
 
     for (let i = 1; i <= totalPaginas; i++) {
-        const boton = document.createElement("button");
-        boton.textContent = i;
-        boton.addEventListener("click", () => {
-            paginaActual = i;
-            mostrarProductos(paginaActual);
-        });
-        paginacion.appendChild(boton);
-    }
+    const li = document.createElement("li");
+    li.className = `page-item ${i === paginaActual ? "active" : ""}`;
+    li.innerHTML = `<button class="page-link">${i}</button>`;
+
+    li.querySelector("button").addEventListener("click", () => {
+        paginaActual = i;
+        mostrarProductos(paginaActual);
+        generarPaginacion();
+    });
+
+    paginacion.appendChild(li);
+}
 }
 
-// Agrega un producto al carrito
-function agregarAlCarrito(productoId, tipo) {
-    const producto = productos.find(p => p.id === productoId && p.tipo === tipo);
-    if (producto) {
+function combinarProductos(datosJson) {
+    const llantas = datosJson.productos.llantas.map(p => ({
+        ...p,
+        tipo: "llanta",
+        nombre: p.nombre ?? `${p.marca} ${p.modelo}`
+    }));
+
+    const neumaticos = datosJson.productos.neumaticos.map(p => ({
+        ...p,
+        tipo: "neumatico",
+        nombre: `${p.marca} ${p.modelo}`,
+        precio: p.precio
+    }));
+
+    return [...llantas, ...neumaticos];
+}
+
+function filtrar(productos) {
+    const tipo = tipoSelect.value;
+    const marca = marcaSelect.value;
+    const modelo = modeloSelect.value;
+    const min = parseFloat(minPriceInput.value);
+    const max = parseFloat(maxPriceInput.value);
+    const busqueda = searchInput.value.toLowerCase();
+    const orden = ordenarSelect.value;
+
+    contenedorProductos.innerHTML = "";
+
+    let filtrados = productos;
+
+    if (tipo !== "Todos") filtrados = filtrados.filter(p => p.tipo === tipo);
+    if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca === marca);
+    if (modelo !== "Todos") filtrados = filtrados.filter(p => p.modelo === modelo);
+    if (!isNaN(min)) filtrados = filtrados.filter(p => p.precio >= min);
+    if (!isNaN(max)) filtrados = filtrados.filter(p => p.precio <= max);
+    if (busqueda) filtrados = filtrados.filter(p => p.nombre.toLowerCase().includes(busqueda));
+
+    switch (orden) {
+        case "precio-asc": filtrados.sort((a, b) => a.precio - b.precio); break;
+        case "precio-desc": filtrados.sort((a, b) => b.precio - a.precio); break;
+        case "nombre-asc": filtrados.sort((a, b) => a.nombre.localeCompare(b.nombre)); break;
+        case "nombre-desc": filtrados.sort((a, b) => b.nombre.localeCompare(a.nombre)); break;
+    }
+
+    productosFiltrados = filtrados;
+    paginaActual = 1;
+    mostrarProductos(paginaActual);
+    generarPaginacion();
+}
+
+function agregarAlCarrito(producto) {
+    if (!carrito.find(p => p.id === producto.id)) {
         carrito.push(producto);
         guardarCarrito();
-        mostrarAlerta(producto.nombre, producto.precio);
+        console.log("Agregado al carrito:", producto);
     }
 }
 
-// Elimina un producto del carrito
-function eliminarDelCarrito(productoId, tipo) {
-    const index = carrito.findIndex(p => p.id === productoId && p.tipo === tipo);
-    if (index !== -1) {
-        carrito.splice(index, 1);
-        guardarCarrito();
-    }
+function eliminarDelCarrito(producto) {
+    carrito = carrito.filter(p => p.id !== producto.id);
+    guardarCarrito();
+    console.log("Eliminado del carrito:", producto);
 }
 
-// Guarda el carrito en localStorage
 function guardarCarrito() {
     localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
-// Carga el carrito desde localStorage
 function cargarCarrito() {
-    const carritoGuardado = localStorage.getItem("carrito");
-    return carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    const data = localStorage.getItem("carrito");
+    return data ? JSON.parse(data) : [];
 }
 
-// Muestra una alerta cuando se agrega un producto al carrito
+function estaEnCarrito(id) {
+    return carrito.some(p => p.id === id);
+}
+
+async function init() {
+    const datos = await ingresarMercaderia(url);
+    const productosCombinados = combinarProductos(datos);
+    filtrar(productosCombinados);
+
+    tipoSelect.addEventListener("change", () => filtrar(productosCombinados));
+    marcaSelect.addEventListener("change", () => filtrar(productosCombinados));
+    modeloSelect.addEventListener("change", () => filtrar(productosCombinados));
+    minPriceInput.addEventListener("input", () => filtrar(productosCombinados));
+    maxPriceInput.addEventListener("input", () => filtrar(productosCombinados));
+    ordenarSelect.addEventListener("change", () => filtrar(productosCombinados));
+    searchInput.addEventListener("input", () => filtrar(productosCombinados));
+
+}
+
+init();
+
+
+
+
 function mostrarAlerta(nombre, precio) {
-    const alerta = document.getElementById("alerta");
-    alerta.textContent = `Producto agregado: ${nombre} - $${precio}`;
-    alerta.classList.remove("oculto");
+const alerta = document.getElementById("alerta-carrito");
+const contenido = document.getElementById("alerta-contenido");
 
-    setTimeout(() => {
-        alerta.classList.add("oculto");
-    }, 3000);
+contenido.textContent = `Producto añadido: ${nombre} - $${precio}`;
+alerta.style.display = "block";
+
+// Ocultar automáticamente a los 3 segundos
+setTimeout(() => {
+    alerta.style.display = "none";
+}, 3000);
 }
 
-// Modo Noche / Día
-const modoBtn = document.getElementById("modoNocheBtn");
-const modoActual = localStorage.getItem("modo") || "dia";
-
-if (modoActual === "noche") {
-    document.body.classList.add("modo-noche");
-    modoBtn.textContent = "☀️";
-} else {
-    document.body.classList.remove("modo-noche");
-    modoBtn.textContent = "🌙";
+function ocultarAlerta() {
+document.getElementById("alerta-carrito").style.display = "none";
 }
 
-modoBtn.addEventListener("click", () => {
-    document.body.classList.toggle("modo-noche");
+// Evento para detectar clicks en botones de agregar
+document.addEventListener("click", function (e) {
+if (e.target.classList.contains("btn-agregar")) {
+    const card = e.target.closest(".card");
+    const nombre = card.querySelector("h5").textContent.replace("Modelo: ", "");
+    const precio = card.querySelector(".text-primary").textContent.replace("Precio: $", "");
 
-    if (document.body.classList.contains("modo-noche")) {
-        localStorage.setItem("modo", "noche");
-        modoBtn.textContent = "☀️";
-    } else {
-        localStorage.setItem("modo", "dia");
-        modoBtn.textContent = "🌙";
-    }
+    mostrarAlerta(nombre, precio);
+}
 });
