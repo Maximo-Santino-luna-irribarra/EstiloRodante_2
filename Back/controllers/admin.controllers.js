@@ -1,7 +1,5 @@
 import adminService from '../service/admin.service.js'
 
-const admin= [];
-
 const getAlladmins = (req, res) =>{
     const admin = adminService.getAll()
     res.status(200).json(admin)

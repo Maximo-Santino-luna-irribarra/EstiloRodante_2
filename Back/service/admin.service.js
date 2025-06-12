@@ -1,9 +1,9 @@
 //presistencia
-import {admin} from '../models/admin.js'
-const admins = []
+import {Admin} from '../models/admin.js'
+import admin from '../models/admin.js'
 
 const getAll =()=>{
-    return admins
+    return admin.obtenerAdmins()
 };
 
 const getById = (id) =>{
