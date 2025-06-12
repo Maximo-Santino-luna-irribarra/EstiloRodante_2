@@ -9,11 +9,12 @@
   "name": "estilorodante_2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./Back/server/app.js",
-    "dev": "./Back/server/app.js"
+    "start": "node ./Back/server/app.js",
+    "dev": "nodemon ./Back/server/app.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Maximo-Santino-luna-irribarra/EstiloRodante_2/issues"
   },

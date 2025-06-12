@@ -7,6 +7,13 @@ db.serialize(() => {
     nombre_cliente TEXT NOT NULL
   )`);
 
+  db.run(`CREATE TABLE IF NOT EXISTS admin (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    email TEXT NOT NULL,
+    contra TEXT NOT NULL,
+  )`);
+
   db.run(`CREATE TABLE IF NOT EXISTS llantas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
@@ -18,7 +25,8 @@ db.serialize(() => {
     ancho INT NOT NULL,
     alto INT NOT NULL,
     stock INT NOT NULL,
-    urlIMG TEXT NOT NULL
+    urlIMG TEXT NOT NULL,
+    activo BOOLEAN NOT NULL
   )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS neumaticos (
@@ -31,7 +39,8 @@ db.serialize(() => {
     indiceVelocidad TEXT NOT NULL,
     tecnologia TEXT NOT NULL,
     precio INT NOT NULL,
-    stock INT NOT NULL
+    stock INT NOT NULL,
+    activo BOOLEAN NOT NULL
   )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS venta (
