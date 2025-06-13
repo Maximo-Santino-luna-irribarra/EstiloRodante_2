@@ -21,6 +21,7 @@ function actualizarCliente(id, nuevoNombre) {
   });
 }
 
+
 function borrarCliente(id) {
   db.run(`DELETE FROM cliente WHERE id = ?`, [id], function (err) {
     if (err) return console.error(err.message);
