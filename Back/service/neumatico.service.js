@@ -2,15 +2,15 @@
 import neumatico from '../models/neumaticos.js'
 
 const getAll =async ()=>{
-    return await neumatico.getneumaticos()
+    return await neumatico.getNeumaticos()
 };
 
 const getById = async (id) =>{
-    return neumatico.getneumaticosByID(id)
+    return neumatico.getNeumaticosByID(id)
 }
 
 const setneumatico = (a) =>{
-    return neumatico.setneumaticos(a.name, a.email)
+    return neumatico.setNeumaticos(a.nombre, a.email)
 }
 
 const updateneumaticos = (id, nombre, email) =>{

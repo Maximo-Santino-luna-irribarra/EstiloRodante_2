@@ -2,7 +2,7 @@ import neumaticoService from '../service/neumatico.service.js'
 
 const createNeumatico = (req, res)=>{
     const neumatico = req.body;
-    const newneumatico = adminService.setNeumatico(neumatico)
+    const newneumatico = neumaticoService.setNeumatico(neumatico)
     return res.status(201).json(newneumatico)
 }
 
