@@ -1,37 +1,65 @@
-const db = require('./db');
+import {db} from "../database/db.js";
 
-function crearCliente(nombre) {
-  db.run(`INSERT INTO cliente (nombre_cliente) VALUES (?)`, [nombre], function (err) {
-    if (err) return console.error(err.message);
-    console.log(`Cliente creado con ID: ${this.lastID}`);
-  });
-}
 
-function listarClientes() {
-  db.all(`SELECT * FROM cliente`, [], (err, rows) => {
-    if (err) return console.error(err.message);
-    console.table(rows);
-  });
-}
-
-function actualizarCliente(id, nuevoNombre) {
-  db.run(`UPDATE cliente SET nombre_cliente = ? WHERE id = ?`, [nuevoNombre, id], function (err) {
-    if (err) return console.error(err.message);
-    console.log(`Cliente actualizado. Cambios: ${this.changes}`);
-  });
+class Cliente {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
 }
 
 
-function borrarCliente(id) {
-  db.run(`DELETE FROM cliente WHERE id = ?`, [id], function (err) {
-    if (err) return console.error(err.message);
-    console.log(`Cliente eliminado. Cambios: ${this.changes}`);
-  });
-}
+const crearCliente =  (nombre) => {
 
-module.exports = {
-  crearCliente,
-  listarClientes,
-  actualizarCliente,
-  borrarCliente
+  const nuevoCliente = new Cliente(nombre);
+
+  return new Promise((resolve, reject) => {
+    db.query(`INSERT INTO cliente (nombre_cliente) VALUES (?)`,
+    [nuevoCliente.nombre], 
+      (err) =>{
+        if (err) {
+          return reject(err);
+        }
+        resolve({ nuevoCliente });
+      });
+  });
+
 };
+
+const listarClientes = () => {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT * FROM cliente`, (err, rows) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
+
+
+const actualizarCliente = (id, nuevoNombre) => {
+  return new Promise((resolve, reject) => {
+    db.query(`UPDATE cliente SET nombre_cliente = ? WHERE id = ?`, [nuevoNombre, id], (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve({ id, nuevoNombre });
+    });
+  });
+};
+
+
+
+const borrarCliente = (id) => {
+  return new Promise((resolve, reject) => {
+    db.query(`DELETE FROM cliente WHERE id = ?`, [id], (err) => {
+      if (err) {
+        return reject(err);
+      }
+      return res({ id });
+    });
+  });
+};
+
+export default {crearCliente,listarClientes,actualizarCliente,borrarCliente}
