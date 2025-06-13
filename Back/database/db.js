@@ -3,7 +3,6 @@ import mysql from "mysql";
 let db;
 
 const initDB = () => {
-  // Paso 1: Conexión sin base, para crearla
   const tempDb = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -17,7 +16,6 @@ const initDB = () => {
     }
     console.log("Base de datos 'estilorodante' creada o ya existente.");
 
-    // Paso 2: Conexión con la base seleccionada
     db = mysql.createConnection({
       host: 'localhost',
       user: 'root',
@@ -32,7 +30,6 @@ const initDB = () => {
       }
       console.log("Conectado a la base de datos estilorodante");
 
-      // Paso 3: Crear tablas si no existen
       db.query(`CREATE TABLE IF NOT EXISTS admins (
         id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(255),
