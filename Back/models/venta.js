@@ -19,13 +19,16 @@ const getVentas = () => {
 };
 
 const getVentasByID = (id) =>{
-    db.query("SELECT * FROM detalle_ventas WHERE id = ?", [id], (err, rows) =>{
-    if (err) {
-        return err
-    }
-    return rows
-})
-}
+  return new Promise((res, rej) => {
+      db.query("SELECT * FROM detalle_ventas WHERE id = ?", [id], (err, rows) =>{
+      if (err) {
+          return rej(err)
+      }
+      return res(rows)
+    })
+  })
+  }
+    
 
 const setVentas = (nombre, email) => {
   const newVenta = new Venta(nombre, email);

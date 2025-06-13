@@ -7,7 +7,7 @@ router.get('/{:id}', neumaticoController.getCombined)
 
 router.post('/', neumaticoController.createNeumatico)
 
-router.put('/{:id}', neumaticoController.updateNeumatico)
+router.put('/:id', neumaticoController.updateNeumatico)
 
 router.delete('/:id', neumaticoController.deleteNeumatico)
 

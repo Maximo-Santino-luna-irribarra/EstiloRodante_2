@@ -2,6 +2,7 @@ import {db} from "../database/db.js";
 
 class Neumaticos{
     constructor(nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock){
+        this.nombre = nombre
         this.marca = marca
         this.modelo = modelo
         this.medida = medida
@@ -23,20 +24,23 @@ const getNeumaticos = () => {
 };
 
 const getNeumaticosByID = (id) =>{
+  return new Promise ((res, rej) =>{
     db.query("SELECT * FROM neumaticos WHERE id = ?", [id], (err, rows) =>{
     if (err) {
-        return err
+        return rej(err)
     }
-    return rows
-})
+    return res(rows)
+    })
+  })
+
 }
 
-const setNeumaticos = (nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock) => {
-  const newNeumaticos = new Neumaticos(nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock);
+const setNeumaticos = (nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock) => {
+  const newNeumaticos = new Neumaticos(nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock);
   return new Promise((res, rej) => {
     db.query(
-      "INSERT INTO neumaticos (nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [newNeumaticos.nombre, newNeumaticos.email, newNeumaticos.contra, newNeumaticos.marca, newNeumaticos.modelo, newNeumaticos.medida, newNeumaticos.indiceCarga, newNeumaticos.indiceVelocudad, newNeumaticos.tecnologia, newNeumaticos.precio, newNeumaticos.stock],
+      "INSERT INTO neumaticos (nombreNeumatico, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [newNeumaticos.nombre, newNeumaticos.marca, newNeumaticos.modelo, newNeumaticos.medida, newNeumaticos.indiceCarga, newNeumaticos.indiceVelocidad, newNeumaticos.tecnologia, newNeumaticos.precio, newNeumaticos.stock],
       (err) => {
         if (err) {
           return rej(err);
@@ -47,13 +51,13 @@ const setNeumaticos = (nombre, marca, modelo, medida, indiceCarga, indiceVelocud
   });
 };
 
-const updateNeumaticos = (id, nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock) =>{
+const updateNeumaticos = (id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock) =>{
     return new Promise((res, rej) =>{
-        db.query("UPDATE neumaticos SET nombreNeumatico = ?, marca = ?, modelo = ?, medida = ?, indiceCarga = ?, indiceVelocidad = ?, tecnologias = ?, precio = ?, stock = ? WHERE id = ?", [nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock], (err) => {
+        db.query("UPDATE neumaticos SET nombreNeumatico = ?, marca = ?, modelo = ?, medida = ?, indiceCarga = ?, indiceVelocidad = ?, tecnologia = ?, precio = ?, stock = ? WHERE id = ?", [nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock, id], (err) => {
         if (err) {
             return rej(err)
         }
-            return res({id, nombre, marca, modelo, medida, indiceCarga, indiceVelocudad, tecnologia, precio, stock})
+            return res({id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock})
 
     })
     })

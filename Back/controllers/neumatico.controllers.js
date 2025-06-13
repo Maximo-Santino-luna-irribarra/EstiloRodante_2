@@ -22,8 +22,8 @@ const getCombined = async (req, res) =>{
 
 const updateNeumatico = async(req, res) =>{
     const {id} = req.params
-    const {name, email} = req.body
-    const updatedNeumatico = await neumaticoService.updateNeumaticos(id, name, email)
+    const {nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock} = req.body
+    const updatedNeumatico = await neumaticoService.updateNeumaticos(id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock)
     if(!updatedNeumatico){
         return res.status(404).json({estado: "No Encontrado"})
     }
@@ -33,7 +33,7 @@ const updateNeumatico = async(req, res) =>{
 
 const deleteNeumatico = async(req, res) =>{
     const {id} = req.params
-    const deletedNeumatico = await neumaticoService.deleteNeumaticos(id)
+    const deletedNeumatico = await neumaticoService.deleteNeumatico(id)
     if(!deletedNeumatico){
         return res.status(404).json({estado: "No Encontrado o eliminado"})
     }
