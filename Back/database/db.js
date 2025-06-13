@@ -7,7 +7,7 @@ const initDB = () => {
   const tempDb = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Frias5033'
+    password: '3197'
   });
 
   tempDb.query("CREATE DATABASE IF NOT EXISTS estilorodante", (err) => {
@@ -21,7 +21,7 @@ const initDB = () => {
     db = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Frias5033',
+      password: '3197',
       database: 'estilorodante'
     });
 
