@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 //settings
 const app = express();
 app.set("PORT", 5000);
+
 app.set("view engine", "ejs");
 
 // ✅ Ajustar ruta a /Back/views

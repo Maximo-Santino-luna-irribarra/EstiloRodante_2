@@ -5,7 +5,7 @@ const getAll =async ()=>{
     return await admin.getAdmins()
 };
 
-const getById = (id) =>{
+const getById = async (id) =>{
     return admin.getAdminsByID(id)
 }
 
@@ -17,5 +17,9 @@ const updateAdmins = (id, nombre, email) =>{
     return admin.updateAdmins(id, nombre, email)
 }
 
+const deleteAdmins = async (id) =>{
+    return admin.deleteAdmins(id)
+}
 
-export default { getAll , getById, setAdmin, updateAdmins};
+
+export default { getAll , getById, setAdmin, updateAdmins, deleteAdmins };

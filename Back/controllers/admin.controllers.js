@@ -30,4 +30,13 @@ const updateAdmin = async(req, res) =>{
     return res.status(200).json(updatedAdmin)
 }
 
-export default { createAdmin, getCombined, updateAdmin }
+
+const deleteAdmin = async(req, res) =>{
+    const {id} = req.params
+    const deletedAdmin = await adminService.deleteAdmins(id)
+    if(!deletedAdmin){
+        return res.status(404).json({estado: "No Encontrado o eliminado"})
+    }
+    return res.status(200).json(deleteAdmin)
+}
+export default { createAdmin, getCombined, updateAdmin, deleteAdmin };
