@@ -1,4 +1,4 @@
-import db from "../database/db.js";
+import {db} from "../database/db.js";
 
 class Admin{
     constructor(nombre, email){
@@ -8,17 +8,17 @@ class Admin{
     }
 }
 
-const getAdmins = () =>{
-    db.all("SELECT * FROM admin", (err, rows) =>{
-    if (err) {
-        return err
-    }
-    return rows
-})
-}
+const getAdmins = () => {
+  return new Promise((res, rej) => {
+    db.query("SELECT * FROM admins", (err, rows) => {
+      if (err) return rej(err);
+      res(rows);
+    });
+  });
+};
 
 const getAdminsByID = (id) =>{
-    db.all("SELECT * FROM admin WHERE id = ?", [id], (err, rows) =>{
+    db.query("SELECT * FROM admins WHERE id = ?", [id], (err, rows) =>{
     if (err) {
         return err
     }
@@ -26,27 +26,35 @@ const getAdminsByID = (id) =>{
 })
 }
 
-const setAdmins = (nombre, email) =>{
-    const newAdmin = new Admin(nombre, email)
-    db.run("INSERT INTO admin (nombre, email, contra) VALUES (?, ?, ?)", [newAdmin.nombre, newAdmin.email, newAdmin.contra], (err) => {
+const setAdmins = (nombre, email) => {
+  const newAdmin = new Admin(nombre, email);
+  return new Promise((resolve, reject) => {
+    db.query(
+      "INSERT INTO admins (nombre, email, contra) VALUES (?, ?, ?)",
+      [newAdmin.nombre, newAdmin.email, newAdmin.contra],
+      (err) => {
         if (err) {
-            return err
+          return reject(err);
         }
-        return newAdmin
-    })
-}
+        resolve(newAdmin);
+      }
+    );
+  });
+};
 
 const updateAdmins = (id, nombre, email) =>{
-    db.run("UPDATE admin SET nombre = ?, email = ? WHERE id = ?", [nombre, email, id], (err) => {
+    return new Promise((res, rej) =>{
+        db.query("UPDATE admins SET nombre = ?, email = ? WHERE id = ?", [nombre, email, id], (err) => {
         if (err) {
-            return err
+            return rej(err)
         }
-        return {id, nombre, email}
+        return res({id, nombre, email})
+    })
     })
 }
 
 const deleteAdmins = (id) =>{
-    db.run("DELETE FROM admin WHERE id = ?", [id], (err) => {
+    db.query("DELETE FROM admins WHERE id = ?", [id], (err) => {
         if (err) {
             return err
         }

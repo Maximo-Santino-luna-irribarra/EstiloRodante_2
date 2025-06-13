@@ -27,15 +27,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 // routes
 app.use('/api/admin', adminRoutes)
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-    res.render('index', { titulo: 'Hola desde EJS' });
-});
-
-app.get('/prueba', (req, res) =>{
-    res.render('main')
-})
-
 
 // Configurar EJS
 
