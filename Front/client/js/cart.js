@@ -126,4 +126,15 @@ const verificarVacio = () =>{
 setProductos()
 verificarVacio()
 actualizarResumen() 
+// modo noche
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("modoNoche", document.body.classList.contains("dark-mode"));
+}
+
+// Activar modo noche si estaba guardado
+if (localStorage.getItem("modoNoche") === "true") {
+    document.body.classList.add("dark-mode");
+}
 
