@@ -27,6 +27,10 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // routes
 app.use('/api/admin', adminRoutes)
+app.use('/api/clinte', clienteRoutes)
+app.use('/api/neumatico', neumaticoRoutes)
+app.use('/api/llanta', llantaRoutes)
+app.use('/api/ventas', ventasRoutes)
 
 
 // Configurar EJS
