@@ -12,29 +12,29 @@ const crearCliente =  (nombre) => {
 
   const nuevoCliente = new Cliente(nombre);
 
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(`INSERT INTO cliente (nombre) VALUES (?)`,
     [nuevoCliente.nombre], 
       (err) =>{
         if (err) {
-          return reject(err);
+          return rej(err);
         }
-        resolve({ nuevoCliente });
+        res({ nuevoCliente });
       });
   });
 
 };
 
 const getClientesById = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(`SELECT * FROM cliente WHERE id = ?`, [id], (err, rows) => {
       if (err) {
-        return reject(err);
+        return rej(err);
       }
       if (rows.length === 0) {
-        return resolve(null);
+        return res(null);
       }
-      resolve(rows[0]);
+      res(rows[0]);
     });
   });
 }
@@ -42,7 +42,7 @@ const getClientes = () => {
   return new Promise((res, rej) => {
     db.query(`SELECT * FROM cliente`, (err, rows) => {
       if (err) {
-        return reject(err);
+        return rej(err);
       }
       res(rows);
     });
@@ -50,12 +50,12 @@ const getClientes = () => {
 }
 
 const listarClientes = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(`SELECT * FROM cliente`, (err, rows) => {
       if (err) {
-        return reject(err);
+        return rej(err);
       }
-      resolve(rows);
+      res(rows);
     });
   });
 }
@@ -63,12 +63,12 @@ const listarClientes = () => {
 
 
 const actualizarClientes = (id, nuevoNombre) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(`UPDATE cliente SET nombre_cliente = ? WHERE id = ?`, [nuevoNombre, id], (err) => {
       if (err) {
-        return reject(err);
+        return rej(err);
       }
-      resolve({ id, nuevoNombre });
+      res({ id, nuevoNombre });
     });
   });
 };
@@ -76,10 +76,10 @@ const actualizarClientes = (id, nuevoNombre) => {
 
 
 const borrarClientes = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(`DELETE FROM cliente WHERE id = ?`, [id], (err) => {
       if (err) {
-        return reject(err);
+        return rej(err);
       }
       return res({ id });
     });

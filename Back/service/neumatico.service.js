@@ -1,5 +1,5 @@
 //presistencia
-import neumatico from '../models/neumatico.js'
+import neumatico from '../models/neumaticos.js'
 
 const getAll =async ()=>{
     return await neumatico.getneumaticos()

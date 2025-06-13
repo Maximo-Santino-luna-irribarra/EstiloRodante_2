@@ -1,4 +1,3 @@
-import { actualizarCliente } from '../models/cliente.js';
 import clienteService from '../service/cliente.service.js';
 
 

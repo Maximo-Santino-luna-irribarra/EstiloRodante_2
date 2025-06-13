@@ -28,15 +28,15 @@ const getAdminsByID = (id) =>{
 
 const setAdmins = (nombre, email) => {
   const newAdmin = new Admin(nombre, email);
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     db.query(
       "INSERT INTO admins (nombre, email, contra) VALUES (?, ?, ?)",
       [newAdmin.nombre, newAdmin.email, newAdmin.contra],
       (err) => {
         if (err) {
-          return reject(err);
+          return rej(err);
         }
-        resolve(newAdmin);
+        res(newAdmin);
       }
     );
   });
@@ -56,7 +56,7 @@ const updateAdmins = (id, nombre, email) =>{
 const deleteAdmins = (id) =>{
      return new Promise((res,rej ) =>{db.query("DELETE FROM admins WHERE id = ?", [id], (err) => {
         if (err) {
-            return reg(err)
+            return rej(err)
         }
         return res({message: "Admin deleted successfully"})
     })
