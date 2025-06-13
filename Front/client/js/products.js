@@ -15,7 +15,7 @@ let carrito = cargarCarrito();
 
 async function ingresarMercaderia (url)
 {
-    const response = await fetch(url);
+    const response = await fetch(url)
     productos = await response.json();
     return productos
 }

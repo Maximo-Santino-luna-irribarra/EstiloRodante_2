@@ -3,7 +3,6 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import adminRoutes from '../routes/admin.router.js'
-import mysql from "mysql2"
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -14,21 +13,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.set("PORT", 5000);
 app.set("view engine", "ejs");
-
-const dbConexion = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'proyecto_final'
-})
-
-dbConexion.connect((err) =>{
-    if (err){
-        console.log('Error en la conexion a la base de datos:', err);
-        return;
-    }
-    console.log('Conectado a la base de datos');
-})
 
 // ✅ Ajustar ruta a /Back/views
 app.set("views", path.join(__dirname, '../views'));
