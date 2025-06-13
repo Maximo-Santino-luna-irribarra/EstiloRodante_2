@@ -1,20 +1,33 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('autoservicio.db');
+const db = new sqlite3.Database('data.db');
 
 db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS cliente (
+  
+  const clientesQuery = (`CREATE TABLE IF NOT EXISTS clientes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre_cliente TEXT NOT NULL
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS admin (
+  db.query(clientesQuery, (err)=>{
+    if (err){
+      console.error("Error creando la tabla clientes:", err.message);
+    }
+  })
+
+  const adminsQuery = (`CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     email TEXT NOT NULL,
     contra TEXT NOT NULL,
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS llantas (
+  db.query(adminsQuery, (err)=>{
+    if (err){
+      console.error("Error creando la tabla admins:", err.message);
+    }
+  })
+
+  const llantasQuery = (`CREATE TABLE IF NOT EXISTS llantas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     precio INT NOT NULL,
@@ -29,7 +42,13 @@ db.serialize(() => {
     activo BOOLEAN NOT NULL
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS neumaticos (
+  db.query(llantasQuery, (err)=>{
+    if (err){
+      console.error("Error creando la tabla llantas:", err.message);
+    }
+  })
+
+  const neumaticosQuery = (`CREATE TABLE IF NOT EXISTS neumaticos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     marca TEXT NOT NULL,
@@ -43,23 +62,26 @@ db.serialize(() => {
     activo BOOLEAN NOT NULL
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS venta (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    cliente_id INTEGER NOT NULL,
-    fecha TEXT NOT NULL,
-    total INT NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
-  )`);
+  db.query(neumaticosQuery, (err)=>{
+    if (err){
+      console.error("Error creando la tabla neumaticos:", err.message);
+    }
+  })
 
-  db.run(`CREATE TABLE IF NOT EXISTS detalle_venta (
+  const ventasQuery = (`CREATE TABLE IF NOT EXISTS detalle_ventas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    venta_id INTEGER NOT NULL,
     producto_id INTEGER NOT NULL,
     tipo_producto TEXT NOT NULL, -- 'llanta' o 'neumatico'
     cantidad INTEGER NOT NULL,
     subtotal INT NOT NULL,
     FOREIGN KEY (venta_id) REFERENCES venta(id)
   )`);
+
+  db.query(ventasQuery, (err)=>{
+    if (err){
+      console.error("Error creando la tabla ventas:", err.message);
+    }
+  })
 });
 
 module.exports = db;

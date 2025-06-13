@@ -1,20 +1,17 @@
 //presistencia
-import {Admin} from '../models/admin.js'
 import admin from '../models/admin.js'
 
 const getAll =()=>{
-    return admin.obtenerAdmins()
+    return admin.getAdmins()
 };
 
 const getById = (id) =>{
-    return admins.find(admin => admin.id === id);
+    return admin.getAdminsByID(id)
 }
 
-const create = ({name, email, contra}) =>{
-    const newadmin = new admin(name, email, contra)
-    admins.push(newadmin)
-    return newadmin
+const setAdmin = ({name, email, contra}) =>{
+    return admin.setAdmins(name, email, contra)
 }
 
 
-export default { getAll , getById, create};
+export default { getAll , getById, setAdmin};
