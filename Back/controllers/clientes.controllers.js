@@ -1,31 +1,32 @@
 import { actualizarCliente } from '../models/cliente.js';
+import clienteService from '../service/cliente.service.js';
 
 
 
 const createCliente = (req, res)=>{
     const cliente = req.body;
-    const newCliente = adminService.crearCliente(cliente)
+    const newCliente = clienteService.setClientes(cliente)
     return res.status(201).json(newCliente)
 }
 
 const getCombined = async (req, res) =>{
     const {id} = req.params
     if(!id){
-        const admin = await adminService.getAll()
-        return res.status(200).json(admin)
+        const cliente = await clienteService.getAll()
+        return res.status(200).json(cliente)
     }
 
-    const adminFound = await adminService.getById(id)
-    if(!adminFound){
+    const clienteFound = await clienteService.getById(id)
+    if(!clienteFound){
         return res.status(404).json({estado: "No Encontrado"})
     }
-    return res.status(200).json(adminFound)
+    return res.status(200).json(clienteFound)
 }
 
 const updateCliente = async(req, res) =>{
     const {id} = req.params
     const {nuevoNombre} = req.body
-    const updatedCliente = await adminService.actualizarCliente(id, nuevoNombre)
+    const updatedCliente = await adminService.updateCliente(id, nuevoNombre)
     if(!updatedCliente){
         return res.status(404).json({estado: "No Encontrado"})
     }
@@ -33,12 +34,12 @@ const updateCliente = async(req, res) =>{
 }
 
 
-const deleteAdmin = async(req, res) =>{
+const deleteCliente = async(req, res) =>{
     const {id} = req.params
-    const deletedAdmin = await adminService.deleteAdmins(id)
-    if(!deletedAdmin){
+    const deleteCliente = await clienteService.deleteClientes(id)
+    if(!deleteCliente){
         return res.status(404).json({estado: "No Encontrado o eliminado"})
     }
-    return res.status(200).json(deleteAdmin)
+    return res.status(200).json(deleteCliente)
 }
-export default { createCliente, getCombined, updateCliente, deleteAdmin };
+export default { createCliente, getCombined, updateCliente, deleteCliente };

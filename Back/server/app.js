@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import adminRoutes from '../routes/admin.router.js'
+import clienteRoutes from '../routes/cliente.router.js';
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);

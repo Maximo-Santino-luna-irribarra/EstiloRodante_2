@@ -1,3 +1,15 @@
 import {Router} from 'express';
-import adminController from '../controllers/admin.controllers.js'
-import admin from '../models/admin.js';
+import clientesControllers from '../controllers/clientes.controllers.js';
+
+
+const router = Router()
+
+router.get('/{:id}', clientesControllers.getCombined)
+
+router.post('/', clientesControllers.createCliente)
+
+router.put('/{:id}', clientesControllers.updateCliente)
+
+router.delete('/:id', clientesControllers.deleteCliente)
+
+export default router

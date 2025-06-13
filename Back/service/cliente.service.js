@@ -1,25 +1,25 @@
 //presistencia
-import admin from '../models/admin.js'
+import cliente from '../models/cliente.js'
 
 const getAll =async ()=>{
-    return await admin.getAdmins()
+    return await cliente.getClientes()
 };
 
 const getById = async (id) =>{
-    return admin.getAdminsByID(id)
+    return cliente.getClientesById(id)
 }
 
-const setAdmin = (a) =>{
-    return admin.setAdmins(a.name, a.email)
+const setClientes = (a) =>{
+    return cliente.crearCliente(a.nombre)
 }
 
-const updateAdmins = (id, nombre, email) =>{
-    return admin.updateAdmins(id, nombre, email)
+const updateClientes = (id,nuevoNombre) =>{
+    return cliente.actualizarClientes(id, nuevoNombre)
 }
 
-const deleteAdmins = async (id) =>{
-    return admin.deleteAdmins(id)
+const deleteClientes = async (id) =>{
+    return cliente.borrarClientes(id)
 }
 
 
-export default { getAll , getById, setAdmin, updateAdmins, deleteAdmins };
+export default { getAll , getById, setClientes, updateClientes, deleteClientes };
