@@ -18,7 +18,7 @@ db.query("CREATE DATABASE IF NOT EXISTS estilorodante", (err, result) => {
     host: 'localhost',
     user: 'root',
     password: 'Frias5033',
-    database: 'EstiloRodante'
+    database: 'estilorodante'
   });
 
   dbConexion.connect((err) => {
