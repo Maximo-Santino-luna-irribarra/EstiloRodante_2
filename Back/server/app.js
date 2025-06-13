@@ -3,7 +3,10 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import adminRoutes from '../routes/admin.router.js'
-import clienteRoutes from '../routes/cliente.router.js';
+import clienteRoutes from '../routes/cliente.router.js'
+import neumaticoRoutes from '../routes/neumatico.router.js'
+import llantaRoutes from '../routes/llanta.router.js'
+import ventaRoutes from '../routes/venta.router.js'
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +34,7 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/cliente', clienteRoutes)
 app.use('/api/neumatico', neumaticoRoutes)
 app.use('/api/llanta', llantaRoutes)
-app.use('/api/ventas', ventasRoutes)
+app.use('/api/ventas', ventaRoutes)
 
 
 // Configurar EJS
