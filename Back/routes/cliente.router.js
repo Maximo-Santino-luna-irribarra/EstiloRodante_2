@@ -8,8 +8,8 @@ router.get('/{:id}', clientesControllers.getCombined)
 
 router.post('/', clientesControllers.createCliente)
 
-router.put('/{:id}', clientesControllers.updateCliente)
+router.put('/:id', clientesControllers.updateCliente)
 
-router.delete('/:id', clientesControllers.deleteCliente)
+router.delete('/:id', clientesControllers.deletedCliente)
 
 export default router

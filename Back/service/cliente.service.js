@@ -6,14 +6,14 @@ const getAll =async ()=>{
 };
 
 const getById = async (id) =>{
-    return cliente.getClientesById(id)
+    return await cliente.getClientesById(id)
 }
 
-const setClientes = (a) =>{
+const setClientes = async  (a) =>{
     return cliente.crearCliente(a.nombre)
 }
 
-const updateClientes = (id,nuevoNombre) =>{
+const updateClientes =  async (id,nuevoNombre) =>{
     return cliente.actualizarClientes(id, nuevoNombre)
 }
 

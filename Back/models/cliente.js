@@ -7,27 +7,26 @@ class Cliente {
   }
 }
 
-
-const crearCliente =  (nombre) => {
-
+const crearCliente = (nombre) => {
   const nuevoCliente = new Cliente(nombre);
 
   return new Promise((res, rej) => {
-    db.query(`INSERT INTO cliente (nombre) VALUES (?)`,
-    [nuevoCliente.nombre], 
-      (err) =>{
+    db.query(
+      `INSERT INTO clientes (nombreCliente) VALUES (?)`,
+      [nuevoCliente.nombre],
+      (err, result) => {  // <-- Agregar 'result' aquí
         if (err) {
           return rej(err);
         }
-        res({ nuevoCliente });
-      });
+        res({ id: result.insertId, nombre: nuevoCliente.nombre });
+      }
+    );
   });
-
 };
 
 const getClientesById = (id) => {
   return new Promise((res, rej) => {
-    db.query(`SELECT * FROM cliente WHERE id = ?`, [id], (err, rows) => {
+    db.query(`SELECT * FROM clientes WHERE id = ?`, [id], (err, rows) => {
       if (err) {
         return rej(err);
       }
@@ -40,7 +39,7 @@ const getClientesById = (id) => {
 }
 const getClientes = () => {
   return new Promise((res, rej) => {
-    db.query(`SELECT * FROM cliente`, (err, rows) => {
+    db.query(`SELECT * FROM clientes`, (err, rows) => {
       if (err) {
         return rej(err);
       }
@@ -51,7 +50,7 @@ const getClientes = () => {
 
 const listarClientes = () => {
   return new Promise((res, rej) => {
-    db.query(`SELECT * FROM cliente`, (err, rows) => {
+    db.query(`SELECT * FROM clientes`, (err, rows) => {
       if (err) {
         return rej(err);
       }
@@ -64,7 +63,7 @@ const listarClientes = () => {
 
 const actualizarClientes = (id, nuevoNombre) => {
   return new Promise((res, rej) => {
-    db.query(`UPDATE cliente SET nombre_cliente = ? WHERE id = ?`, [nuevoNombre, id], (err) => {
+    db.query(`UPDATE clientes SET nombreCliente = ? WHERE id = ?`, [nuevoNombre, id], (err) => {
       if (err) {
         return rej(err);
       }
@@ -77,7 +76,7 @@ const actualizarClientes = (id, nuevoNombre) => {
 
 const borrarClientes = (id) => {
   return new Promise((res, rej) => {
-    db.query(`DELETE FROM cliente WHERE id = ?`, [id], (err) => {
+    db.query(`DELETE FROM clientes WHERE id = ?`, [id], (err) => {
       if (err) {
         return rej(err);
       }
