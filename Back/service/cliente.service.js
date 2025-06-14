@@ -1,4 +1,4 @@
-//presistencia
+
 import cliente from '../models/cliente.js'
 
 const getAll =async ()=>{
