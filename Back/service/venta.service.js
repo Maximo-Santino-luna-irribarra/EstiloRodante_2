@@ -10,11 +10,11 @@ const getById = async (id) =>{
 }
 
 const setVenta = (a) =>{
-    return venta.setVentas(a.name, a.email)
+    return venta.setVentas(a.producto_id, a.tipo_producto, a.cantidad, a.subtotal)
 }
 
-const updateVentas = (id, nombre, email) =>{
-    return venta.updateVentas(id, nombre, email)
+const updateVentas = (id, producto_id, tipo_producto, cantidad, subtotal) =>{
+    return venta.updateVentas(id, producto_id, tipo_producto, cantidad, subtotal)
 }
 
 const deleteVentas = async (id) =>{
