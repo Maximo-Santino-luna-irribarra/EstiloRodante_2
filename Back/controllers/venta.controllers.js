@@ -22,8 +22,8 @@ const getCombined = async (req, res) =>{
 
 const updateVenta = async(req, res) =>{
     const {id} = req.params
-    const {name, email} = req.body
-    const updatedVenta = await ventaService.updateVentas(id, name, email)
+    const {producto_id, tipo_producto, cantidad, subtotal} = req.body
+    const updatedVenta = await ventaService.updateVentas(id, producto_id, tipo_producto, cantidad, subtotal)
     if(!updatedVenta){
         return res.status(404).json({estado: "No Encontrado"})
     }

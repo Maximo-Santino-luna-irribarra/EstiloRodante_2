@@ -6,7 +6,7 @@ const initDB = () => {
   const tempDb = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '3197'// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
+    password: 'Frias5033'// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
   });
 
   tempDb.query("CREATE DATABASE IF NOT EXISTS estilorodante", (err) => {
@@ -19,7 +19,7 @@ const initDB = () => {
     db = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '3197',// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
+      password: 'Frias5033',// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
       database: 'estilorodante'
     });
 
@@ -72,9 +72,9 @@ const initDB = () => {
 
       db.query(`CREATE TABLE IF NOT EXISTS detalle_ventas (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        producto_id INTEGER NOT NULL,
+        producto_id INT NOT NULL,
         tipo_producto VARCHAR(255),
-        cantidad INTEGER NOT NULL,
+        cantidad INT NOT NULL,
         subtotal INT NOT NULL
       )`);
     });

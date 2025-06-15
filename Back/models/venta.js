@@ -28,14 +28,35 @@ const getVentasByID = (id) =>{
     })
   })
   }
-    
 
-const setVentas = (nombre, email) => {
-  const newVenta = new Venta(nombre, email);
+const getVentasByProductosID = (id) =>{
+  return new Promise((res, rej) => {
+      db.query("SELECT * FROM detalle_ventas WHERE producto_id = ?", [id], (err, rows) =>{
+      if (err) {
+          return rej(err)
+      }
+      return res(rows)
+    })
+  })
+  }
+
+const getVentasByTipo = (id) =>{
+  return new Promise((res, rej) => {
+      db.query("SELECT * FROM detalle_ventas WHERE tipo_producto = ?", [id], (err, rows) =>{
+      if (err) {
+          return rej(err)
+      }
+      return res(rows)
+    })
+  })
+  }
+
+const setVentas = (producto_id, tipo_producto, cantidad, subtotal) => {
+  const newVenta = new Ventas(producto_id, tipo_producto, cantidad, subtotal);
   return new Promise((res, rej) => {
     db.query(
-      "INSERT INTO detalle_ventas (nombre, email, contra) VALUES (?, ?, ?)",
-      [newVenta.nombre, newVenta.email, newVenta.contra],
+      "INSERT INTO detalle_ventas (producto_id, tipo_producto, cantidad, subtotal) VALUES (?, ?, ?, ?)",
+      [newVenta.id_producto, newVenta.tipo, newVenta.cantidad, newVenta.subtotal],
       (err) => {
         if (err) {
           return rej(err);
@@ -46,13 +67,13 @@ const setVentas = (nombre, email) => {
   });
 };
 
-const updateVentas = (id, nombre, email) =>{
+const updateVentas = (id, producto_id, tipo_producto, cantidad, subtotal) =>{
     return new Promise((res, rej) =>{
-        db.query("UPDATE detalle_ventas SET nombre = ?, email = ? WHERE id = ?", [nombre, email, id], (err) => {
+        db.query("UPDATE detalle_ventas SET producto_id = ?, tipo_producto = ?, cantidad = ?, subtotal = ? WHERE id = ?", [producto_id, tipo_producto, cantidad, subtotal, id], (err) => {
         if (err) {
             return rej(err)
         }
-        return res({id, nombre, email})
+        return res({id, producto_id, tipo_producto, cantidad, subtotal})
     })
     })
 }
@@ -60,7 +81,7 @@ const updateVentas = (id, nombre, email) =>{
 const deleteVentas = (id) =>{
      return new Promise((res,rej ) =>{db.query("DELETE FROM detalle_ventas WHERE id = ?", [id], (err) => {
         if (err) {
-            return reg(err)
+            return rej(err)
         }
         return res({message: "Venta deleted successfully"})
     })
