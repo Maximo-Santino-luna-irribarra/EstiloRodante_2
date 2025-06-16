@@ -5,6 +5,10 @@ const router = Router()
 
 router.get('/{:id}', ventaController.getCombined)
 
+router.get('/producto/:id', ventaController.getByProductoID)
+
+router.get('/tipo/:tipo', ventaController.getByTipo)
+
 router.post('/', ventaController.createVenta)
 
 router.put('/{:id}', ventaController.updateVenta)

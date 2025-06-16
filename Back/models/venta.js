@@ -87,4 +87,4 @@ const deleteVentas = (id) =>{
     })
 })}
 
-export default { getVentas, getVentasByID, setVentas, updateVentas, deleteVentas }
+export default { getVentas, getVentasByID, setVentas, updateVentas, deleteVentas, getVentasByProductosID, getVentasByTipo }
