@@ -279,3 +279,38 @@ modoBtn.addEventListener("click", () => {
         modoBtn.textContent = "🌙";
     }
 });
+
+const listaProductos = [
+  { id: 1, nombre: "Producto A", precio: 100 },
+  { id: 2, nombre: "Producto B", precio: 150 },
+  { id: 3, nombre: "Producto C", precio: 200 }
+];
+
+let indiceActual = 0;
+
+function enviarProducto() {
+  const producto = listaProductos[indiceActual];
+
+  fetch("https://api.ejemplo.com/productos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(producto)
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Producto enviado:", producto);
+      console.log("Respuesta:", data);
+    })
+    .catch(err => {
+      console.error("Error al enviar producto:", err);
+    });
+
+  // Rotar al siguiente producto
+  indiceActual = (indiceActual + 1) % listaProductos.length;
+}
+
+// Ejecutar cada 5 segundos
+setInterval(enviarProducto, 5000);
+

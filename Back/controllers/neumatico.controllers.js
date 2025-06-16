@@ -22,8 +22,8 @@ const getCombined = async (req, res) =>{
 
 const updateNeumatico = async(req, res) =>{
     const {id} = req.params
-    const {nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock} = req.body
-    const updatedNeumatico = await neumaticoService.updateNeumaticos(id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock)
+    const {nombre, marca, modelo, medida, tecnologia, precio, stock} = req.body
+    const updatedNeumatico = await neumaticoService.updateNeumaticos(id, nombre, marca, modelo, medida, tecnologia, precio, stock)
     if(!updatedNeumatico){
         return res.status(404).json({estado: "No Encontrado"})
     }

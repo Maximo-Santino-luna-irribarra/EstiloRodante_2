@@ -63,11 +63,9 @@ const initDB = () => {
         marca VARCHAR(255),
         modelo VARCHAR(255),
         medida VARCHAR(255),
-        indiceCarga INT,
-        indiceVelocidad VARCHAR(255),
         tecnologia VARCHAR(255),
         precio INT,
-        stock INT
+        stock VARCHAR(255)
       )`);
 
       db.query(`CREATE TABLE IF NOT EXISTS detalle_ventas (
@@ -77,6 +75,9 @@ const initDB = () => {
         cantidad INT NOT NULL,
         subtotal INT NOT NULL
       )`);
+
+      
+
     });
   });
 };

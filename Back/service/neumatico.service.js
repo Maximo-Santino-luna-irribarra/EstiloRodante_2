@@ -10,11 +10,11 @@ const getById = (id) =>{
 }
 
 const setNeumatico = async (a) =>{
-    return await neumatico.setNeumaticos(a.nombre, a.marca, a.modelo, a.medida, a.indiceCarga, a.indiceVelocidad, a.tecnologia, a.precio, a.stock)
+    return await neumatico.setNeumaticos(a.nombre, a.marca, a.modelo, a.medida, a.tecnologia, a.precio, a.stock)
 }
 
-const updateNeumaticos = async (id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock) =>{
-    return await neumatico.updateNeumaticos(id, nombre, marca, modelo, medida, indiceCarga, indiceVelocidad, tecnologia, precio, stock)
+const updateNeumaticos = async (id, nombre, marca, modelo, medida, tecnologia, precio, stock) =>{
+    return await neumatico.updateNeumaticos(id, nombre, marca, modelo, medida, tecnologia, precio, stock)
 }
 
 const deleteNeumatico = async (id) =>{
