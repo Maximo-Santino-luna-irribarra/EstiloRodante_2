@@ -39,4 +39,23 @@ const deleteVenta = async(req, res) =>{
     }
     return res.status(200).json(deleteVenta)
 }
-export default { createVenta, getCombined, updateVenta, deleteVenta };
+
+const getByTipo = async (req, res) => {
+    const {tipo} = req.params;
+    const ventasByTipo = await ventaService.getByTipo(tipo);
+    if (!ventasByTipo) {
+        return res.status(404).json({ estado: "No Encontrado" });
+    }
+    return res.status(200).json(ventasByTipo);
+};
+
+const getByProductoID = async (req, res) => {
+    const {id} = req.params;
+    const ventasByProductoID = await ventaService.getByProductoID(id);
+    if (!ventasByProductoID) {
+        return res.status(404).json({ estado: "No Encontrado" });
+    }
+    return res.status(200).json(ventasByProductoID);
+};
+
+export default { createVenta, getCombined, updateVenta, deleteVenta, getByTipo, getByProductoID };
