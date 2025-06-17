@@ -9,19 +9,7 @@
 </head>
 <body class="bg-light">
 
-<header class="bg-dark text-white py-3" margin-bottom: 20px; position: sticky; top: 0; z-index: 1000;>
-    <nav class="container d-flex justify-content-between align-items-center" >
-    <h1 class="text-white">EstiloRodante</h1>   
-    <input type="text" class="form-control w-25" placeholder="Search by name..." />
-        <div class="nav" >
-            <a class="nav-link text-white" href="">Home</a>
-            <a class="nav-link text-white" href="">Añadir</a>
-            <a class="nav-link text-white" href="">Modificar</a>
-            <img id="logoPage" src="/Front/images/assets/logoPage.png" alt="LogoPagina" class="img-fluid mx-auto d-block mt-2" style="max-width: 50px;  padding: 5px;">
-        </div>
-    </nav>
-
-</header>
+<%- include('../partial/header.ejs') %>
 
 
 <aside class="aside-fixed bg-white p-3 rounded shadow-sm content justify-content-center ">
@@ -105,10 +93,7 @@
 </main>
 
 
-<footer class="bg-dark text-white text-center p-3 mt-4">
-<h5>Santi Luna and Santi Martinez</h5>
-<p class="mb-0">© Todos los derechos reservados</p>
-</footer>
+<%- include('../partial/footer.ejs') %>
 <script src="dashboard.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

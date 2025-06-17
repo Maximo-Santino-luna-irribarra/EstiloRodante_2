@@ -25,7 +25,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Imagen (URL)</label>
-                            <input type="file" id="image" class="form-control" accept="image/*" onchange="updatePreview()">
+                            <input type="url" id="image" class="form-control">
 
                         </div>
                         <div class="mb-3">
@@ -49,11 +49,11 @@
                 <div class="card shadow p-3">
                     <h4 class="text-center mb-3" id="previewNombre">Nombre del Producto</h4>
                     <div class="text-center mb-3">
-                        <img id="previewImage" src="https://via.placeholder.com/300x200" class="img-fluid rounded" alt="Vista previa"style="width: 300px; height: 200px; object-fit: cover;">
+                        <img id="previewImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQumqw6UawRn7rOgAvevIfEnX55015CA-oTeA&s" class="img-fluid rounded" alt="Vista previa"style="width: 300px; height: 200px; object-fit: cover;">
                     </div>
                     <p id="previewDescripcion">Aquí irá la descripción del producto...</p>
                     <p><strong>Tipo:</strong> <span id="previewType">---</span></p>
-                    <h5 class="text-end text-success" id="previewPrice">$0.00</h5>
+                    <h5 class="text-end text-success" id="previewPrecio">$0.00</h5>
                 </div>
             </div>
         </div>

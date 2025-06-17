@@ -58,7 +58,7 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
-app.get('/1', (req, res) => {
+app.get('/dashboard', (req, res) => {
     res.render('dashboard');
 }  )
 //listener
