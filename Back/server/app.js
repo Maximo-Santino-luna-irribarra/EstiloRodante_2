@@ -47,11 +47,19 @@ app.get('/', (req, res) => {
     res.render('index'); // Renderiza la vista index.ejs
 })
 app.get('/editar', (req, res) => {
-    res.render('editar'); // Renderiza la vista admin.ejs
+    res.render('editar');
+})
+
+app.get('/agregar', (req, res) => {
+    res.render('agregar');
+})
+
+app.get('/login', (req, res) => {
+    res.render('login');
 })
 
 app.get('/1', (req, res) => {
-    res.render('dashboard'); // Renderiza la vista admin.ejs
+    res.render('dashboard');
 }  )
 //listener
 
