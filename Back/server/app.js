@@ -46,7 +46,13 @@ app.set('views', path.join(__dirname, '../views')); // Ajustá si tus vistas est
 app.get('/', (req, res) => {
     res.render('index'); // Renderiza la vista index.ejs
 })
+app.get('/editar', (req, res) => {
+    res.render('editar'); // Renderiza la vista admin.ejs
+})
 
+app.get('/1', (req, res) => {
+    res.render('dashboard'); // Renderiza la vista admin.ejs
+}  )
 //listener
 
 

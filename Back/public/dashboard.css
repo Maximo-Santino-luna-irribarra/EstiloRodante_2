@@ -1,0 +1,12 @@
+.aside-fixed {
+    margin-top: 100px;
+    position: fixed;
+    left: 0;
+    top: 100px; /* separa del header */
+    right: 30px;
+    width: 200px;
+    height: 33em;
+    z-index: 1000;
+    padding: 10px;
+    margin-left: 5em;
+    }
