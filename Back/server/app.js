@@ -27,7 +27,6 @@ app.use(express.json())
 
 // ✅ Ajustar ruta a /Back/public
 app.use(express.static(path.join(__dirname, '../public')));
-
 // routes
 app.use('/api/admin', adminRoutes)
 app.use('/api/cliente', clienteRoutes)
@@ -40,6 +39,14 @@ app.use('/api/ventas', ventaRoutes)
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); // Ajustá si tus vistas están fuera de /Back
+
+app.get('/add', (req, res) => {
+    res.render('agregar');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
 
 //listener
 
