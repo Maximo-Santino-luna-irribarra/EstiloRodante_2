@@ -83,19 +83,7 @@
       </div>
 
       <div class="box row row-cols-1 row-cols-md-2 g-4">
-        <% productos.forEach(function(producto) { %>
-          <div class="col">
-            <div class="card">
-              <img src="<%= producto.imagen %>" class="card-img-top" alt="<%= producto.nombre %>">
-              <div class="card-body">
-                <h5 class="card-title"><%= producto.nombre %></h5>
-                <p class="card-text">Marca: <%= producto.marca %></p>
-                <p class="card-text">Tipo: <%= producto.tipo %></p>
-                <p class="card-text">Precio: $<%= producto.precio %></p>
-              </div>
-            </div>
-          </div>
-        <% }) %>
+       
       </div>
     </section>
   </div>

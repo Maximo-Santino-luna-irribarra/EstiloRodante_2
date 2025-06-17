@@ -35,14 +35,19 @@ app.use('/api/neumatico', neumaticoRoutes)
 app.use('/api/llanta', llantaRoutes) 
 app.use('/api/ventas', ventaRoutes)
 
-
+app.listen(app.get("PORT"), ()=>
+    console.log(`Server corriendo en localhost:${app.get("PORT")}`)
+)
 // Configurar EJS
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); // Ajustá si tus vistas están fuera de /Back
 
+app.get('/', (req, res) => {
+    res.render('index'); // Renderiza la vista index.ejs
+})
+
 //listener
 
-app.listen(app.get("PORT"), ()=>
-    console.log(`Server corriendo en localhost:${app.get("PORT")}`)
-)
+
+
