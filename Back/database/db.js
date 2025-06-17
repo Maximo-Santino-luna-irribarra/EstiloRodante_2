@@ -6,7 +6,7 @@ const initDB = () => {
   const tempDb = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '3197'// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
+    password: 'Frias5033'// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
   });
 
   tempDb.query("CREATE DATABASE IF NOT EXISTS estilorodante", (err) => {
@@ -19,7 +19,7 @@ const initDB = () => {
     db = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '3197',// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
+      password: 'Frias5033',// NO OLVIDES CAMBIAR ESTO POR TU CONTRASEÑA
       database: 'estilorodante'
     });
 
