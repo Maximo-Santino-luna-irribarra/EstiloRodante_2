@@ -82,44 +82,48 @@ function filtrarProductos() {
 
 // Renderizado de productos
 function renderProductos() {
-  const contenedor = document.querySelector(".box");
-  contenedor.innerHTML = "";
+    const contenedor = document.querySelector(".box");
+    contenedor.innerHTML = "";
 
-  const filtrados = filtrarProductos();
-  const inicio = (currentPage - 1) * itemsPerPage;
-  const pagina = filtrados.slice(inicio, inicio + itemsPerPage);
+    const filtrados = filtrarProductos();
+    const inicio = (currentPage - 1) * itemsPerPage;
+    const pagina = filtrados.slice(inicio, inicio + itemsPerPage);
 
-  pagina.forEach(producto => {
-    const card = document.createElement("div");
-    card.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
-    card.innerHTML = `
-      <div class="card product-box text-center p-3 shadow rounded-4">
-        <div class="product-image-wrapper mx-auto mb-3">
-          <img src="primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image">
+    pagina.forEach(producto => {
+        const col = document.createElement("div");
+        col.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+
+        col.innerHTML = `
+        <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between">
+            <div class="text-center p-3">
+            <img src="primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid" style="width: 120px; height: 120px; object-fit: cover;" alt="Producto">
+            </div>
+            <div class="px-3 pb-3">
+            <h5 class="fw-bold text-dark mb-1 text-center">${producto.nombre}</h5>
+            <p class="text-muted mb-0 text-center">${producto.marca}</p>
+            <p class="text-primary fw-semibold fs-5 mb-2 text-center">$${producto.precio.toLocaleString()}</p>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-sm btn-outline-primary btn-editar w-100 me-2">✏️ Editar</button>
+                <button class="btn btn-sm btn-outline-success btn-toggle w-100">🔁 Activar</button>
+            </div>
+            </div>
         </div>
-        <h5 class="fw-bold text-dark mb-1">Modelo: ${producto.nombre}</h5>
-        <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${producto.precio}</p>
-        <p class="mb-3">Marca: ${producto.marca}</p>
-        <div class="d-flex justify-content-end gap-2 mt-auto">
-          <button class="btn btn-outline-danger btn-sm btn-editar">Editar</button>
-          <button class="btn btn-outline-success btn-sm btn-toggle">Activar/Desactivar</button>
-        </div>
-      </div>
-    `;
-    contenedor.appendChild(card);
+        `;
 
-    // Asignar eventos a los botones del card
-    const btnEditar = card.querySelector(".btn-editar");
-    const btnToggle = card.querySelector(".btn-toggle");
+        contenedor.appendChild(col);
 
-    btnEditar.addEventListener("click", () => {
-      console.log(`Editar producto con ID: ${producto.id} y tipo: ${producto.tipo}`);
+        // Eventos de botones
+        const btnEditar = col.querySelector(".btn-editar");
+        const btnToggle = col.querySelector(".btn-toggle");
+
+        btnEditar.addEventListener("click", () => {
+        console.log(`Editar producto con ID: ${producto.id} y tipo: ${producto.tipo}`);
+        });
+
+        btnToggle.addEventListener("click", () => {
+        activarProducto(producto.id, producto.tipo);
+        });
     });
-
-    btnToggle.addEventListener("click", () => {
-      activarProducto(producto.id, producto.tipo);
-    });
-  });
 }
 
 // Paginación
@@ -146,3 +150,6 @@ function activarProducto(id, tipo) {
   console.log(`Activar/Desactivar producto con ID: ${id} y tipo: ${tipo}`);
   // Aquí podrías hacer un fetch PUT o PATCH al backend
 }
+
+
+
