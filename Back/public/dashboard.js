@@ -91,23 +91,37 @@ function renderProductos() {
 
     pagina.forEach(producto => {
         const col = document.createElement("div");
-        col.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+        col.className = "col mb-4";
 
         col.innerHTML = `
-        <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between">
-            <div class="text-center p-3">
-            <img src="primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid" style="width: 120px; height: 120px; object-fit: cover;" alt="Producto">
+        <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
+       style="height: 100%; max-height: 320px; overflow: hidden;">
+          <div class="text-center p-3">
+            <img src="${producto.imagen || 'primer-plano-de-pato-de-goma.jpg'}"
+                class="rounded-circle img-fluid"
+                alt="Producto"
+                style="width: 120px; height: 120px; object-fit: cover;" />
+          </div>
+          <div class="px-3 pb-3">
+            <h5 class="fw-bold text-dark mb-1 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${producto.nombre}
+            </h5>
+            <p class="text-muted mb-0 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${producto.marca}
+            </p>
+            <p class="text-primary fw-semibold fs-5 mb-2 text-center">
+              $${producto.precio.toLocaleString()}
+            </p>
+            <div class="d-flex justify-content-between gap-2">
+              <button class="btn btn-sm btn-outline-primary btn-editar w-100" onClick="editar('${producto.id}')">
+                ✏️ Editar
+              </button>
+              <button class="btn btn-sm btn-outline-success btn-toggle w-100">
+                🔁 Activar
+              </button>
             </div>
-            <div class="px-3 pb-3">
-            <h5 class="fw-bold text-dark mb-1 text-center">${producto.nombre}</h5>
-            <p class="text-muted mb-0 text-center">${producto.marca}</p>
-            <p class="text-primary fw-semibold fs-5 mb-2 text-center">$${producto.precio.toLocaleString()}</p>
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-primary btn-editar w-100 me-2" onClick="editar(${producto.id})">✏️ Editar</button>
-                <button class="btn btn-sm btn-outline-success btn-toggle w-100">🔁 Activar</button>
-            </div>
-            </div>
-        </div>
+          </div>
+      </div>
         `;
 
         contenedor.appendChild(col);
