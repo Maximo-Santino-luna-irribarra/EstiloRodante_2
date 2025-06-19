@@ -103,7 +103,7 @@ function renderProductos() {
             <p class="text-muted mb-0 text-center">${producto.marca}</p>
             <p class="text-primary fw-semibold fs-5 mb-2 text-center">$${producto.precio.toLocaleString()}</p>
             <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-primary btn-editar w-100 me-2">✏️ Editar</button>
+                <button class="btn btn-sm btn-outline-primary btn-editar w-100 me-2" onClick="editar(${producto.id})">✏️ Editar</button>
                 <button class="btn btn-sm btn-outline-success btn-toggle w-100">🔁 Activar</button>
             </div>
             </div>
@@ -124,6 +124,10 @@ function renderProductos() {
         activarProducto(producto.id, producto.tipo);
         });
     });
+}
+
+const editar = (e) => {
+  window.location.href = `/editar/${e}`;
 }
 
 // Paginación
