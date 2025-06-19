@@ -1,42 +1,51 @@
-import neumaticoService from '../service/neumatico.service.js'
+import * as neumaticoService from '../service/neumatico.service.js';
 
-const createNeumatico = (req, res)=>{
-    const neumatico = req.body;
-    const newneumatico = neumaticoService.setNeumatico(neumatico)
-    return res.status(201).json(newneumatico)
-}
+export const getAllNeumaticos = async (req, res) => {
 
-const getCombined = async (req, res) =>{
-    const {id} = req.params
-    if(!id){
-        const admin = await neumaticoService.getAll()
-        return res.status(200).json(admin)
+    const neumaticos = await neumaticoService.getNeumaticos();
+    if (!neumaticos || neumaticos.length === 0) {
+        return res.status(404).json({ error: 'No se encontraron neumáticos' });
     }
 
-    const adminFound = await neumaticoService.getById(id)
-    if(!adminFound){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(adminFound)
-}
+    res.json(neumaticos);
+};
 
-const updateNeumatico = async(req, res) =>{
-    const {id} = req.params
-    const {nombre, marca, modelo, medida, tecnologia, precio, stock} = req.body
-    const updatedNeumatico = await neumaticoService.updateNeumaticos(id, nombre, marca, modelo, medida, tecnologia, precio, stock)
-    if(!updatedNeumatico){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(updatedNeumatico)
-}
+export const getNeumatico = async (req, res) => {
 
+  const neumatico = await neumaticoService.getNeumaticoById(req.params.id);
 
-const deleteNeumatico = async(req, res) =>{
-    const {id} = req.params
-    const deletedNeumatico = await neumaticoService.deleteNeumatico(id)
-    if(!deletedNeumatico){
-        return res.status(404).json({estado: "No Encontrado o eliminado"})
-    }
-    return res.status(200).json(deleteNeumatico)
-}
-export default { createNeumatico, getCombined, updateNeumatico, deleteNeumatico };
+    if (!neumatico) return res.status(404).json({ error: 'Neumático no encontrado' });
+  // Si el neumático no se encuentra, se devuelve un error 404
+
+  // Si se encuentra, se devuelve el neumático en formato JSON
+    res.json(neumatico);
+};
+
+export const postNeumatico = async (req, res) => {
+
+  const nuevo = await neumaticoService.createNeumatico(req.body);
+
+  res.status(201).json(nuevo);
+
+};
+
+export const putNeumatico = async (req, res) => {
+
+  const actualizado = await neumaticoService.updateNeumatico(req.params.id, req.body);
+
+  if (!actualizado) return res.status(404).json({ error: 'Neumático no encontrado' });
+  // Si el neumático no se encuentra, se devuelve un error 404
+  res.json(actualizado);
+
+};
+
+export const deleteNeumatico = async (req, res) => {
+
+  const eliminado = await neumaticoService.deleteNeumatico(req.params.id);
+
+  if (!eliminado) return res.status(404).json({ error:'Neumático no encontrado'});
+
+  res.json({ message: 'Neumático eliminado correctamente' });
+  
+};
+

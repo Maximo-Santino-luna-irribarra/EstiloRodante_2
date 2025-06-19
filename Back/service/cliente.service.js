@@ -1,25 +1,30 @@
 
-import cliente from '../models/cliente.js'
+// Back/services/cliente.service.js
+import Cliente from '../models/cliente.js';
 
-const getAll =async ()=>{
-    return await cliente.getClientes()
+export const getClientes = async () => await Cliente.findAll();
+
+export const getClienteById = async (id) => await Cliente.findByPk(id);
+
+export const createCliente = async (data) => await Cliente.create(data);
+
+export const updateCliente = async (id, data) => {
+    const cliente = await Cliente.findByPk(id);
+    if (!cliente) return null;
+    return await cliente.update(data);
 };
 
-const getById = async (id) =>{
-    return await cliente.getClientesById(id)
-}
+export const deleteCliente = async (id) => {
+    const cliente = await Cliente.findByPk(id);
+    if (!cliente) return null;
+    await cliente.destroy();
+    return true;
+};
 
-const setClientes = async  (a) =>{
-    return cliente.crearCliente(a.nombre)
-}
-
-const updateClientes =  async (id,nuevoNombre) =>{
-    return cliente.actualizarClientes(id, nuevoNombre)
-}
-
-const deleteClientes = async (id) =>{
-    return cliente.borrarClientes(id)
-}
-
-
-export default { getAll , getById, setClientes, updateClientes, deleteClientes };
+export default {
+    getClientes,
+    getClienteById,
+    createCliente,
+    updateCliente,
+    deleteCliente
+};  

@@ -1,25 +1,28 @@
-//presistencia
-import admin from '../models/admin.js'
+import Admin from '../models/admin.js';
 
-const getAll =async ()=>{
-    return await admin.getAdmins()
+const getAdmins = async () => await Admin.findAll();
+
+const getAdminById = async (id) => await Admin.findByPk(id);
+
+const createAdmin = async (data) => await Admin.create(data);
+
+const updateAdmin = async (id, data) => {
+    const admin = await Admin.findByPk(id);
+    if (!admin) return null;
+    return await admin.update(data);
 };
 
-const getById = async (id) =>{
-    return admin.getAdminsByID(id)
-}
+const deleteAdmin = async (id) => {
+    const admin = await Admin.findByPk(id);
+    if (!admin) return null;
+    await admin.destroy();
+    return true;
+};
 
-const setAdmin = (a) =>{
-    return admin.setAdmins(a.name, a.email)
-}
-
-const updateAdmins = (id, nombre, email) =>{
-    return admin.updateAdmins(id, nombre, email)
-}
-
-const deleteAdmins = async (id) =>{
-    return admin.deleteAdmins(id)
-}
-
-
-export default { getAll , getById, setAdmin, updateAdmins, deleteAdmins };
+export default {
+    getAdmins,
+    getAdminById,
+    createAdmin,
+    updateAdmin,
+    deleteAdmin
+};  

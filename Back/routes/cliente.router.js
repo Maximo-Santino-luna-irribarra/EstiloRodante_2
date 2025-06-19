@@ -1,15 +1,23 @@
-import {Router} from 'express';
-import clientesControllers from '../controllers/clientes.controllers.js';
+// Back/routes/cliente.routes.js
+import express from 'express';
+import {
+    getAllClientes,
+    getCliente,
+    postCliente,
+    putCliente,
+    deleteCliente
+} from '../controllers/clientes.controllers.js';
 
+const router = express.Router();
 
-const router = Router()
+router.get('/', getAllClientes);
 
-router.get('/{:id}', clientesControllers.getCombined)
+router.get('/:id', getCliente);
 
-router.post('/', clientesControllers.createCliente)
+router.post('/', postCliente);
 
-router.put('/:id', clientesControllers.updateCliente)
+router.put('/:id', putCliente);
 
-router.delete('/:id', clientesControllers.deletedCliente)
+router.delete('/:id', deleteCliente);
 
-export default router
+export default router;

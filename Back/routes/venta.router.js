@@ -1,18 +1,19 @@
-import {Router} from 'express';
-import ventaController from '../controllers/venta.controllers.js'
+// Back/routes/venta.routes.js
+import express from 'express';
+import {
+  getAllVentas,
+  getVenta,
+  postVenta,
+  putVenta,
+  deleteVenta
+} from '../controllers/venta.controllers.js';
 
-const router = Router()
+const router = express.Router();
 
-router.get('/{:id}', ventaController.getCombined)
+router.get('/', getAllVentas);
+router.get('/:id', getVenta);
+router.post('/', postVenta);
+router.put('/:id', putVenta);
+router.delete('/:id', deleteVenta);
 
-router.get('/producto/:id', ventaController.getByProductoID)
-
-router.get('/tipo/:tipo', ventaController.getByTipo)
-
-router.post('/', ventaController.createVenta)
-
-router.put('/{:id}', ventaController.updateVenta)
-
-router.delete('/:id', ventaController.deleteVenta)
-
-export default router
+export default router;

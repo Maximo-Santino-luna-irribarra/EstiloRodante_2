@@ -1,25 +1,29 @@
-//presistencia
-import neumatico from '../models/neumaticos.js'
+import Neumatico from '../models/neumaticos.js';
 
-const getAll =async ()=>{
-    return await neumatico.getNeumaticos()
-};
+export const getNeumaticos = async () => await Neumatico.findAll();
 
-const getById = (id) =>{
-    return neumatico.getNeumaticosByID(id)
-}
+export const getNeumaticoById = async (id) => await Neumatico.findByPk(id);
 
-const setNeumatico = async (a) =>{
-    return await neumatico.setNeumaticos(a.nombre, a.marca, a.modelo, a.medida, a.tecnologia, a.precio, a.stock)
-}
+export const createNeumatico = async (data) => await Neumatico.create(data);
 
-const updateNeumaticos = async (id, nombre, marca, modelo, medida, tecnologia, precio, stock) =>{
-    return await neumatico.updateNeumaticos(id, nombre, marca, modelo, medida, tecnologia, precio, stock)
-}
+export const updateNeumatico = async (id, data) => {
 
-const deleteNeumatico = async (id) =>{
-    return await neumatico.deleteNeumaticos(id)
-}
+    const neumatico = await Neumatico.findByPk(id);
 
+    if (!neumatico) return null;
+    // Si el neumático no se encuentra, se devuelve null
+    return await neumatico.update(data);
+        
+    };
 
-export default { getAll , getById, setNeumatico, updateNeumaticos, deleteNeumatico };
+    export const deleteNeumatico = async (id) => {
+
+    const neumatico = await Neumatico.findByPk(id);
+
+    if (!neumatico) return null;
+    // Si el neumático no se encuentra, se devuelve null
+    await neumatico.destroy();
+
+    return true;
+    };
+

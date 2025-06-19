@@ -1,14 +1,22 @@
-import {Router} from 'express';
-import neumaticoController from '../controllers/neumatico.controllers.js'
+import express from 'express';
+import {
+    getAllNeumaticos,
+    getNeumatico,
+    postNeumatico,
+    putNeumatico,
+    deleteNeumatico
+} from '../controllers/neumatico.controllers.js';
 
-const router = Router()
+const router = express.Router();
 
-router.get('/{:id}', neumaticoController.getCombined)
+router.get('/', getAllNeumaticos);
 
-router.post('/', neumaticoController.createNeumatico)
+router.get('/:id', getNeumatico);
 
-router.put('/:id', neumaticoController.updateNeumatico)
+router.post('/', postNeumatico);
 
-router.delete('/:id', neumaticoController.deleteNeumatico)
+router.put('/:id', putNeumatico);
 
-export default router
+router.delete('/:id', deleteNeumatico);
+
+export default router;

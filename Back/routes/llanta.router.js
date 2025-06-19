@@ -1,15 +1,18 @@
-import {Router} from 'express';
-import llantaControllers from '../controllers/llanta.controllers.js';
+import express from 'express';
+import {
+    getAllLlantas,
+    getLlanta,
+    postLlanta,
+    putLlanta,
+    deleteLlanta
+} from '../controllers/llanta.controllers.js';
 
-const router = Router();
+const router = express.Router();
 
-
-router.get('/{:id}', llantaControllers.getCombined);
-
-router.post('/', llantaControllers.createLlanta);
-
-router.put('/:id', llantaControllers.updateLlanta);
-
-router.delete('/:id', llantaControllers.deletedLlanta);
+router.get('/', getAllLlantas);
+router.get('/:id', getLlanta);
+router.post('/', postLlanta);
+router.put('/:id', putLlanta);
+router.delete('/:id', deleteLlanta);
 
 export default router;

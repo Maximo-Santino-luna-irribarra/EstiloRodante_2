@@ -1,51 +1,44 @@
-import llantaservice from "../service/llanta.service.js";  
+// Back/controllers/llanta.controller.js
+import * as llantaservice from '../service/llanta.service.js';
 
+export const getAllLlantas = async (req, res) => {
+    const llantas = await llantaservice.getLlantas();
+    res.json(llantas);
+};
 
-const createLlanta = async (req, res) => {
-    const  llanta = req.body;
-    const newLlanta = await llantaservice.setLlanta(llanta);
-    return res.status(201).json(newLlanta);
-}
+export const getLlanta = async (req, res) => {
 
-const getCombined = async (req, res) => {
-    const {id} = req.params;
-    if(!id){
-        const llantas = await llantaservice.getAll();
-        return res.status(200).json(llantas);
-    }
+    const llanta = await llantaservice.getLlantaById(req.params.id);
 
-    const llantaFound = await llantaservice.getById(id);
-    if(!llantaFound){
-        return res.status(404).json({estado: "No Encontrado"});
-    }
-    return res.status(200).json(llantaFound);
-}
+    if (!llanta) return res.status(404).json({ error: 'Llanta no encontrada' });
+    // Si la llanta no se encuentra, se devuelve un error 404
+    res.json(llanta);
 
-const updateLlanta = async (req, res) => {
-    const {id} = req.params;
-    console.log("ID:", id);
-    console.log("Body:", req.body);
-    const {nombreLLanta, precio, marca, modelo, material, diametro, ancho, alto, stock, urlIMG, activo} = req.body;
-    
-    if (!nombreLLanta || !precio || !marca || !modelo || !material || !diametro || !ancho || !alto || !stock || !urlIMG) {
-        return res.status(400).json({ error: "Faltan datos requeridos" });
-    }
-    const upLlanta = await llantaservice.updateLlanta(id, nombreLLanta,precio, marca, modelo, material, diametro, ancho, alto, stock, urlIMG, activo);
-    if(!upLlanta){
-        return res.status(404).json({estado: "No Encontrado"});
-    }
-    return res.status(200).json(upLlanta);
-}
+};
 
+export const postLlanta = async (req, res) => {
 
-const deletedLlanta = async (req, res) => {
-    const {id} = req.params;
-    const deletedLlanta = await llantaservice.deleteLlanta(id);
-    if(!deletedLlanta){
-        return res.status(404).json({estado: "No Encontrado o eliminado"});
-    }
-    return res.status(200).json(deletedLlanta);
-}
+    const nueva = await llantaservice.createLlanta(req.body);
 
+    res.status(201).json(nueva);
+};
 
-export default { createLlanta, getCombined, updateLlanta, deletedLlanta };
+export const putLlanta = async (req, res) => {
+
+    const actualizada = await llantaservice.updateLlanta(req.params.id, req.body);
+    // Actualiza la llanta con los datos proporcionados en el cuerpo de la solicitud
+    if (!actualizada) return res.status(404).json({ error: 'Llanta no encontrada' });
+    // Si la llanta no se encuentra, se devuelve un error 404
+
+    // Si se encuentra, se devuelve la llanta actualizada en formato JSON
+    res.json(actualizada);
+};
+
+export const deleteLlanta = async (req, res) => {
+
+    const eliminada = await llantaservice.deleteLlanta(req.params.id);
+    // Elimina la llanta con el ID proporcionado en los parámetros de la solicitud
+    if (!eliminada) return res.status(404).json({ error: 'Llanta no encontrada' });
+    // Si la llanta no se encuentra, se devuelve un error 404
+    res.json({ message: 'Llanta eliminada correctamente' });
+};

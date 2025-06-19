@@ -1,54 +1,38 @@
-import clienteService from '../service/cliente.service.js';
+import * as clienteservice from '../service/cliente.service.js';
+//../controllers/clientes.controllers.js
+export const getAllClientes = async (req, res) => {
+    const clientes = await clienteservice.getClientes();
+    res.json(clientes);
+};
 
+export const getCliente = async (req, res) => {
+    const cliente = await clienteservice.getClienteById(req.params.id);
 
+    if (!cliente) return res.status(404).json({ error: 'Cliente no encontrado' });
 
-const createCliente = async (req, res) => {
-    try {
-        console.log('Body recibido:', req.body);  // Para verificar
-        const cliente = req.body;
-        if (!cliente.nombre) {
-        return res.status(400).json({ error: 'Falta el nombre del cliente' });
-        }
-        const newCliente = await clienteService.setClientes(cliente);
-        return res.status(201).json(newCliente);
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Error al crear cliente' });
-    }
-    };
-const getCombined = async (req, res) =>{
-    const {id} = req.params
-    if(!id){
-        const cliente = await clienteService.getAll()
-        return res.status(200).json(cliente)
-    }
+    res.json(cliente);
+};
 
-    const clienteFound = await clienteService.getById(id)
-    if(!clienteFound){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(clienteFound)
-}
+export const postCliente = async (req, res) => {
 
-const updateCliente = async(req, res) =>{
-    const {id} = req.params
-    const {nuevoNombre} = req.body
-    const upCliente = await clienteService.updateClientes(id, nuevoNombre)
-    if(!upCliente){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(upCliente)
-}
+    const nuevo = await clienteservice.createCliente(req.body);
 
+    res.status(201).json(nuevo);
+};
 
-const deletedCliente = async(req, res) =>{
-    const {id} = req.params
-    const deletedCliente = await clienteService.deleteClientes(id)
-    if(!deletedCliente){
-        return res.status(404).json({estado: "No Encontrado o eliminado"})
-    }
-    return res.status(200).json(deletedCliente)
+export const putCliente = async (req, res) => {
+    const actualizado = await clienteservice.updateCliente(req.params.id, req.body);
 
+    if (!actualizado) return res.status(404).json({ error: 'Cliente no encontrado' });
 
-}
-export default { createCliente, getCombined, updateCliente, deletedCliente};
+    res.json(actualizado);
+};
+
+export const deleteCliente = async (req, res) => {
+    const eliminado = await clienteservice.deleteCliente(req.params.id);
+
+    if (!eliminado) return res.status(404).json({ error: 'Cliente no encontrado' });
+    
+    res.json({ message: 'Cliente eliminado correctamente' });
+};
+

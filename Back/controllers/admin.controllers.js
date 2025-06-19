@@ -1,42 +1,30 @@
-import adminService from '../service/admin.service.js'
+// Back/controllers/admin.controller.js
+import adminservice from '../service/admin.service.js';
 
-const createAdmin = (req, res)=>{
-    const admin = req.body;
-    const newadmin = adminService.setAdmin(admin)
-    return res.status(201).json(newadmin)
-}
+export const getAllAdmins = async (req, res) => {o
+    const admins = await adminservice.getAdmins();
+    res.json(admins);
+};
 
-const getCombined = async (req, res) =>{
-    const {id} = req.params
-    if(!id){
-        const admin = await adminService.getAll()
-        return res.status(200).json(admin)
-    }
+export const getAdmin = async (req, res) => {
+    const admin = await adminservice.getAdminById(req.params.id);
+    if (!admin) return res.status(404).json({ error: 'Admin no encontrado' });
+    res.json(admin);
+};
 
-    const adminFound = await adminService.getById(id)
-    if(!adminFound){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(adminFound)
-}
+export const postAdmin = async (req, res) => {
+    const nuevo = await adminService.createAdmin(req.body);
+    res.status(201).json(nuevo);
+};
 
-const updateAdmin = async(req, res) =>{
-    const {id} = req.params
-    const {name, email} = req.body
-    const updatedAdmin = await adminService.updateAdmins(id, name, email)
-    if(!updatedAdmin){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(updatedAdmin)
-}
+export const putAdmin = async (req, res) => {
+    const actualizado = await adminservice.updateAdmin(req.params.id, req.body);
+    if (!actualizado) return res.status(404).json({ error: 'Admin no encontrado' });
+    res.json(actualizado);
+};
 
-
-const deleteAdmin = async(req, res) =>{
-    const {id} = req.params
-    const deletedAdmin = await adminService.deleteAdmins(id)
-    if(!deletedAdmin){
-        return res.status(404).json({estado: "No Encontrado o eliminado"})
-    }
-    return res.status(200).json(deleteAdmin)
-}
-export default { createAdmin, getCombined, updateAdmin, deleteAdmin };
+export const deleteAdmin = async (req, res) => {
+    const eliminado = await adminservice.deleteAdmin(req.params.id);
+    if (!eliminado) return res.status(404).json({ error: 'Admin no encontrado' });
+    res.json({ message: 'Admin eliminado correctamente' });
+};

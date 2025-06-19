@@ -1,65 +1,19 @@
-import {db} from "../database/db.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../database/sequelize.js';
 
-class Admin{
-    constructor(nombre, email){
-        this.nombre = nombre
-        this.email = email
-        this.contra = crypto.randomUUID()
-    }
-}
+const Admin = sequelize.define('Admin', {
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  contra: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
 
-const getAdmins = () => {
-  return new Promise((res, rej) => {
-    db.query("SELECT * FROM admins", (err, rows) => {
-      if (err) return rej(err);
-      res(rows);
-    });
-  });
-};
-
-const getAdminsByID = (id) =>{
-    db.query("SELECT * FROM admins WHERE id = ?", [id], (err, rows) =>{
-    if (err) {
-        return err
-    }
-    return rows
-})
-}
-
-const setAdmins = (nombre, email) => {
-  const newAdmin = new Admin(nombre, email);
-  return new Promise((res, rej) => {
-    db.query(
-      "INSERT INTO admins (nombre, email, contra) VALUES (?, ?, ?)",
-      [newAdmin.nombre, newAdmin.email, newAdmin.contra],
-      (err) => {
-        if (err) {
-          return rej(err);
-        }
-        res(newAdmin);
-      }
-    );
-  });
-};
-
-const updateAdmins = (id, nombre, email) =>{
-    return new Promise((res, rej) =>{
-        db.query("UPDATE admins SET nombre = ?, email = ? WHERE id = ?", [nombre, email, id], (err) => {
-        if (err) {
-            return rej(err)
-        }
-        return res({id, nombre, email})
-    })
-    })
-}
-
-const deleteAdmins = (id) =>{
-     return new Promise((res,rej ) =>{db.query("DELETE FROM admins WHERE id = ?", [id], (err) => {
-        if (err) {
-            return rej(err)
-        }
-        return res({message: "Admin deleted successfully"})
-    })
-})}
-
-export default { getAdmins, getAdminsByID, setAdmins, updateAdmins, deleteAdmins }
+export default Admin;

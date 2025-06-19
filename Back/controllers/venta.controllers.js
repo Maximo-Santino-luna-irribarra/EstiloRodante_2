@@ -1,61 +1,31 @@
-import ventaService from '../service/venta.service.js'
+// Back/controllers/venta.controller.js
+import * as ventaService from '../service/venta.service.js';
 
-const createVenta = (req, res)=>{
-    const venta = req.body;
-    const newventa = ventaService.setVenta(venta)
-    return res.status(201).json(newventa)
-}
-
-const getCombined = async (req, res) =>{
-    const {id} = req.params
-    if(!id){
-        const venta = await ventaService.getAll()
-        return res.status(200).json(venta)
-    }
-
-    const ventaFound = await ventaService.getById(id)
-    if(!ventaFound){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(ventaFound)
-}
-
-const updateVenta = async(req, res) =>{
-    const {id} = req.params
-    const {producto_id, tipo_producto, cantidad, subtotal} = req.body
-    const updatedVenta = await ventaService.updateVentas(id, producto_id, tipo_producto, cantidad, subtotal)
-    if(!updatedVenta){
-        return res.status(404).json({estado: "No Encontrado"})
-    }
-    return res.status(200).json(updatedVenta)
-}
-
-
-const deleteVenta = async(req, res) =>{
-    const {id} = req.params
-    const deletedVenta = await ventaService.deleteVentas(id)
-    if(!deletedVenta){
-        return res.status(404).json({estado: "No Encontrado o eliminado"})
-    }
-    return res.status(200).json(deleteVenta)
-}
-
-const getByTipo = async (req, res) => {
-    const {tipo} = req.params;
-    const ventasByTipo = await ventaService.getByTipo(tipo);
-    if (!ventasByTipo) {
-        return res.status(404).json({ estado: "No Encontrado" });
-    }
-    return res.status(200).json(ventasByTipo);
+export const getAllVentas = async (req, res) => {
+  const ventas = await ventaService.getVentas();
+  res.json(ventas);
 };
 
-const getByProductoID = async (req, res) => {
-    const {id} = req.params;
-    const ventasByProductoID = await ventaService.getByProductoID(id);
-    if (!ventasByProductoID) {
-        return res.status(404).json({ estado: "No Encontrado" });
-    }
-    return res.status(200).json(ventasByProductoID);
+export const getVenta = async (req, res) => {
+  const venta = await ventaService.getVentaById(req.params.id);
+  if (!venta) return res.status(404).json({ error: 'Venta no encontrada' });
+  res.json(venta);
 };
 
-export default { createVenta, getCombined, updateVenta, deleteVenta, getByTipo, getByProductoID };
+export const postVenta = async (req, res) => {
+  const nueva = await ventaService.createVenta(req.body);
+  res.status(201).json(nueva);
+};
+
+export const putVenta = async (req, res) => {
+  const actualizada = await ventaService.updateVenta(req.params.id, req.body);
+  if (!actualizada) return res.status(404).json({ error: 'Venta no encontrada' });
+  res.json(actualizada);
+};
+
+export const deleteVenta = async (req, res) => {
+  const eliminada = await ventaService.deleteVenta(req.params.id);
+  if (!eliminada) return res.status(404).json({ error: 'Venta no encontrada' });
+  res.json({ message: 'Venta eliminada correctamente' });
+};
+
