@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize.js';
 
-const Admin = sequelize.define('Admin', {
+const Admin = sequelize.define('admins', {
   nombre: {
     type: DataTypes.STRING,
     allowNull: false
@@ -14,6 +14,10 @@ const Admin = sequelize.define('Admin', {
     type: DataTypes.STRING,
     allowNull: false
   }
+},
+{
+  timestamps: false,
+  tableName: 'admins'
 });
 
 export default Admin;

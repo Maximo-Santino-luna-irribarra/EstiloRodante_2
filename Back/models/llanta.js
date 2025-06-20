@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize.js';
 
-const Llanta = sequelize.define('Llanta', {
+const Llanta = sequelize.define('llantas', {
     nombreLLanta: DataTypes.STRING,
     precio: DataTypes.INTEGER,
     marca: DataTypes.STRING,
@@ -13,6 +13,10 @@ const Llanta = sequelize.define('Llanta', {
     stock: DataTypes.INTEGER,
     urlIMG: DataTypes.STRING,
     activo: DataTypes.BOOLEAN
+},
+{
+  timestamps: false,
+  tableName: 'llantas'
 });
 
 export default Llanta;
