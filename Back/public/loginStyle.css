@@ -1,62 +1,68 @@
-h1{
-    font-size: 24px;
-    color: #fffbfb;
-    margin-bottom: 20px;
+:root {
+  --bg-light: #f8f9fa;
+  --bg-dark: #121212;
+  --text-light: #ffffff;
+  --text-dark: #212529;
 }
+
 body {
-    overflow: hidden;  
-    min-height: 100dvh;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-    background-image: seurl('https://example.com/background.jpg');
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s, color 0.3s;
 }
-.form-container {
-    background-color: white;
-    padding: 20px;
-    margin: auto;
-    margin-top: 100px;
-    width: 300px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+.light-mode {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
 }
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+
+.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
 }
-.tab {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  color: black;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  transition: background 0.3s, color 0.3s;
 }
-.tab.active {
-    border-bottom: 2px solid #333;
-    font-weight: bold;
+
+.dark-mode .login-card {
+  background: #1f1f1f;
+  color: white;
 }
-.form {
-    display: none;
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
-.form.active {
-    display: block;
+
+.logo-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
-input {
-    width: 90%;
-    padding: 8px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+.dark-mode header, .dark-mode footer {
+  background-color: #1c1c1c !important;
+  color: white;
 }
-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
+
+.light-mode header, .light-mode footer {
+  background-color: #343a40 !important;
+  color: white;
 }
-button:hover {
-    background-color: #555;
+
+#modoNocheBtn {
+  z-index: 999;
 }

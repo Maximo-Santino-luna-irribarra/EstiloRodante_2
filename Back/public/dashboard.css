@@ -1,12 +1,110 @@
-.aside-fixed {
-    margin-top: 100px;
-    position: fixed;
-    left: 0;
-    top: 100px; /* separa del header */
-    right: 30px;
-    width: 200px;
-    height: 33em;
-    z-index: 1000;
-    padding: 10px;
-    margin-left: 5em;
+:root{
+  --bg-light: #f8f9fa;
+  --bg-dark: #121212;
+  --text-light: #ffffff;
+  --text-dark: #212529
+}
+
+body, html {
+  overflow-x: hidden;
+}
+
+.light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
     }
+
+    .dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+aside,
+main {
+  background-color: var(--aside-bg) !important;
+  color: var(--text-color);
+}
+
+
+main {
+  overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Modo claro y oscuro */
+body.light-mode {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode aside,
+.dark-mode main {
+  background-color: #1f1f1f !important;
+  color: #fff;
+}
+
+.light-mode aside,
+.light-mode main {
+  background-color: #ffffff !important;
+  color: #000;
+}
+
+.card img {
+  object-fit: cover;
+  width: 120px;
+  height: 120px;
+}
+
+#contenedor-principal {
+  flex-wrap: nowrap;
+}
+
+.aside-fixed {
+  width: 280px;
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.pagination {
+  flex-wrap: wrap;
+  justify-content: center !important;
+  overflow-x: auto;
+  padding: 0 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+  #contenedor-principal {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+  .aside-fixed {
+    width: 100% !important;
+    min-height: auto !important;
+    margin-bottom: 1rem;
+  }
+
+  main.flex-grow-1 {
+    width: 100% !important;
+  }
+
+  #modoNocheBtn {
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    width: 2rem;
+    height: 2rem;
+  }
+}

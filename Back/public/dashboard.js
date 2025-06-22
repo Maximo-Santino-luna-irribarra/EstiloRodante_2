@@ -13,18 +13,23 @@ const maxPrecioInput = document.querySelector(".maxPrice");
 const paginacionContainer = document.getElementById("pagination");
 
 // 🌙 MODO NOCHE
-const modoBtn = document.getElementById("modoNocheBtn");
-if (modoBtn) {
-  const modoActual = localStorage.getItem("modo") || "dia";
-  document.body.classList.toggle("dark-mode", modoActual === "noche");
-  modoBtn.textContent = modoActual === "noche" ? "☀️" : "🌙";
+const toggleBtn = document.getElementById('modoNocheBtn');
+    const body = document.body;
 
-  modoBtn.addEventListener("click", () => {
-    const esNoche = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("modo", esNoche ? "noche" : "dia");
-    modoBtn.textContent = esNoche ? "☀️" : "🌙";
-  });
-}
+    const setTheme = (theme) => {
+      body.classList.remove('light-mode', 'dark-mode');
+      body.classList.add(theme);
+      toggleBtn.textContent = theme === 'dark-mode' ? '☀️' : '🌙';
+      localStorage.setItem('theme', theme);
+    };
+
+    toggleBtn.addEventListener('click', () => {
+      const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
+      setTheme(newTheme);
+    });
+
+    const savedTheme = localStorage.getItem('theme') || 'light-mode';
+    setTheme(savedTheme);
 
 // FETCH LLANTAS
 fetch('/api/llanta')
