@@ -10,11 +10,10 @@ const ordenarSelect = document.getElementById("ordenar");
 const searchInput = document.querySelector('input[type="text"]');
 const contenedorProductos = document.querySelector(".box");
 const modoBtn = document.getElementById("modoNocheBtn");
-const url = "/Front/objects/productos_combinados.json";
 
+const allProducts = [];
 const productosPorPagina = 12;
 let paginaActual = 1;
-let productos = [];
 let productosFiltrados = [];
 let carrito = cargarCarrito();
 let itemsTotales = 0;
@@ -44,32 +43,6 @@ modoBtn.addEventListener("click", () => {
     }
 });
 
-
-// ==============================
-// CARGA Y COMBINACIÓN DE PRODUCTOS
-// ==============================
-async function ingresarMercaderia(url) {
-    const response = await fetch(url);
-    productos = await response.json();
-    return productos;
-}
-
-function combinarProductos(datosJson) {
-    const llantas = datosJson.productos.llantas.map(p => ({
-        ...p,
-        tipo: "llanta",
-        nombre: p.nombre ?? `${p.marca} ${p.modelo}`
-    }));
-
-    const neumaticos = datosJson.productos.neumaticos.map(p => ({
-        ...p,
-        tipo: "neumatico",
-        nombre: `${p.marca} ${p.modelo}`,
-        precio: p.precio
-    }));
-
-    return [...llantas, ...neumaticos];
-}
 
 
 // ==============================
@@ -209,20 +182,28 @@ function filtrar(productos) {
 // CARRITO
 // ==============================
 function agregarAlCarrito(producto) {
+
     if (!carrito.find(p => p.id === producto.id)) {
         carrito.push(producto);
         guardarCarrito();
+        actualizarContadorasaide();
         console.log("Agregado al carrito:", producto);
+    }
+    else {
+        console.log("El producto ya está en el carrito:", producto);
+        
     }
 }
 
 function eliminarDelCarrito(producto) {
     carrito = carrito.filter(p => p.id !== producto.id);
     guardarCarrito();
+    actualizarContadorasaide();
     console.log("Eliminado del carrito:", producto);
 }
 
 function guardarCarrito() {
+    console.log("Guardando carrito:", carrito);
     localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
@@ -231,10 +212,15 @@ function cargarCarrito() {
     return data ? JSON.parse(data) : [];
 }
 
-function estaEnCarrito(id) {
-    return carrito.some(p => p.id === id);
-}
 
+
+function actualizarContadorasaide() {
+    const contador = document.getElementById("countItems");
+        if (contador) {
+            contador.textContent = carrito.length;
+
+        }
+}
 
 // ==============================
 // ALERTAS
@@ -269,17 +255,38 @@ document.addEventListener("click", function (e) {
 // INICIALIZACIÓN
 // ==============================
 async function init() {
-    const datos = await ingresarMercaderia(url);
-    const productosCombinados = combinarProductos(datos);
-    filtrar(productosCombinados);
+try {
+    const [llantas, neumaticos] = await Promise.all([
+        fetch('http://localhost:5000/api/llanta').then(res => res.json()),
+        fetch('http://localhost:5000/api/neumatico').then(res => res.json())
+    ]);
 
-    tipoSelect.addEventListener("change", () => filtrar(productosCombinados));
-    marcaSelect.addEventListener("change", () => filtrar(productosCombinados));
-    modeloSelect.addEventListener("change", () => filtrar(productosCombinados));
-    minPriceInput.addEventListener("input", () => filtrar(productosCombinados));
-    maxPriceInput.addEventListener("input", () => filtrar(productosCombinados));
-    ordenarSelect.addEventListener("change", () => filtrar(productosCombinados));
-    searchInput.addEventListener("input", () => filtrar(productosCombinados));
+    const llantasFormateadas = llantas.map(l => ({
+    ...l,
+    tipo: "llanta",
+    nombre: l.nombre ?? `${l.marca} ${l.modelo}`
+    }));
+
+    const neumaticosFormateados = neumaticos.map(n => ({
+    ...n,
+    tipo: "neumatico",
+    nombre: n.modelo ?? `${n.marca} ${n.medida}`
+    }));
+
+    allProducts.push(...llantasFormateadas, ...neumaticosFormateados);
+    filtrar(allProducts);
+
+    tipoSelect.addEventListener("change", () => filtrar(allProducts));
+    marcaSelect.addEventListener("change", () => filtrar(allProducts));
+    modeloSelect.addEventListener("change", () => filtrar(allProducts));
+    minPriceInput.addEventListener("input", () => filtrar(allProducts));
+    maxPriceInput.addEventListener("input", () => filtrar(allProducts));
+    ordenarSelect.addEventListener("change", () => filtrar(allProducts));
+    searchInput.addEventListener("input", () => filtrar(allProducts));
+    } catch (error)
+    {
+    console.error("Error al cargar productos desde API:", error);
+    }  
 }
 
 init();
