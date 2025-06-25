@@ -186,7 +186,6 @@ fetch(`/api/${tipo}/${id}`, {
     document.getElementById('editPrecio').value = producto.precio;
     document.getElementById('editImagen').value = producto.urlIMG || 'no tiene';
     document.getElementById('editPreviewImagen').src = producto.urlIMG || '/logoPage.png';
-    }
 
     form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -227,7 +226,7 @@ fetch(`/api/${tipo}/${id}`, {
         console.error('Error al actualizar el producto:', error);
         alert('No se pudo actualizar el producto. Por favor, inténtelo más tarde.');
     });
-});
+})};
 
 }).catch(error => {
     console.error('Error al cargar el producto:', error);
