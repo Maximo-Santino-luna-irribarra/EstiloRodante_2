@@ -13,6 +13,7 @@ let paginaActual = 1;
 let productos = []
 let carrito = cargarCarrito();
 
+
 async function ingresarMercaderia (url)
 {
     const response = await fetch(url)

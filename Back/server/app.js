@@ -7,6 +7,8 @@ import clienteRoutes from '../routes/cliente.router.js'
 import neumaticoRoutes from '../routes/neumatico.router.js'
 import ventaRoutes from '../routes/venta.router.js'
 import llantaRoutes from '../routes/llanta.router.js';
+import cors from 'cors';
+
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +29,9 @@ app.use(express.json())
 
 // ✅ Ajustar ruta a /Back/public
 app.use(express.static(path.join(__dirname, '../public')));
+
+//uso de cors
+app.use(cors());
 
 // routes
 app.use('/api/admin', adminRoutes)

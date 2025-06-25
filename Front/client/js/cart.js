@@ -89,7 +89,7 @@ const crearResumen = () =>{
         if(verificarVacio()){
             ticket.innerHTML += `<button class="btn btn-light w-100 mt-2">Generar Ticket</button>`
         }else{
-             ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" disabled>Generar Ticket</button>`
+            ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" disabled>Generar Ticket</button>`
         }
     ticketBox.appendChild(ticket)
     }

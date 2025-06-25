@@ -685,4 +685,3 @@ llantas.forEach(async (data) => {
   }
 });
 // profe en caso de prueba utilizar este comando node C:\Users\lunam\OneDrive\Documentos\GitHub\EstiloRodante_2\Front\client\js\enviarLlantas.js
-VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
