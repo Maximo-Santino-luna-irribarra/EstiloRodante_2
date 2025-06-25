@@ -102,7 +102,7 @@ function renderProductos() {
         <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
        style="height: 100%; max-height: 320px; overflow: hidden;">
           <div class="text-center p-3">
-            <img src="${producto.imagen || 'primer-plano-de-pato-de-goma.jpg'}"
+            <img src="${producto.urlIMG || 'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg'}"
                 class="rounded-circle img-fluid"
                 alt="Producto"
                 style="width: 120px; height: 120px; object-fit: cover;" />
@@ -115,7 +115,7 @@ function renderProductos() {
               ${producto.marca}
             </p>
             <p class="text-primary fw-semibold fs-5 mb-2 text-center">
-              $${producto.precio.toLocaleString()}
+              $${producto.precio}
             </p>
             <div class="d-flex justify-content-between gap-2">
               <button class="btn btn-sm btn-outline-primary btn-editar w-100" onClick="editar('${producto.id}')">
@@ -136,7 +136,7 @@ function renderProductos() {
         const btnToggle = col.querySelector(".btn-toggle");
 
         btnEditar.addEventListener("click", () => {
-        console.log(`Editar producto con ID: ${producto.id} y tipo: ${producto.tipo}`);
+            editar(producto.id, producto.tipo);
         });
 
         btnToggle.addEventListener("click", () => {
@@ -145,8 +145,8 @@ function renderProductos() {
     });
 }
 
-const editar = (e) => {
-  window.location.href = `/editar/${e}`;
+const editar = (e, f) => {
+  window.location.href = `/editar/${e}?tipo=${f}`;
 }
 
 // Paginación
@@ -170,7 +170,6 @@ function renderPaginacion() {
 
 // Activar/desactivar producto (simulado)
 function activarProducto(id, tipo) {
-  console.log(`Activar/Desactivar producto con ID: ${id} y tipo: ${tipo}`);
   // Aquí podrías hacer un fetch PUT o PATCH al backend
 }
 
