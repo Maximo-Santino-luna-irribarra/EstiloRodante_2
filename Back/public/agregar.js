@@ -17,6 +17,14 @@ const updatePreview = () =>{
     previewPrecio.textContent = "$" + precio.value;
     console.log(image.value)
     previewImage.src = image.value
+
+    return {
+        nombre: inputNombre.value,
+        descripcion: inputDescripcion.value,
+        image: image.value,
+        type: type.value,
+        precio: precio.value
+    };
 }
 
 const toggleBtn = document.getElementById('modoNocheBtn');
@@ -38,5 +46,19 @@ const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
 
 const agregarProducto = () => {
-    
-}
+    const producto = updatePreview();
+    if (producto.type == "llanta"){
+    fetch('http://localhost:5000/api/llanta/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nombre: producto.nombre,
+            descripcion: producto.descripcion,
+            image: producto.image,
+            type: producto.type,
+            precio: producto.precio
+        })
+    })
+}}
