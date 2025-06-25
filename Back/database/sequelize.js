@@ -8,12 +8,12 @@ const sequelize = new Sequelize('estilorodante', 'root', 'Frias5033', {
 });
 
 sequelize.authenticate()
-  .then(() => console.log('✅ Conectado con Sequelize'))
-  .catch(err => console.error('❌ Error al conectar con Sequelize:', err));
+  .then(() => console.log('Conectado con Sequelize'))
+  .catch(err => console.error('Error al conectar con Sequelize:', err));
 
-sequelize.sync({ alter: true }) // alter = adapta tablas sin borrar
-  .then(() => console.log('✅ Tablas sincronizadas con Sequelize'))
-  .catch(err => console.error('❌ Error al sincronizar tablas:', err));
+sequelize.sync({ alter: true })
+  .then(() => console.log('Tablas sincronizadas con Sequelize'))
+  .catch(err => console.error('Error al sincronizar tablas:', err));
 
 export default sequelize;
 

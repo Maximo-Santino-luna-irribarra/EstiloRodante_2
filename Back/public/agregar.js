@@ -14,7 +14,7 @@ const updatePreview = () =>{
     previewNombre.textContent = inputNombre.value;
     previewDescripcion.textContent = inputDescripcion.value;
     previewType.textContent = type.value;
-    previewPrecio.textContent = precio.value;
+    previewPrecio.textContent = "$" + precio.value;
     console.log(image.value)
     previewImage.src = image.value
 }
@@ -36,3 +36,7 @@ toggleBtn.addEventListener('click', () => {
 
 const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
+
+const agregarProducto = () => {
+    
+}
