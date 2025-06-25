@@ -1,11 +1,20 @@
 // Back/database/sequelize.js
 import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-const sequelize = new Sequelize('estilorodante', 'root', 'Frias5033', {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false
-});
+dotenv.config();
+
+export const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'mysql', // o el que uses
+    logging: false,
+  }
+);
 
 sequelize.authenticate()
   .then(() => console.log('Conectado con Sequelize'))
