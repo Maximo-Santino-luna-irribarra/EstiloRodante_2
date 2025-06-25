@@ -216,4 +216,6 @@ const agregarProducto = () => {
         },
         body: JSON.stringify(updatePreview())
     })}
+    console.log("Producto agregado correctamente");
+    window.location.href = '/dashboard'
 }

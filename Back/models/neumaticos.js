@@ -7,6 +7,8 @@ const Neumatico = sequelize.define('neumaticos', {
   modelo: DataTypes.STRING,
   medida: DataTypes.STRING,
   tecnologia: DataTypes.STRING,
+  activo: DataTypes.BOOLEAN,
+  urlIMG: DataTypes.STRING,
   precio: DataTypes.INTEGER,
   stock: DataTypes.STRING
 },

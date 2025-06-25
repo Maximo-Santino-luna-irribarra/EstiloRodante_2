@@ -2,6 +2,7 @@
 let currentPage = 1;
 const itemsPerPage = 8;
 let allProducts = [];
+let allBrands = [];
 
 // Filtros existentes en el HTML
 const tipoFiltro = document.getElementById("brands");
@@ -41,8 +42,10 @@ fetch('/api/llanta')
       nombre: l.nombreLLanta
     }));
     allProducts.push(...productos);
+    allBrands.push(...new Set(productos.map(p => p.marca)));
     renderProductos();
     renderPaginacion();
+    ingresarMarcas()
   });
 
 // FETCH NEUMÁTICOS
@@ -57,6 +60,7 @@ fetch('/api/neumatico')
     allProducts.push(...productos);
     renderProductos();
     renderPaginacion();
+    ingresarMarcas()
   });
 
 // Eventos para filtros
@@ -173,5 +177,26 @@ function activarProducto(id, tipo) {
   // Aquí podrías hacer un fetch PUT o PATCH al backend
 }
 
-
-
+function ingresarMarcas(){
+  const marcaFiltro = document.querySelector(".form-select");
+  
+  if (marcaFiltro) {
+    marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`;
+    for (let index = 0; index < 5; index++) {
+      const marca = allBrands[index];
+      if(!marca) continue;
+      const option = document.createElement("option");
+      option.value = marca;
+      option.textContent = marca;
+      marcaFiltro.appendChild(option);
+    }
+    for (let index = allBrands.length; index > allBrands.length - 5; index--) {
+      const marca = allBrands[index];
+      if(!marca) continue; // Evitar marcas vacías
+      const option = document.createElement("option");
+      option.value = marca;
+      option.textContent = marca;
+      marcaFiltro.appendChild(option);
+    }
+  }
+}
