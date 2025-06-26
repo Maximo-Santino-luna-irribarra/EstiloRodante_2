@@ -108,6 +108,7 @@ aside{
     z-index: 1000;
     padding: 10px;
     margin-left: 5em;
+    margin-top: 10em    ;
 }
 
 .product-box {
@@ -210,4 +211,93 @@ body.dark-mode .nav a:hover {
     color: #121212;
 }
 
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 991px) {
+.aside-fixed {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+main {
+    margin-left: 0 !important;
+    flex-direction: column;
+}
+
+.custom-select {
+    width: 100%;
+}
+
+.product-box {
+    min-height: 300px;
+}
+
+.product-image-wrapper {
+    width: 80px;
+    height: 80px;
+}
+}
+
+
+@media (max-width: 576px) {
+  .aside-fixed {
+    width: 100%;
+    padding: 1rem;
+    margin-left: 0;
+    margin-top: 1rem;
+    border-radius: 12px;
+  }
+
+  main {
+    flex-direction: column;
+    margin-left: 0 !important;
+  }
+
+  .custom-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .product-box {
+    padding: 1rem;
+    min-height: 250px;
+  }
+
+  .product-image-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+
+  .product-box h5 {
+    font-size: 1rem;
+  }
+
+  .product-box p {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  #logoPage {
+    width: 40px;
+    height: 40px;
+  }
+
+  header nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  header input[type="text"] {
+    width: 100% !important;
+  }
+}
 

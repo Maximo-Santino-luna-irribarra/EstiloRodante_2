@@ -201,6 +201,7 @@ function eliminarDelCarrito(producto) {
     carrito = carrito.filter(p => p.id !== producto.id);
     guardarCarrito();
     actualizarContadorasaide();
+    mostrarAlertaEliminado();
     console.log("Eliminado del carrito:", producto);
 }
 
@@ -246,6 +247,18 @@ function mostrarAlertaRepetido() {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
     contenido.textContent = "Ya se a Añadido un producto al carrito";
+    alerta.style.display = "block";
+
+    setTimeout(() => {
+        alerta.style.display = "none";
+    }, 3000);
+}
+
+function mostrarAlertaEliminado() {
+    const alerta = document.getElementById("alerta-carrito");
+    const contenido = document.getElementById("alerta-contenido");
+    
+    contenido.textContent = "Producto eliminado del carrito";
     alerta.style.display = "block";
 
     setTimeout(() => {
