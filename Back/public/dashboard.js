@@ -101,7 +101,8 @@ function renderProductos() {
     pagina.forEach(producto => {
         const col = document.createElement("div");
         col.className = "col mb-4";
-
+        color_boton = producto.activo === true ? "btn-outline-success" : "btn-outline-secondary";
+        mensaje = producto.activo === true ? "Desactivar" : "Activar";
         col.innerHTML = `
         <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
        style="height: 100%; max-height: 320px; overflow: hidden;">
@@ -125,8 +126,11 @@ function renderProductos() {
               <button class="btn btn-sm btn-outline-primary btn-editar w-100" onClick="editar('${producto.id}')">
                 ✏️ Editar
               </button>
-              <button class="btn btn-sm btn-outline-success btn-toggle w-100">
-                🔁 Activar
+              <button class="btn btn-sm ${color_boton} btn-toggle w-100"
+                data-id="${producto.id}"
+                data-tipo="${producto.tipo}"
+                data-activo="${producto.activo}">
+                ${mensaje}
               </button>
             </div>
           </div>
@@ -144,7 +148,7 @@ function renderProductos() {
         });
 
         btnToggle.addEventListener("click", () => {
-        activarProducto(producto.id, producto.tipo);
+        activarProducto(producto.id, producto.tipo, producto.activo);
         });
     });
 }
@@ -152,6 +156,30 @@ function renderProductos() {
 const editar = (e, f) => {
   window.location.href = `/editar/${e}?tipo=${f}`;
 }
+
+const activarProducto = (id, tipo, activo) => {
+  const nuevoEstado = !activo;
+  fetch(`/api/${tipo}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ activo: nuevoEstado })
+  })
+  .then(response => {
+    if (response.ok) {
+      const producto = allProducts.find(p => p.id === id);
+      if (producto) producto.activo = nuevoEstado; // Actualizás el estado en el array
+      renderProductos(); // Volvés a renderizar con los nuevos datos (y se actualiza el color)
+      renderPaginacion();
+    } else {
+      console.error('Error al activar/desactivar el producto');
+    }
+  })
+  .catch(error => console.error('Error en la solicitud:', error));
+};
+
+
 
 // Paginación
 function renderPaginacion() {
@@ -170,11 +198,6 @@ function renderPaginacion() {
     });
     paginacionContainer.appendChild(li);
   }
-}
-
-// Activar/desactivar producto (simulado)
-function activarProducto(id, tipo) {
-  // Aquí podrías hacer un fetch PUT o PATCH al backend
 }
 
 function ingresarMarcas(){
