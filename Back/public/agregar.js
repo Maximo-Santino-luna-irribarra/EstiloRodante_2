@@ -138,7 +138,7 @@ const updatePreview = () => {
         previewImage.src = image?.value || "https://acdn-us.mitiendanube.com/stores/001/854/324/products/virtus_5x1121-6ff73022adbf2348f816611838077220-640-0.jpg";
 
         return {
-            nombre: inputNombre?.value,
+            nombreLLanta: inputNombre?.value,
             marca: inputMarca?.value,
             modelo: inputModelo?.value,
             alto: inputAlto?.value,
@@ -200,7 +200,7 @@ setTheme(savedTheme);
 const agregarProducto = () => {
     const producto = updatePreview();
     console.log(producto);
-    if (producto.type == "llanta"){
+    if (producto.type == "Rin"){
     fetch('http://localhost:5000/api/llanta/', {
         method: 'POST',
         headers: {
