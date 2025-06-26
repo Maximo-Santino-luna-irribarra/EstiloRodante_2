@@ -14,10 +14,9 @@
     <h1 class="text-white">EstiloRodante</h1>   
     <input type="text" class="form-control w-25" placeholder="Search by name..." />
         <div class="nav" >
-            <a class = items>items:</a>
             <a class="nav-link text-white" href="/Front/client/html/home.html">Home</a>
             <a class="nav-link text-white" href="/Front/client/html/products.html">Products</a>
-            
+            <a class="nav-link text-white" href="/Front/client/html/cart.html">Cart</a>
             <img id="logoPage" src="/Front/images/assets/logoPage.png" alt="LogoPagina" class="img-fluid mx-auto d-block mt-2" style="max-width: 50px;  padding: 5px;">
         </div>
         <button id="modoNocheBtn" class="btn btn-outline-light">🌙 </button>
@@ -145,9 +144,10 @@
     </footer>
 
     <div id="alerta-carrito" class="toast position-fixed bottom-0 end-0 m-3 bg-success text-white" style="z-index: 9999; display: none;">
+        
     <div class="toast-header bg-success text-white">
         <strong class="me-auto">Carrito</strong>
-        <button type="button" class="btn-close btn-close-white" onclick="ocultarAlerta()"></button>
+        <button type="button" class="btn-close btn-close-white"></button>
     </div>
     <div class="toast-body" id="alerta-contenido">
         Producto añadido al carrito.

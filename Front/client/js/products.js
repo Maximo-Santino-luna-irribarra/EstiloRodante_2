@@ -58,7 +58,7 @@ const writeneumatico = (neumatico) => {
         <div class="product-image-wrapper mx-auto mb-3">
             <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
-        <h5 class="fw-bold text-dark mb-1">Modelo: ${nombre}</h5>
+        <h5 class="fw-bold  mb-1">Modelo: ${nombre}</h5>
         <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
         <p class="mb-3">Marca: ${marca}</p>
         <div class="d-flex justify-content-end gap-2 mt-auto">
@@ -86,7 +86,7 @@ const writeLlanta = (llanta) => {
         <div class="product-image-wrapper mx-auto mb-3">
             <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
-        <h5 class="fw-bold text-dark mb-1">Modelo: ${nombre}</h5>
+        <h5 class="fw-bold mb-1">Modelo: ${nombre}</h5>
         <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
         <p class="mb-3">Marca: ${marca}</p>
         <div class="d-flex justify-content-end gap-2 mt-auto">
@@ -183,15 +183,17 @@ function filtrar(productos) {
 // ==============================
 function agregarAlCarrito(producto) {
 
-    if (!carrito.find(p => p.id === producto.id)) {
+    if (!productoExisteEnCarrito(producto)) {
         carrito.push(producto);
         guardarCarrito();
         actualizarContadorasaide();
+        mostrarAlerta(producto.nombre, producto.precio);
         console.log("Agregado al carrito:", producto);
     }
     else {
+        mostrarAlertaRepetido();
         console.log("El producto ya está en el carrito:", producto);
-        
+
     }
 }
 
@@ -212,6 +214,9 @@ function cargarCarrito() {
     return data ? JSON.parse(data) : [];
 }
 
+function productoExisteEnCarrito(producto) {
+    return carrito.some(p => p.id === producto.id);
+}
 
 
 function actualizarContadorasaide() {
@@ -228,8 +233,19 @@ function actualizarContadorasaide() {
 function mostrarAlerta(nombre, precio) {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
-
+    
     contenido.textContent = `Producto añadido: ${nombre} - $${precio}`;
+    alerta.style.display = "block";
+
+    setTimeout(() => {
+        alerta.style.display = "none";
+    }, 3000);
+}
+
+function mostrarAlertaRepetido() {
+    const alerta = document.getElementById("alerta-carrito");
+    const contenido = document.getElementById("alerta-contenido");
+    contenido.textContent = "Ya se a Añadido un producto al carrito";
     alerta.style.display = "block";
 
     setTimeout(() => {
@@ -241,14 +257,7 @@ function ocultarAlerta() {
     document.getElementById("alerta-carrito").style.display = "none";
 }
 
-document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("btn-agregar")) {
-        const card = e.target.closest(".card");
-        const nombre = card.querySelector("h5").textContent.replace("Modelo: ", "");
-        const precio = card.querySelector(".text-primary").textContent.replace("Precio: $", "");
-        mostrarAlerta(nombre, precio);
-    }
-});
+
 
 
 // ==============================
