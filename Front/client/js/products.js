@@ -2,7 +2,7 @@
 // VARIABLES GLOBALES
 // ==============================
 const tipoSelect = document.getElementById("types");
-const marcaSelect = document.querySelector('select[name="brands"]');
+const marcaSelect = document.querySelector('select[name="brands"]'); // ✅ Usar el select correcto
 const modeloSelect = document.querySelector('select[name="models"]');
 const minPriceInput = document.querySelector(".minPrice");
 const maxPriceInput = document.querySelector(".maxPrice");
@@ -17,6 +17,7 @@ let paginaActual = 1;
 let productosFiltrados = [];
 let carrito = cargarCarrito();
 let itemsTotales = 0;
+let allBrands = [];
 
 // ==============================
 // MODO NOCHE
@@ -43,8 +44,6 @@ modoBtn.addEventListener("click", () => {
     }
 });
 
-
-
 // ==============================
 // RENDERIZADO DE PRODUCTOS
 // ==============================
@@ -58,7 +57,7 @@ const writeneumatico = (neumatico) => {
         <div class="product-image-wrapper mx-auto mb-3">
             <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
-        <h5 class="fw-bold  mb-1">Modelo: ${nombre}</h5>
+        <h5 class="fw-bold mb-1">Modelo: ${nombre}</h5>
         <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
         <p class="mb-3">Marca: ${marca}</p>
         <div class="d-flex justify-content-end gap-2 mt-auto">
@@ -110,7 +109,11 @@ function mostrarProductos(pagina) {
     const inicio = (pagina - 1) * productosPorPagina;
     const fin = inicio + productosPorPagina;
     const productosPagina = productosFiltrados.slice(inicio, fin);
-
+    
+    if (productosPagina.length === 0) { // <-- Línea añadida
+        contenedorProductos.innerHTML = "<p>No hay productos para mostrar.</p>"; // <-- Línea añadida
+        return; // <-- Línea añadida
+    }
     productosPagina.forEach((producto) => {
         if (producto.tipo === "llanta") {
             writeLlanta(producto);
@@ -121,7 +124,7 @@ function mostrarProductos(pagina) {
 }
 
 function generarPaginacion() {
-    const totalPaginas = productosFiltrados.length / productosPorPagina;
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina); // Modificado: ahora usa Math.ceil para redondear hacia arriba
     const paginacion = document.getElementById("pagination");
     paginacion.innerHTML = "";
 
@@ -140,11 +143,11 @@ function generarPaginacion() {
     }
 }
 
-
 // ==============================
 // FILTROS
 // ==============================
 function filtrar(productos) {
+
     const tipo = tipoSelect.value;
     const marca = marcaSelect.value;
     const modelo = modeloSelect.value;
@@ -153,11 +156,12 @@ function filtrar(productos) {
     const busqueda = searchInput.value.toLowerCase();
     const orden = ordenarSelect.value;
 
-    contenedorProductos.innerHTML = "";
+   
+    contenedorProductos.innerHTML = ""; 
 
-    let filtrados = productos;
-
-    if (tipo !== "Todos") filtrados = filtrados.filter(p => p.tipo === tipo);
+    let filtrados = productos.filter(p => p.activo === true);
+        
+    if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
     if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca === marca);
     if (modelo !== "Todos") filtrados = filtrados.filter(p => p.modelo === modelo);
     if (!isNaN(min)) filtrados = filtrados.filter(p => p.precio >= min);
@@ -172,28 +176,28 @@ function filtrar(productos) {
     }
 
     productosFiltrados = filtrados;
+
+    console.log("Productos filtrados re anashe mal:", productosFiltrados); // <-- Línea añadida para depuración
     paginaActual = 1;
+    
     mostrarProductos(paginaActual);
     generarPaginacion();
+ 
 }
-
 
 // ==============================
 // CARRITO
 // ==============================
 function agregarAlCarrito(producto) {
-
     if (!productoExisteEnCarrito(producto)) {
         carrito.push(producto);
         guardarCarrito();
         actualizarContadorasaide();
         mostrarAlerta(producto.nombre, producto.precio);
         console.log("Agregado al carrito:", producto);
-    }
-    else {
+    } else {
         mostrarAlertaRepetido();
         console.log("El producto ya está en el carrito:", producto);
-
     }
 }
 
@@ -206,7 +210,6 @@ function eliminarDelCarrito(producto) {
 }
 
 function guardarCarrito() {
-    console.log("Guardando carrito:", carrito);
     localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
@@ -219,13 +222,11 @@ function productoExisteEnCarrito(producto) {
     return carrito.some(p => p.id === producto.id);
 }
 
-
 function actualizarContadorasaide() {
-    const contador = document.getElementById("countItems");
-        if (contador) {
-            contador.textContent = carrito.length;
-
-        }
+    const contadorSpan = document.getElementById("cart-count"); // ✅ Actualiza solo el número
+    if (contadorSpan) {
+        contadorSpan.textContent = carrito.length;
+    }
 }
 
 // ==============================
@@ -234,7 +235,7 @@ function actualizarContadorasaide() {
 function mostrarAlerta(nombre, precio) {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
-    
+
     contenido.textContent = `Producto añadido: ${nombre} - $${precio}`;
     alerta.style.display = "block";
 
@@ -246,7 +247,7 @@ function mostrarAlerta(nombre, precio) {
 function mostrarAlertaRepetido() {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
-    contenido.textContent = "Ya se a Añadido un producto al carrito";
+    contenido.textContent = "Ya se ha añadido un producto al carrito";
     alerta.style.display = "block";
 
     setTimeout(() => {
@@ -257,7 +258,7 @@ function mostrarAlertaRepetido() {
 function mostrarAlertaEliminado() {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
-    
+
     contenido.textContent = "Producto eliminado del carrito";
     alerta.style.display = "block";
 
@@ -270,45 +271,72 @@ function ocultarAlerta() {
     document.getElementById("alerta-carrito").style.display = "none";
 }
 
-
-
-
 // ==============================
 // INICIALIZACIÓN
 // ==============================
 async function init() {
-try {
-    const [llantas, neumaticos] = await Promise.all([
-        fetch('http://localhost:5000/api/llanta').then(res => res.json()),
-        fetch('http://localhost:5000/api/neumatico').then(res => res.json())
-    ]);
+    try {
+        const [llantas, neumaticos] = await Promise.all([
+            fetch('http://localhost:5000/api/llanta').then(res => res.json()),
+            fetch('http://localhost:5000/api/neumatico').then(res => res.json())
+        ]);
 
-    const llantasFormateadas = llantas.map(l => ({
-    ...l,
-    tipo: "llanta",
-    nombre: l.nombre ?? `${l.marca} ${l.modelo}`
-    }));
+        const llantasFormateadas = llantas.map(l => ({
+            ...l,
+            tipo: "llanta",
+            nombre: l.nombre ?? `${l.marca} ${l.modelo} ${l.activo ? "Activo" : "Inactivo"}`
+        }));
 
-    const neumaticosFormateados = neumaticos.map(n => ({
-    ...n,
-    tipo: "neumatico",
-    nombre: n.modelo ?? `${n.marca} ${n.medida}`
-    }));
+        const neumaticosFormateados = neumaticos.map(n => ({
+            ...n,
+            tipo: "neumatico",
+            nombre: n.modelo ?? `${n.marca} ${n.medida} ${n.activo ? "Activo" : "Inactivo"}` // ✅ n.activo, no l.activo
+        }));
 
-    allProducts.push(...llantasFormateadas, ...neumaticosFormateados);
-    filtrar(allProducts);
+        allProducts.push(...llantasFormateadas, ...neumaticosFormateados);
+        console.log("Productos cargados:", allProducts); // <-- Línea añadida para depuración
 
-    tipoSelect.addEventListener("change", () => filtrar(allProducts));
-    marcaSelect.addEventListener("change", () => filtrar(allProducts));
-    modeloSelect.addEventListener("change", () => filtrar(allProducts));
-    minPriceInput.addEventListener("input", () => filtrar(allProducts));
-    maxPriceInput.addEventListener("input", () => filtrar(allProducts));
-    ordenarSelect.addEventListener("change", () => filtrar(allProducts));
-    searchInput.addEventListener("input", () => filtrar(allProducts));
-    } catch (error)
-    {
-    console.error("Error al cargar productos desde API:", error);
-    }  
+        filtrar(allProducts);
+        ingresarMarcas();
+        tipoSelect.addEventListener("change", () => filtrar(allProducts));
+        marcaSelect.addEventListener("change", () => filtrar(allProducts));
+        modeloSelect.addEventListener("change", () => filtrar(allProducts));
+        minPriceInput.addEventListener("input", () => filtrar(allProducts));
+        maxPriceInput.addEventListener("input", () => filtrar(allProducts));
+        ordenarSelect.addEventListener("change", () => filtrar(allProducts));
+        searchInput.addEventListener("input", () => filtrar(allProducts));
+    } catch (error) {
+        console.error("Error al cargar productos desde API:", error);
+    }
 }
 
 init();
+
+// ==============================
+// INGRESAR MARCAS
+// ==============================
+function ingresarMarcas() {
+    const marcaFiltro = document.querySelector('select[name="brands"]'); // ✅ Selector correcto
+
+    if (marcaFiltro) {
+        marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`; // ✅ comillas bien puestas
+
+        for (let index = 0; index < 5; index++) {
+            const marca = allBrands[index];
+            if (!marca) continue;
+            const option = document.createElement("option");
+            option.value = marca;
+            option.textContent = marca;
+            marcaFiltro.appendChild(option);
+        }
+
+        for (let index = allBrands.length; index > allBrands.length - 5; index--) {
+            const marca = allBrands[index];
+            if (!marca) continue;
+            const option = document.createElement("option");
+            option.value = marca;
+            option.textContent = marca;
+            marcaFiltro.appendChild(option);
+        }
+    }
+}
