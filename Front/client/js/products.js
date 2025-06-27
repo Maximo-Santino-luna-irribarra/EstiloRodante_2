@@ -19,9 +19,7 @@ let carrito = cargarCarrito();
 let itemsTotales = 0;
 let allBrands = [];
 
-// ==============================
-// MODO NOCHE
-// ==============================
+
 const modoActual = localStorage.getItem("modo") || "dia";
 
 if (modoActual === "noche") {
@@ -44,9 +42,6 @@ modoBtn.addEventListener("click", () => {
     }
 });
 
-// ==============================
-// RENDERIZADO DE PRODUCTOS
-// ==============================
 const writeneumatico = (neumatico) => {
     const { id, marca, modelo, precio, nombre } = neumatico;
 
@@ -110,9 +105,9 @@ function mostrarProductos(pagina) {
     const fin = inicio + productosPorPagina;
     const productosPagina = productosFiltrados.slice(inicio, fin);
     
-    if (productosPagina.length === 0) { // <-- Línea añadida
-        contenedorProductos.innerHTML = "<p>No hay productos para mostrar.</p>"; // <-- Línea añadida
-        return; // <-- Línea añadida
+    if (productosPagina.length === 0) {
+        contenedorProductos.innerHTML = "<p>No hay productos para mostrar.</p>"; 
+        return; 
     }
     productosPagina.forEach((producto) => {
         if (producto.tipo === "llanta") {
@@ -123,8 +118,35 @@ function mostrarProductos(pagina) {
     });
 }
 
+function ingresarMarcas() {
+    const marcaFiltro = document.querySelector('select[name="brands"]');
+
+    if (marcaFiltro) {
+        marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`;
+
+        for (let index = 0; index < 5; index++) {
+            const marca = allBrands[index];
+            if (!marca) continue;
+            const option = document.createElement("option");
+            option.value = marca;
+            option.textContent = marca;
+            marcaFiltro.appendChild(option);
+        }
+
+        for (let index = allBrands.length; index > allBrands.length - 5; index--) {
+            const marca = allBrands[index];
+            if (!marca) continue;
+            const option = document.createElement("option");
+            option.value = marca;
+            option.textContent = marca;
+            marcaFiltro.appendChild(option);
+        }
+    }
+}
+
+
 function generarPaginacion() {
-    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina); // Modificado: ahora usa Math.ceil para redondear hacia arriba
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina); 
     const paginacion = document.getElementById("pagination");
     paginacion.innerHTML = "";
 
@@ -143,9 +165,7 @@ function generarPaginacion() {
     }
 }
 
-// ==============================
-// FILTROS
-// ==============================
+
 function filtrar(productos) {
 
     const tipo = tipoSelect.value;
@@ -156,13 +176,12 @@ function filtrar(productos) {
     const busqueda = searchInput.value.toLowerCase();
     const orden = ordenarSelect.value;
 
-   
+
     contenedorProductos.innerHTML = ""; 
 
     let filtrados = productos.filter(p => p.activo === true);
         
     if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
-    if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca === marca);
     if (modelo !== "Todos") filtrados = filtrados.filter(p => p.modelo === modelo);
     if (!isNaN(min)) filtrados = filtrados.filter(p => p.precio >= min);
     if (!isNaN(max)) filtrados = filtrados.filter(p => p.precio <= max);
@@ -177,7 +196,7 @@ function filtrar(productos) {
 
     productosFiltrados = filtrados;
 
-    console.log("Productos filtrados re anashe mal:", productosFiltrados); // <-- Línea añadida para depuración
+    console.log("Productos filtrados re anashe mal:", productosFiltrados); 
     paginaActual = 1;
     
     mostrarProductos(paginaActual);
@@ -185,9 +204,7 @@ function filtrar(productos) {
  
 }
 
-// ==============================
-// CARRITO
-// ==============================
+
 function agregarAlCarrito(producto) {
     if (!productoExisteEnCarrito(producto)) {
         carrito.push(producto);
@@ -223,15 +240,13 @@ function productoExisteEnCarrito(producto) {
 }
 
 function actualizarContadorasaide() {
-    const contadorSpan = document.getElementById("cart-count"); // ✅ Actualiza solo el número
+    const contadorSpan = document.getElementById("cart-count"); 
     if (contadorSpan) {
         contadorSpan.textContent = carrito.length;
     }
 }
 
-// ==============================
-// ALERTAS
-// ==============================
+
 function mostrarAlerta(nombre, precio) {
     const alerta = document.getElementById("alerta-carrito");
     const contenido = document.getElementById("alerta-contenido");
@@ -271,9 +286,6 @@ function ocultarAlerta() {
     document.getElementById("alerta-carrito").style.display = "none";
 }
 
-// ==============================
-// INICIALIZACIÓN
-// ==============================
 async function init() {
     try {
         const [llantas, neumaticos] = await Promise.all([
@@ -290,13 +302,15 @@ async function init() {
         const neumaticosFormateados = neumaticos.map(n => ({
             ...n,
             tipo: "neumatico",
-            nombre: n.modelo ?? `${n.marca} ${n.medida} ${n.activo ? "Activo" : "Inactivo"}` // ✅ n.activo, no l.activo
+            nombre: n.modelo ?? `${n.marca} ${n.medida} ${n.activo ? "Activo" : "Inactivo"}` 
         }));
 
         allProducts.push(...llantasFormateadas, ...neumaticosFormateados);
-        console.log("Productos cargados:", allProducts); // <-- Línea añadida para depuración
+        console.log("Productos cargados:", allProducts);
 
         filtrar(allProducts);
+        allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
+        
         ingresarMarcas();
         tipoSelect.addEventListener("change", () => filtrar(allProducts));
         marcaSelect.addEventListener("change", () => filtrar(allProducts));
@@ -312,31 +326,3 @@ async function init() {
 
 init();
 
-// ==============================
-// INGRESAR MARCAS
-// ==============================
-function ingresarMarcas() {
-    const marcaFiltro = document.querySelector('select[name="brands"]'); // ✅ Selector correcto
-
-    if (marcaFiltro) {
-        marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`; // ✅ comillas bien puestas
-
-        for (let index = 0; index < 5; index++) {
-            const marca = allBrands[index];
-            if (!marca) continue;
-            const option = document.createElement("option");
-            option.value = marca;
-            option.textContent = marca;
-            marcaFiltro.appendChild(option);
-        }
-
-        for (let index = allBrands.length; index > allBrands.length - 5; index--) {
-            const marca = allBrands[index];
-            if (!marca) continue;
-            const option = document.createElement("option");
-            option.value = marca;
-            option.textContent = marca;
-            marcaFiltro.appendChild(option);
-        }
-    }
-}
