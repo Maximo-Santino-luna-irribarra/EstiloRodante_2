@@ -46,6 +46,7 @@ app.use('/api/ventas', ventaRoutes)
 app.listen(app.get("PORT"), ()=>
     console.log(`Server corriendo en localhost:${app.get("PORT")}`)
 )
+
 // Configurar EJS
 
 app.set('view engine', 'ejs');
