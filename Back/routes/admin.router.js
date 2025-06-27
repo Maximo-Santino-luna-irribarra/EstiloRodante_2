@@ -5,7 +5,8 @@ import {
   getAdmin,
   postAdmin,
   putAdmin,
-  deleteAdmin
+  deleteAdmin,
+  loginAdmin
 } from '../controllers/admin.controllers.js';
 
 
