@@ -32,6 +32,10 @@ const loginAdmin = async (email, password) => {
 
 }
 
+const findByEmail = async (email) => {
+    return await Admin.findOne({ where: { email } });
+};
+
 
 
 export default {
@@ -40,5 +44,6 @@ export default {
     createAdmin,
     updateAdmin,
     deleteAdmin,
-    loginAdmin
+    loginAdmin,
+    findByEmail
 };  
