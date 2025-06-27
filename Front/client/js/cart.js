@@ -105,7 +105,7 @@ const actualizarResumen = () => {
         <p>Impuestos: $${productosContador * 500}</p>
         <hr class="border-light"/>
         <p class="fw-bold">Total: $${productosPrecios + productosContador * 500}</p>
-        <button class="btn btn-light w-100 mt-2" ${productosContador > 0 ? '' : 'disabled'}>Generar Ticket</button>
+        <button class="btn btn-light w-100 mt-2 text-dark" ${productosContador > 0 ? '' : 'disabled'}>Finalizar compra</button>
     `
     ticketBox.appendChild(ticket)
 }

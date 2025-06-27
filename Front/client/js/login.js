@@ -9,6 +9,14 @@ buttonLogin.addEventListener('click', async (e) => {
         alert('Por favor, complete todos los campos.');
         return;
     }
+    if (nombre.length < 3) {
+        alert('El nombre debe tener al menos 3 caracteres.');
+        return;
+    }
+
+    localStorage.setItem('nombreCliente', nombre);
+    window.location.href = 'http://localhost:5500/Front/client/html/home.html';
+    
 
     try {
         const response = await fetch('http://localhost:5000/api/cliente', {

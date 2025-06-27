@@ -180,8 +180,6 @@ const activarProducto = (id, tipo, activo) => {
   .catch(error => console.error('Error en la solicitud:', error));
 };
 
-
-
 // Paginación
 function renderPaginacion() {
   const totalItems = filtrarProductos().length;
