@@ -8,16 +8,19 @@ import neumaticoRoutes from '../routes/neumatico.router.js'
 import ventaRoutes from '../routes/venta.router.js'
 import llantaRoutes from '../routes/llanta.router.js';
 import cors from 'cors';
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
+dotenv.config();
 //settings
 const app = express();
-app.set("PORT", 5000);
-
+app.set("PORT",process.env.SERVER_PORT)
 app.set("view engine", "ejs");
 
 // ✅ Ajustar ruta a /Back/views
