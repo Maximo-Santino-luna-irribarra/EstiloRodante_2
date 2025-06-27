@@ -7,10 +7,6 @@ const getAdminById = async (id) => await Admin.findByPk(id);
 const createAdmin = async (data) => await Admin.create(data);
 
 
-
-
-
-
 const updateAdmin = async (id, data) => {
     const admin = await Admin.findByPk(id);
 

@@ -8,6 +8,7 @@ import neumaticoRoutes from '../routes/neumatico.router.js'
 import ventaRoutes from '../routes/venta.router.js'
 import llantaRoutes from '../routes/llanta.router.js';
 import cors from 'cors';
+import authRoutes from '../routes/auth.route.js';
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
@@ -42,6 +43,7 @@ app.use('/api/cliente', clienteRoutes)
 app.use('/api/neumatico', neumaticoRoutes)
 app.use('/api/llanta', llantaRoutes) 
 app.use('/api/ventas', ventaRoutes)
+app.use('/auth', authRoutes)
 
 app.listen(app.get("PORT"), ()=>
     console.log(`Server corriendo en localhost:${app.get("PORT")}`)
