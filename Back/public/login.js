@@ -18,22 +18,32 @@ toggleBtn.addEventListener('click', () => {
 const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
 
-
-addEventListener('DOMContentLoaded', () => {
-    const storedNombre = localStorage.getItem('nombreUsuario');
-    const storedPassword = localStorage.getItem('password');
-
-    if (storedNombre) {
-        nombreUsuario.value = storedNombre;
-    }
-    if (storedPassword) {
-        password.value = storedPassword;
-    }
-}
-)
-
 const autocompleteButton = document.querySelector('.autocomplete');
 autocompleteButton.addEventListener('click', () => {
     nombreUsuario.value = 'UsuarioPrueba';
     password.value = '123';
 })
+
+const loginButton = document.querySelector('.login');
+loginButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    const nombre = nombreUsuario.value;
+    const pass = password.value;
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email:nombre, password: pass })
+    }).then(response => {
+        if (response.ok) {
+            alert('Inicio de sesión exitoso');
+            location.href = '/dashboard';
+        }else{
+            alert('Error al iniciar sesión. Verifica tus credenciales.');
+        }
+}).catch(error => {
+        console.error('Error:', error);
+        alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+    });
+});
