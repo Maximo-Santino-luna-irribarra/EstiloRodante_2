@@ -2,6 +2,8 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize.js';
 
 const Neumatico = sequelize.define('neumaticos', {
+  
+
   nombreNeumatico: DataTypes.STRING,
   marca: DataTypes.STRING,
   modelo: DataTypes.STRING,

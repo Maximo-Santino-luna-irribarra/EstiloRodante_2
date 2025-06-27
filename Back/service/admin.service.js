@@ -8,15 +8,16 @@ const createAdmin = async (data) => await Admin.create(data);
 
 const updateAdmin = async (id, data) => {
     const admin = await Admin.findByPk(id);
+
     if (!admin) return null;
-    return await admin.update(data);
+        return await admin.update(data);
 };
 
 const deleteAdmin = async (id) => {
     const admin = await Admin.findByPk(id);
     if (!admin) return null;
     await admin.destroy();
-    return true;
+        return true;
 };
 
 export default {

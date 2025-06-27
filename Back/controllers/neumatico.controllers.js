@@ -3,6 +3,7 @@ import * as neumaticoService from '../service/neumatico.service.js';
 export const getAllNeumaticos = async (req, res) => {
 
     const neumaticos = await neumaticoService.getNeumaticos();
+    
     if (!neumaticos || neumaticos.length === 0) {
         return res.status(404).json({ error: 'No se encontraron neumáticos' });
     }
@@ -24,15 +25,15 @@ export const getNeumatico = async (req, res) => {
 export const postNeumatico = async (req, res) => {
 
   const nuevo = await neumaticoService.createNeumatico(req.body);
+  if (!nuevo) return res.status(400).json({ error: 'Error al crear el neumático' });
+  // Si hay un error al crear el neumático, se devuelve un error 400
 
-  res.status(201).json(nuevo);
+    res.status(201).json(nuevo);
 
 };
 
 export const putNeumatico = async (req, res) => {
-
   const actualizado = await neumaticoService.updateNeumatico(req.params.id, req.body);
-
   if (!actualizado) return res.status(404).json({ error: 'Neumático no encontrado' });
   // Si el neumático no se encuentra, se devuelve un error 404
   res.json(actualizado);

@@ -10,6 +10,7 @@ export const getVenta = async (req, res) => {
   const venta = await ventaService.getVentaById(req.params.id);
   if (!venta) return res.status(404).json({ error: 'Venta no encontrada' });
   res.json(venta);
+
 };
 
 export const postVenta = async (req, res) => {

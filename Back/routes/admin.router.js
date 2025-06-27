@@ -11,9 +11,13 @@ import {
 const router = express.Router();
 
 router.get('/', getAllAdmins);
+
 router.get('/:id', getAdmin);
+
 router.post('/', postAdmin);
+
 router.put('/:id', putAdmin);
+
 router.delete('/:id', deleteAdmin);
 
 export default router;
