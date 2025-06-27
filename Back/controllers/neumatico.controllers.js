@@ -35,7 +35,6 @@ export const postNeumatico = async (req, res) => {
 export const putNeumatico = async (req, res) => {
   const actualizado = await neumaticoService.updateNeumatico(req.params.id, req.body);
   if (!actualizado) return res.status(404).json({ error: 'Neumático no encontrado' });
-  // Si el neumático no se encuentra, se devuelve un error 404
   res.json(actualizado);
 
 };

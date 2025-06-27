@@ -1,3 +1,4 @@
+
 // Paginación
 let currentPage = 1;
 const itemsPerPage = 8;
@@ -101,8 +102,8 @@ function renderProductos() {
     pagina.forEach(producto => {
         const col = document.createElement("div");
         col.className = "col mb-4";
-        color_boton = producto.activo === true ? "btn-outline-success" : "btn-outline-secondary";
-        mensaje = producto.activo === true ? "Desactivar" : "Activar";
+        const color_boton = producto.activo === true ? "btn-outline-success" : "btn-outline-secondary";
+        const mensaje = producto.activo === true ? "Desactivar" : "Activar";
         col.innerHTML = `
         <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
        style="height: 100%; max-height: 320px; overflow: hidden;">
@@ -168,9 +169,9 @@ const activarProducto = (id, tipo, activo) => {
   })
   .then(response => {
     if (response.ok) {
-      const producto = allProducts.find(p => p.id === id);
-      if (producto) producto.activo = nuevoEstado; // Actualizás el estado en el array
-      renderProductos(); // Volvés a renderizar con los nuevos datos (y se actualiza el color)
+      const producto = allProducts.find(p => p.id === id && p.tipo === tipo);
+      if (producto) producto.activo = nuevoEstado;
+      renderProductos();
       renderPaginacion();
     } else {
       console.error('Error al activar/desactivar el producto');
