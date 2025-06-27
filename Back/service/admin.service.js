@@ -20,6 +20,10 @@ const deleteAdmin = async (id) => {
         return true;
 };
 
+const loginAdmin = async (email, password) => {
+    const admin = await Admin.findOne({ where: { email } });}
+
+    
 export default {
     getAdmins,
     getAdminById,

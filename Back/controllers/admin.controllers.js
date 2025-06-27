@@ -28,3 +28,11 @@ export const deleteAdmin = async (req, res) => {
     if (!eliminado) return res.status(404).json({ error: 'Admin no encontrado' });
     res.json({ message: 'Admin eliminado correctamente' });
 };
+
+
+export const loginAdmin = async (req, res) => {
+    const logeado = await adminservice.loginAdmin(req.body.email, req.body.password);
+    if (!logeado) return res.status(401).json({ error: 'Credenciales incorrectas' });
+    res.json({ message: 'Login exitoso', admin: logeado });
+    
+}   

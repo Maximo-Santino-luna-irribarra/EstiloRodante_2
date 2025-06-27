@@ -8,6 +8,7 @@ import {
   deleteAdmin
 } from '../controllers/admin.controllers.js';
 
+
 const router = express.Router();
 
 router.get('/', getAllAdmins);
@@ -19,5 +20,7 @@ router.post('/', postAdmin);
 router.put('/:id', putAdmin);
 
 router.delete('/:id', deleteAdmin);
+
+router.login('login',(loginAdmin));
 
 export default router;

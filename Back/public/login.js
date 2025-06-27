@@ -1,5 +1,7 @@
 const toggleBtn = document.getElementById('modoNocheBtn');
 const body = document.body;
+const nombreUsuario = document.getElementById('nombre');
+const password = document.getElementById('password');
 
 const setTheme = (theme) => {
     body.classList.remove('light-mode', 'dark-mode');
@@ -15,3 +17,17 @@ toggleBtn.addEventListener('click', () => {
 
 const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
+
+
+addEventListener('DOMContentLoaded', () => {
+    const storedNombre = localStorage.getItem('nombreUsuario');
+    const storedPassword = localStorage.getItem('password');
+
+    if (storedNombre) {
+        nombreUsuario.value = storedNombre;
+    }
+    if (storedPassword) {
+        password.value = storedPassword;
+    }
+}
+)
