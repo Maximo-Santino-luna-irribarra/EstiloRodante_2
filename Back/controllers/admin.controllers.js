@@ -13,7 +13,7 @@ export const getAdmin = async (req, res) => {
 };
 
 export const postAdmin = async (req, res) => {
-    const nuevo = await adminService.createAdmin(req.body);
+    const nuevo = await adminservice.createAdmin(req.body);
     res.status(201).json(nuevo);
 };
 
