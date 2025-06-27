@@ -31,3 +31,9 @@ addEventListener('DOMContentLoaded', () => {
     }
 }
 )
+
+const autocompleteButton = document.querySelector('.autocomplete');
+autocompleteButton.addEventListener('click', () => {
+    nombreUsuario.value = 'UsuarioPrueba';
+    password.value = '123';
+})
