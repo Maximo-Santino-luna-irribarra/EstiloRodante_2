@@ -22,6 +22,10 @@ router.put('/:id', putAdmin);
 
 router.delete('/:id', deleteAdmin);
 
+<<<<<<< HEAD
+router.post('login',(loginAdmin));
+=======
 router.get('login',(loginAdmin));
+>>>>>>> cf04d2c8dacd4d7650d9c47a62b13c8b3d618346
 
 export default router;
