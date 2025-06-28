@@ -174,8 +174,7 @@ function filtrar(productos) {
     const busqueda = searchInput.value.toLowerCase();
     const orden = ordenarSelect.value;
 
-
-    contenedorProductos.innerHTML = ""; 
+    contenedorProductos.innerHTML = "";
 
     let filtrados = productos.filter(p => p.activo === true);
     if (tipo !== "Todos") {
@@ -314,7 +313,9 @@ async function init() {
         allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
         ingresarMarcas();
 
-        tipoSelect.value = "Todos";
+        const params = new URLSearchParams(window.location.search);
+        const tipo = params.get("tipo");
+        document.getElementById("types").value = tipo || "Todos";
         marcaSelect.value = "Todos";
         modeloSelect.value = "Todos";
         minPriceInput.value = "";
