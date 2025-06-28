@@ -43,14 +43,14 @@ modoBtn.addEventListener("click", () => {
 });
 
 const writeneumatico = (neumatico) => {
-    const { id, marca, modelo, precio, nombre } = neumatico;
+    const { id, marca, modelo, precio, nombre, urlIMG } = neumatico;
 
     const product = document.createElement("div");
     product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
     product.innerHTML = `
     <div class="card product-box text-center p-3 shadow rounded-4">
         <div class="product-image-wrapper mx-auto mb-3">
-            <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
+            <img src="${urlIMG}" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
         <h5 class="fw-bold mb-1">Modelo: ${nombre}</h5>
         <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
@@ -71,14 +71,14 @@ const writeneumatico = (neumatico) => {
 };
 
 const writeLlanta = (llanta) => {
-    const { id, nombre, marca, modelo, precio } = llanta;
+    const { id, nombre, marca, modelo, precio, urlIMG } = llanta;
 
     const product = document.createElement("div");
     product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
     product.innerHTML = `
     <div class="card product-box text-center p-3 shadow rounded-4">
         <div class="product-image-wrapper mx-auto mb-3">
-            <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="rounded-circle img-fluid product-image" alt="${modelo}">
+            <img src="${urlIMG}" class="rounded-circle img-fluid product-image" alt="${modelo}">
         </div>
         <h5 class="fw-bold mb-1">Modelo: ${nombre}</h5>
         <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${precio}</p>
@@ -114,6 +114,7 @@ function mostrarProductos(pagina) {
             writeLlanta(producto);
         } else if (producto.tipo === "neumatico") {
             writeneumatico(producto);
+            console.log(producto)
         }
     });
 }
@@ -121,28 +122,25 @@ function mostrarProductos(pagina) {
 function ingresarMarcas() {
     const marcaFiltro = document.querySelector('select[name="brands"]');
 
-    if (marcaFiltro) {
-        marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`;
+    if (!marcaFiltro) return;
 
-        for (let index = 0; index < 5; index++) {
-            const marca = allBrands[index];
-            if (!marca) continue;
-            const option = document.createElement("option");
-            option.value = marca;
-            option.textContent = marca;
-            marcaFiltro.appendChild(option);
-        }
+    marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`;
 
-        for (let index = allBrands.length; index > allBrands.length - 5; index--) {
-            const marca = allBrands[index];
-            if (!marca) continue;
-            const option = document.createElement("option");
-            option.value = marca;
-            option.textContent = marca;
-            marcaFiltro.appendChild(option);
-        }
-    }
+    const primeras = allBrands.slice(0, 5);
+    const ultimas = allBrands.slice(-5);
+
+    const marcasUnicas = [...new Set([...primeras, ...ultimas])];
+
+    marcasUnicas.forEach(marca => {
+        if (!marca) return;
+        const option = document.createElement("option");
+        option.value = marca;
+        option.textContent = marca;
+        marcaFiltro.appendChild(option);
+    });
 }
+
+
 
 
 function generarPaginacion() {
@@ -176,11 +174,16 @@ function filtrar(productos) {
     const busqueda = searchInput.value.toLowerCase();
     const orden = ordenarSelect.value;
 
-
-    contenedorProductos.innerHTML = ""; 
+    contenedorProductos.innerHTML = "";
 
     let filtrados = productos.filter(p => p.activo === true);
-        
+    if (tipo !== "Todos") {
+        filtrados = filtrados.filter(p => {
+            if (tipo === "cubierta") return p.tecnologia != null; 
+            if (tipo === "Rin") return p.material != null;         
+            return true;
+        });
+    }
     if (marca !== "Todos") filtrados = filtrados.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
     if (modelo !== "Todos") filtrados = filtrados.filter(p => p.modelo === modelo);
     if (!isNaN(min)) filtrados = filtrados.filter(p => p.precio >= min);
@@ -306,10 +309,21 @@ async function init() {
         }));
 
         allProducts.push(...llantasFormateadas, ...neumaticosFormateados);
-        console.log("Productos cargados:", allProducts);
+        
+        allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
+        ingresarMarcas();
+
+        const params = new URLSearchParams(window.location.search);
+        const tipo = params.get("tipo");
+        document.getElementById("types").value = tipo || "Todos";
+        marcaSelect.value = "Todos";
+        modeloSelect.value = "Todos";
+        minPriceInput.value = "";
+        maxPriceInput.value = "";
+        ordenarSelect.value = "";
+        searchInput.value = "";
 
         filtrar(allProducts);
-        allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
         
         ingresarMarcas();
         tipoSelect.addEventListener("change", () => filtrar(allProducts));
