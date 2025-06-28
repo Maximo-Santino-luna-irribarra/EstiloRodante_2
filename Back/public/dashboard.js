@@ -149,7 +149,15 @@ function renderProductos() {
         });
 
         btnToggle.addEventListener("click", () => {
-        activarProducto(producto.id, producto.tipo, producto.activo);
+            mostrarModal(() => {
+      activarProducto(producto.id, producto.tipo, producto.activo);
+    });
+           
+              
+                
+              
+        
+
         });
     });
 }
@@ -180,6 +188,46 @@ const activarProducto = (id, tipo, activo) => {
   .catch(error => console.error('Error en la solicitud:', error));
 };
 
+
+
+function mostrarModal(onConfirmar) {
+  const modal = document.getElementById('modal');
+
+  // Asegurarse de que exista
+  if (!modal) return;
+
+  modal.querySelector('.modal-title').textContent = 'Confirmar Cambios';
+  modal.querySelector('.modal-body').innerHTML = `
+    <p>¿Estás seguro de que deseas cambiar el estado del producto?</p>
+    <p>Este cambio afectará la visibilidad del producto en la tienda.</p>
+  `;
+
+  modal.querySelector('.modal-footer').innerHTML = `
+    <button type="button" class="btn btn-secondary" id="cancelarModal">Cancelar</button>
+    <button type="button" class="btn btn-primary" id="confirmarCambios">Confirmar</button>
+  `;
+
+  modal.style.display = 'block';
+  modal.classList.add('show');
+
+  // Cierre del modal
+  const cerrar = () => {
+    modal.style.display = 'none';
+    modal.classList.remove('show');
+  };
+
+  // Cancelar
+  modal.querySelector('#cancelarModal').addEventListener('click', cerrar);
+
+  // Confirmar
+  modal.querySelector('#confirmarCambios').addEventListener('click', () => {
+    if (typeof onConfirmar === 'function') onConfirmar();
+    cerrar();
+  });
+
+  // Botón X
+  modal.querySelector('.btn-close')?.addEventListener('click', cerrar);
+}
 // Paginación
 function renderPaginacion() {
   const totalItems = filtrarProductos().length;

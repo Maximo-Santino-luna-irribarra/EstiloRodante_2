@@ -66,6 +66,7 @@
 
       <!-- MAIN: panel productos -->
       <main class="flex-grow-1 px-4 py-4 bg-light">
+        <div class="modal-dialog modal-sm"></div>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h2>Panel</h2>
           <a class="btn btn-success" href="/agregar">Add new product</a>
@@ -83,7 +84,25 @@
       </main>
 
     </div>
+
   </main>
+  <!-- Modal de confirmación -->
+  <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar</h5>
+          <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Se completa por JS -->
+        </div>
+        <div class="modal-footer">
+          <!-- Se completa por JS -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <%- include('../partial/footer.ejs') %>
 
