@@ -100,12 +100,11 @@ aside{
 
 .aside-fixed {
     position: fixed;
-    left: 0;
-    top: 100px;
-    right: 30px;
+    left: -50px;
+    top: 35px;
     width: 200px;
     height: 40em;
-    z-index: 1000;
+    z-index: 900;
     padding: 10px;
     margin-left: 5em;
     margin-top: 10em    ;
@@ -209,6 +208,10 @@ body.dark-mode .nav a {
 body.dark-mode .nav a:hover {
     background-color: #fff;
     color: #121212;
+}
+
+footer{
+    z-index: 1000;
 }
 
 
