@@ -7,6 +7,7 @@ let allBrands = [];
 
 // Filtros existentes en el HTML
 const tipoFiltro = document.getElementById("brands");
+const estadoFiltro = document.getElementById("estadoFiltro");
 const marcaFiltro = document.getElementById("types");
 const minPrecioInput = document.querySelector(".minPrice");
 const maxPrecioInput = document.querySelector(".maxPrice");
@@ -65,7 +66,7 @@ fetch('/api/neumatico')
   });
 
 // Eventos para filtros
-[tipoFiltro, marcaFiltro, minPrecioInput, maxPrecioInput].forEach(filtro => {
+[tipoFiltro, marcaFiltro, minPrecioInput, maxPrecioInput,estadoFiltro].forEach(filtro => {
   if (filtro) {
     filtro.addEventListener("change", () => {
       currentPage = 1;
@@ -79,17 +80,22 @@ fetch('/api/neumatico')
 function filtrarProductos() {
   const tipo = tipoFiltro?.value;
   const marca = marcaFiltro?.value;
+  const estado = estadoFiltro?.value || "Todos";
   const min = parseFloat(minPrecioInput?.value) || 0;
   const max = parseFloat(maxPrecioInput?.value) || Infinity;
 
   return allProducts.filter(p =>
     (tipo === "Todos" || p.tipo === tipo) &&
     (marca === "Todos" || p.marca === marca) &&
+    (
+      estado === "Todos" ||
+      (estado === "Activo" && p.activo === true) ||
+      (estado === "Desactivado" && p.activo === false)
+    ) &&
     p.precio >= min &&
     p.precio <= max
   );
 }
-
 // Renderizado de productos
 function renderProductos() {
     const contenedor = document.querySelector(".box");
@@ -106,7 +112,7 @@ function renderProductos() {
         const mensaje = producto.activo === true ? "Desactivar" : "Activar";
         col.innerHTML = `
         <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
-       style="height: 100%; max-height: 320px; overflow: hidden;">
+      style="height: 100%; max-height: 320px; overflow: hidden;">
           <div class="text-center p-3">
             <img src="${producto.urlIMG || 'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg'}"
                 class="rounded-circle img-fluid"
