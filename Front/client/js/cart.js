@@ -43,11 +43,16 @@ const crearProducto = (element) =>{
             const spanCantidad = product.querySelector('.cantidad')
             
             btnSumar.addEventListener('click', () => {
-                cantidad++
-                spanCantidad.textContent = cantidad
-                productosContador++
-                productosPrecios += element.precio
-                actualizarResumen()
+                if(cantidad < element.stock){
+                    cantidad++
+                    spanCantidad.textContent = cantidad
+                    productosContador++
+                    productosPrecios += element.precio
+                    actualizarResumen()
+                }
+                else{
+                    alert('No hay suficiente stock para sumar más unidades de este producto.')
+                }
             })
 
             btnRestar.addEventListener('click', () => {
@@ -57,12 +62,10 @@ const crearProducto = (element) =>{
                 productosContador--
                 productosPrecios -= element.precio
             } else {
-                // Si queda solo 1 y se presiona restar, eliminar el producto
                 product.remove()
                 productosContador--
                 productosPrecios -= element.precio
 
-                // Eliminar también del array listaProductos o lista si es necesario
                 const carritoActual = JSON.parse(localStorage.getItem('carrito')) || []
                 const nuevoCarrito = carritoActual.filter(item => !(item.nombre === element.nombre && item.marca === element.marca))
                 localStorage.setItem('carrito', JSON.stringify(nuevoCarrito))
@@ -87,7 +90,7 @@ const crearResumen = () =>{
           <p class="fw-bold">Total: $${productosPrecios + productosContador * 500}</p>
         `
         if(verificarVacio()){
-            ticket.innerHTML += `<button class="btn btn-light w-100 mt-2">Generar Ticket</button>`
+            ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" onClick="confirmarCompra()">Generar Ticket</button>`
         }else{
             ticket.innerHTML += `<button class="btn btn-light w-100 mt-2" disabled>Generar Ticket</button>`
         }
@@ -105,7 +108,7 @@ const actualizarResumen = () => {
         <p>Impuestos: $${productosContador * 500}</p>
         <hr class="border-light"/>
         <p class="fw-bold">Total: $${productosPrecios + productosContador * 500}</p>
-        <button class="btn btn-light w-100 mt-2 text-dark" ${productosContador > 0 ? '' : 'disabled'}>Finalizar compra</button>
+        <button onClick="confirmarCompra()" class="btn btn-light w-100 mt-2 text-dark" ${productosContador > 0 ? '' : 'disabled'}>Finalizar compra</button>
     `
     ticketBox.appendChild(ticket)
 }
@@ -126,15 +129,16 @@ const verificarVacio = () =>{
 setProductos()
 verificarVacio()
 actualizarResumen() 
-// modo noche
 
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
     localStorage.setItem("modoNoche", document.body.classList.contains("dark-mode"));
 }
 
-// Activar modo noche si estaba guardado
 if (localStorage.getItem("modoNoche") === "true") {
     document.body.classList.add("dark-mode");
 }
 
+const confirmarCompra = () => {
+    window.location.href = "/Front/client/html/ticket.html";
+}

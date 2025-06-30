@@ -64,6 +64,11 @@ fetch(`/api/${tipo}/${id}`, {
             <input type="url" id="editImagen" class="form-control" value="https://via.placeholder.com/300x200">
           </div>
 
+           <div class="col-md-6">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="number" id="editStock" class="form-control" placeholder="Ej: 25">
+            </div>
+
           <div class="text-center mt-4">
             <img id="editPreviewImagen" src="/Back/public/primer-plano-de-pato-de-goma.jpg" class="img-fluid rounded mb-3" style="width: 300px; height: 200px; object-fit: cover;">
             <br>
@@ -81,6 +86,7 @@ fetch(`/api/${tipo}/${id}`, {
     document.getElementById('editDiametro').value = producto.diametro;
     document.getElementById('editMaterial').value = producto.material;
     document.getElementById('editPrecio').value = producto.precio;
+    document.getElementById('editStock').value = producto.stock || 0;
     document.getElementById('editImagen').value = producto.urlIMG || '';
     document.getElementById('editPreviewImagen').src = producto.urlIMG || '/logoPage.png';
     // ----------
@@ -96,6 +102,7 @@ fetch(`/api/${tipo}/${id}`, {
             const material = e.target[6].value;
             const precio = e.target[7].value;
             const url = e.target[8].value;
+            const stock = e.target[9].value;
 
             fetch(`/api/llanta/${id}`, {
                 method: 'PUT',
@@ -112,7 +119,7 @@ fetch(`/api/${tipo}/${id}`, {
                     material: material,
                     precio: precio,
                     urlIMG: url,
-                    stock: 1,
+                    stock: stock,
                     activo: true
                 })
             }).then(response => {
@@ -168,6 +175,11 @@ fetch(`/api/${tipo}/${id}`, {
             <input type="url" id="editImagen" class="form-control" placeholder="https://...">
         </div>
 
+         <div class="col-md-6">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" id="editStock" class="form-control" placeholder="Ej: 25">
+        </div>
+
         <div class="text-center mt-4">
             <img id="editPreviewImagen" src="https://static.vecteezy.com/system/resources/previews/022/059/000/non_2x/no-image-available-icon-vector.jpg" class="img-fluid rounded mb-3" style="width: 300px; height: 200px; object-fit: cover;">
             <br>
@@ -184,6 +196,7 @@ fetch(`/api/${tipo}/${id}`, {
     document.getElementById('editMedida').value = producto.medida;
     document.getElementById('editTecnologia').value = producto.tecnologia;
     document.getElementById('editPrecio').value = producto.precio;
+    document.getElementById('editStock').value = producto.stock || 0;
     document.getElementById('editImagen').value = producto.urlIMG || 'no tiene';
     document.getElementById('editPreviewImagen').src = producto.urlIMG || '/logoPage.png';
 
@@ -196,6 +209,7 @@ fetch(`/api/${tipo}/${id}`, {
     const tecnologia = e.target[4].value;
     const precio = e.target[5].value;
     const url = e.target[6].value;
+    const stock = e.target[7].value;
 
     fetch(`/api/neumatico/${id}`, {
         method: 'PUT',
@@ -210,7 +224,7 @@ fetch(`/api/${tipo}/${id}`, {
             tecnologia: tecnologia,
             precio: precio,
             urlIMG: url,
-            stock: 1,
+            stock: stock,
             activo: true
         })
     }).then(response => {
