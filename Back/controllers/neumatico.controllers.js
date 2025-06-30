@@ -49,3 +49,25 @@ export const deleteNeumatico = async (req, res) => {
   
 };
 
+
+export const listarPaginado = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    try {
+      const { rows, count } = await neumaticoService.getNeumaticosPaginados(limit, offset);
+      const totalPages = Math.ceil(count / limit);
+
+      res.render("neumaticos", {
+        neumaticos: rows,
+        currentPage: page,
+        totalPages,
+      });
+    }
+    catch (error) {
+      console.error('Error al obtener neumáticos paginados:', error);
+      res.status(500).json({ error: 'Error al obtener neumáticos paginados' });
+    }
+  }
+

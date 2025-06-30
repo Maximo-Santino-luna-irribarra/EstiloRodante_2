@@ -12,6 +12,14 @@ export const updateNeumatico = async (id, data) => {
     return await neumatico.update(data);
     };
 
+export const getNeumaticosPaginados = async (limit, offset) => {
+    return await Neumatico.findAndCountAll({
+        limit,
+        offset,
+        order: [['id', 'ASC']]
+    });
+};
+
 export const deleteNeumatico = async (id) => {
 
 const neumatico = await Neumatico.findByPk(id);

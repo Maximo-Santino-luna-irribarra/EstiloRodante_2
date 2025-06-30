@@ -4,7 +4,8 @@ import {
     getNeumatico,
     postNeumatico,
     putNeumatico,
-    deleteNeumatico
+    deleteNeumatico,
+    listarPaginado
 } from '../controllers/neumatico.controllers.js';
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.get('/', getAllNeumaticos);
 
 router.get('/:id', getNeumatico);
+
+router.get('/neumaticos', listarPaginado);
 
 router.post('/', postNeumatico);
 
