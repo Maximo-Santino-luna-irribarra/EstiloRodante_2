@@ -10,13 +10,13 @@ const getProductos = () =>{
 const setProductos = () =>{
     lista = JSON.parse(getProductos())
     lista.forEach(element => {
-        productosPrecios += element.precio
-        productosContador += 1
-        crearProducto(element)
-    })};
+    const cantidad = element.cantidad || 1
+    productosPrecios += element.precio * cantidad
+    productosContador += cantidad
+    crearProducto(element, cantidad)
+})};
 
-const crearProducto = (element) =>{
-    let cantidad = 1
+const crearProducto = (element, cantidad = 1) =>{
     let product = document.createElement('div')
     product.className = 'col'
     product.innerHTML = `
@@ -49,6 +49,12 @@ const crearProducto = (element) =>{
                     productosContador++
                     productosPrecios += element.precio
                     actualizarResumen()
+                    const carritoActual = JSON.parse(localStorage.getItem('carrito')) || []
+                    const index = carritoActual.findIndex(item => item.nombre === element.nombre && item.marca === element.marca)
+                    if (index !== -1) {
+                        carritoActual[index].cantidad = cantidad
+                        localStorage.setItem('carrito', JSON.stringify(carritoActual))
+                    }
                 }
                 else{
                     alert('No hay suficiente stock para sumar más unidades de este producto.')
@@ -67,8 +73,14 @@ const crearProducto = (element) =>{
                 productosPrecios -= element.precio
 
                 const carritoActual = JSON.parse(localStorage.getItem('carrito')) || []
-                const nuevoCarrito = carritoActual.filter(item => !(item.nombre === element.nombre && item.marca === element.marca))
-                localStorage.setItem('carrito', JSON.stringify(nuevoCarrito))
+                const index = carritoActual.findIndex(item => item.nombre === element.nombre && item.marca === element.marca)
+
+                if (cantidad > 1) {
+                    carritoActual[index].cantidad = cantidad
+                } else {
+                    carritoActual.splice(index, 1)
+                }
+                localStorage.setItem('carrito', JSON.stringify(carritoActual))
             }
 
             actualizarResumen()
@@ -139,6 +151,19 @@ if (localStorage.getItem("modoNoche") === "true") {
     document.body.classList.add("dark-mode");
 }
 
+const modal = document.getElementById('modalConfirmacion');
+const btnConfirmarCompra = document.getElementById('btnConfirmarCompra');
+const btnCancelarCompra = document.getElementById('btnCancelarCompra');
+
 const confirmarCompra = () => {
-    window.location.href = "/Front/client/html/ticket.html";
+  modal.style.display = 'flex';
+}
+
+btnConfirmarCompra.onclick = () => {
+  modal.style.display = 'none';
+  window.location.href = "/Front/client/html/ticket.html";
+}
+
+btnCancelarCompra.onclick = () => {
+  modal.style.display = 'none';
 }

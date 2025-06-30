@@ -1,24 +1,61 @@
-const escribirTicket = () =>{
+const escribirTicket = () => {
     const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
     if (carritoActual.length === 0) {
         alert("El carrito está vacío. No se puede generar un ticket.");
         return;
     }
-
-    console.log(carritoActual)
+    localStorage.removeItem('carrito');
 
     carritoActual.forEach(element => {
         const ticket = document.createElement('div');
         ticket.className = "ticket-item shadow-sm";
         ticket.innerHTML = `
             <h5>${element.nombre} - ${element.marca}</h5>
-            <p>Precio: $${element.precio}</p>
+            <p>Precio: <span class="price">$${element.precio}</span></p>
             <p>Cantidad: ${element.cantidad}</p>
             <hr class="border-light"/>
         `;
         document.querySelector('.ticket').appendChild(ticket);
     });
 
+    imprimirTicket();
+}
+
+function volverInicio() {
+    window.location.href = "/Front/client/html/login.html";
+}
+
+function descargarTicket() {
+  const elementos = document.querySelectorAll('.ticket-item');
+  let texto = "===== TICKET =====\n";
+
+  elementos.forEach(item => {
+    const nombre = item.querySelector('h5')?.innerText || '';
+    const precio = item.querySelector('.price')?.innerText || '';
+    const cantidad = item.querySelector('p:nth-of-type(2)')?.innerText || '';
+    
+    texto += `${nombre}\n${precio}\n${cantidad}\n------------------\n`;
+  });
+
+  texto += "\nGracias por su compra!\nEstiloRodante";
+
+  const blob = new Blob([texto], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ticket.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("modoNoche", document.body.classList.contains("dark-mode"));
+}
+
+if (localStorage.getItem("modoNoche") === "true") {
+    document.body.classList.add("dark-mode");
 }
 
 escribirTicket();

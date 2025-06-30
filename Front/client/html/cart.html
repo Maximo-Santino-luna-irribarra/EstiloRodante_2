@@ -31,20 +31,27 @@
 
   <!-- Main -->
   <main class="container-fluid flex-grow-1 py-4">
-    <div class="row g-4">
+        <div class="row g-4">
 
-      <!-- Productos -->
-      <section class="col-lg-8">
-        <div class="box row row-cols-1 row-cols-md-2 g-4">
-          
+          <!-- Productos -->
+          <section class="col-lg-8">
+            <div class="box row row-cols-1 row-cols-md-2 g-4">
+              
+            </div>
+          </section>
+
+          <!-- Ticket -->
+          <aside class="ticket col-lg-4">
+            
+          </aside>
+
         </div>
-      </section>
-
-      <!-- Ticket -->
-      <aside class="ticket col-lg-4">
-        
-      </aside>
-
+        <div id="modalConfirmacion" class="modal" style="display:none; position: fixed; inset:0; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+      <div style="background:#fff; padding:20px; border-radius:8px; max-width:300px; text-align:center;">
+        <p>¿Confirmás la compra?</p>
+        <button id="btnConfirmarCompra" class="btn btn-success me-2">Sí</button>
+        <button id="btnCancelarCompra" class="btn btn-danger">No</button>
+      </div>
     </div>
   </main>
 

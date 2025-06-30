@@ -157,13 +157,7 @@ function renderProductos() {
         btnToggle.addEventListener("click", () => {
             mostrarModal(() => {
       activarProducto(producto.id, producto.tipo, producto.activo);
-    });
-           
-              
-                
-              
-        
-
+       });
         });
     });
 }
