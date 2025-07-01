@@ -83,6 +83,7 @@ function filtrarProductos() {
   const estado = estadoFiltro?.value || "Todos";
   const min = parseFloat(minPrecioInput?.value) || 0;
   const max = parseFloat(maxPrecioInput?.value) || Infinity;
+  const busqueda = searchInput?.value.toLowerCase().trim();
 
   return allProducts.filter(p =>
     (tipo === "Todos" || p.tipo === tipo) &&
@@ -93,7 +94,8 @@ function filtrarProductos() {
       (estado === "Desactivado" && p.activo === false)
     ) &&
     p.precio >= min &&
-    p.precio <= max
+    p.precio <= max &&
+    (p.nombre.toLowerCase().includes(busqueda))
   );
 }
 // Renderizado de productos
@@ -270,3 +272,14 @@ function ingresarMarcas(){
     }
   }
 }
+
+const searchInput = document.querySelector('.form-control');
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    currentPage = 1;
+    renderProductos();
+    renderPaginacion();
+  });
+}
+
+
