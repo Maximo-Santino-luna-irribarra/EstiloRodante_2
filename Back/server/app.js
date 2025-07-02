@@ -31,7 +31,7 @@ app.use(cors());
 // Rutas API
 app.use('/api/admin', adminRoutes);
 app.use('/api/cliente', clienteRoutes);
-app.use('/api/producto', productoRoutes);
+app.use('/api/productos', productoRoutes);
 app.use('/api/ventas', ventaRoutes);
 app.use('/auth', authRoutes);
 

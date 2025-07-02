@@ -33,7 +33,7 @@ const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
 
 // FETCH de productos unificados
-fetch('/api/productos')
+fetch('http://localhost:3000/api/productos/')
   .then(res => res.json())
   .then(data => {
     allProducts = data;
@@ -65,7 +65,7 @@ if (searchInput) {
 // Filtro de productos
 function filtrarProductos() {
   const tipo = tipoFiltro?.value;
-  const marca = marcaFiltro?.value;
+  const marca = marcaFiltro?.value || "Todos";
   const estado = estadoFiltro?.value || "Todos";
   const min = parseFloat(minPrecioInput?.value) || 0;
   const max = parseFloat(maxPrecioInput?.value) || Infinity;
@@ -224,7 +224,7 @@ function ingresarMarcas() {
   const marcaFiltro = document.querySelector(".form-select");
   if (!marcaFiltro) return;
 
-  marcaFiltro.innerHTML = `<option value="Todos">Todos</option>`;
+  marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;
 
   const marcasUnicas = [...new Set(allBrands)];
   marcasUnicas.forEach(marca => {
