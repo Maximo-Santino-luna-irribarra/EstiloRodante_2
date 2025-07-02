@@ -178,7 +178,7 @@ function agregarAlCarrito(producto) {
     carrito.push(producto);
     guardarCarrito();
     actualizarContadorasaide();
-    mostrarAlerta(producto.nombre, producto.precio);
+    mostrarAlerta(producto.nombre);
   } else mostrarAlertaRepetido();
 }
 function eliminarDelCarrito(producto) {
@@ -195,10 +195,10 @@ function actualizarContadorasaide() {
   if (span) span.textContent = carrito.length;
 }
 
-function mostrarAlerta(msg, precio) {
+function mostrarAlerta(msg) {
   const alerta = document.getElementById("alerta-carrito");
   const contenido = document.getElementById("alerta-contenido");
-  contenido.textContent = `Producto ${msg}: $${precio}`;
+  contenido.textContent = `Producto ${msg}`;
   alerta.style.display = "block";
   setTimeout(() => alerta.style.display = "none", 3000);
 }

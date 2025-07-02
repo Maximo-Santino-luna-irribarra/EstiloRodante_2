@@ -6,6 +6,9 @@ const escribirTicket = () => {
     }
     localStorage.removeItem('carrito');
     carritoActual.forEach(element => {
+        if(element.cantidad == undefined || element.cantidad <= 0) {
+            element.cantidad = 1;
+          }
         const ticket = document.createElement('div');
         ticket.className = "ticket-item shadow-sm";
         ticket.innerHTML = `
@@ -56,8 +59,8 @@ function descargarTicket() {
 }
 
 async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unitario, subtotal }) {
-  console.log(producto_id, tipo_producto, cantidad, precio_unitario, subtotal);
   try {
+
     const response = await fetch('http://localhost:3000/api/ventas', {
       method: 'POST',
       headers: {
@@ -72,7 +75,6 @@ async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unit
             subtotal
       })
     });
-
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || 'Error al registrar la venta');
