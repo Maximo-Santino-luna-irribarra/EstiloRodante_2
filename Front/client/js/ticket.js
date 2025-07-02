@@ -16,6 +16,14 @@ const escribirTicket = () => {
             <hr class="border-light"/>
         `;
         document.querySelector('.ticket').appendChild(ticket);
+        registrarVenta({
+            nombre_cliente: localStorage.getItem('nombreCliente') || 'Cliente Anónimo',
+            producto_id: element.id,
+            tipo_producto: element.tipo,
+            cantidad: element.cantidad,
+            precio_unitario: element.precio,
+            subtotal: element.precio * element.cantidad
+        });
     });
 
     imprimirTicket();
@@ -47,6 +55,38 @@ function descargarTicket() {
   a.download = "ticket.txt";
   a.click();
   URL.revokeObjectURL(url);
+}
+
+async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unitario, subtotal }) {
+  try {
+    const response = await fetch('http://localhost:3000/api/ventas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nombre_cliente: localStorage.getItem('nombreCliente') || 'Cliente Anónimo',
+            producto_id,
+            tipo_producto,
+            cantidad,
+            precio_unitario,
+            subtotal
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Error al registrar la venta');
+    }
+
+    const ventaCreada = await response.json();
+    console.log('Venta registrada:', ventaCreada);
+    return ventaCreada;
+
+  } catch (error) {
+    console.error('Error en registrarVenta:', error);
+    alert('No se pudo registrar la venta');
+  }
 }
 
 function toggleDarkMode() {

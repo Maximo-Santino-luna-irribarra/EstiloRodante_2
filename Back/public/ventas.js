@@ -28,3 +28,5 @@
     console.error('Error al cargar ventas:', err);
     tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error al cargar los datos.</td></tr>';
     });
+
+

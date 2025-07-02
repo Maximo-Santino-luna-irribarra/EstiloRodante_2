@@ -672,7 +672,7 @@ llantas.forEach(async (data) => {
   console.log("Enviando", obj);
 
   try {
-    const res = await fetch('http://localhost:5000/api/llanta', {
+    const res = await fetch('http://localhost:3000/api/llanta', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj),

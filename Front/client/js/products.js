@@ -291,16 +291,7 @@ function ocultarAlerta() {
 
 async function init() {
     try {
-        const [llantas, neumaticos] = await Promise.all([
-            fetch('http://localhost:5000/api/llanta').then(res => res.json()),
-            fetch('http://localhost:5000/api/neumatico').then(res => res.json())
-        ]);
-
-        const llantasFormateadas = llantas.map(l => ({
-            ...l,
-            tipo: "llanta",
-            nombre: l.nombre ?? `${l.marca} ${l.modelo} ${l.activo ? "Activo" : "Inactivo"}`
-        }));
+        const productos = await fetch("http://localhost:3000/api/llanta").then(res => res.json());
 
         const neumaticosFormateados = neumaticos.map(n => ({
             ...n,

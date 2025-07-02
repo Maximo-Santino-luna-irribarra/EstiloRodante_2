@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize.js';
 
 const Venta = sequelize.define('detalle_ventas', {
+  nombre_cliente:{
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   producto_id: {
     type: DataTypes.INTEGER,
     allowNull: false
@@ -11,6 +15,10 @@ const Venta = sequelize.define('detalle_ventas', {
     allowNull: false
   },
   cantidad: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  precio_unitario: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
