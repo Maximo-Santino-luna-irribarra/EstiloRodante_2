@@ -4,6 +4,6 @@ import {Router} from 'express';
 const router = Router();
 
 router.post('/login', authController.loginAdmin);
-// router.post('/logout', authController.logout);
+router.post('/logout', authController.logoutAdmin);
 
 export default router;

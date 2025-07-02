@@ -1,5 +1,6 @@
 import adminService from "../service/admin.service.js";
 import authHelper from '../helpers/authHelper.js';
+import { localsName } from "ejs";
 
 const loginAdmin = async (req, res) => {
     
@@ -31,6 +32,16 @@ const loginAdmin = async (req, res) => {
         return res.status(500).json({ error: "Error interno del servidor" });
     }}
 
+const logoutAdmin = async (req, res) => {
+    try {
+        res.status(200).json({ message: "Cierre de sesión exitoso" });
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+        return res.status(500).json({ error: "Error interno del servidor" });
+    }
+}
+
 export default {
-    loginAdmin
+    loginAdmin,
+    logoutAdmin
 };
