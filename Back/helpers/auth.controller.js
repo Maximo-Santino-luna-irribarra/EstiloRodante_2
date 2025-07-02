@@ -13,7 +13,6 @@ const loginAdmin = async (req, res) => {
     try {
 
         const admin= await adminService.findByEmail(email);
-        console.log("Admin encontrado:", admin);
 
         if (!admin) {
             return res.status(404).json({ error: "Administrador no encontrado" });

@@ -197,10 +197,12 @@ function mostrarModal(onConfirmar) {
   `;
 
   modal.style.display = 'block';
+  modal.setAttribute("aria-hidden", "false");
   modal.classList.add('show');
 
   const cerrar = () => {
-    modal.style.display = 'none';
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
     modal.classList.remove('show');
   };
 
