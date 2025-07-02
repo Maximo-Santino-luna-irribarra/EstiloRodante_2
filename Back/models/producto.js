@@ -6,6 +6,7 @@ const Producto = sequelize.define('productos', {
 
   nombre: DataTypes.STRING,
   marca: DataTypes.STRING,
+  categoria: DataTypes.STRING,
   modelo: DataTypes.STRING,
   medida: DataTypes.STRING,
   activo: DataTypes.BOOLEAN,
