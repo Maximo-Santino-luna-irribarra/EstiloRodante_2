@@ -20,8 +20,8 @@ setTheme(savedTheme);
 
 const autocompleteButton = document.querySelector('.autocomplete');
 autocompleteButton.addEventListener('click', () => {
-    nombreUsuario.value = 'UsuarioPrueba';
-    password.value = '123';
+    nombreUsuario.value = 'UsuarioPrueba@email.com';
+    password.value = 'qwerty';
 })
 
 const loginButton = document.querySelector('.login');
@@ -36,11 +36,14 @@ loginButton.addEventListener('click', (event) => {
         },
         body: JSON.stringify({ email:nombre, password: pass })
     }).then(response => {
+        console.log('Response:', response);
+        console.log('Response status:', response.status);
         if (response.ok) {
             alert('Inicio de sesión exitoso');
             location.href = '/dashboard';
         }else{
             alert('Error al iniciar sesión. Verifica tus credenciales.');
+           
         }
 }).catch(error => {
         console.error('Error:', error);
