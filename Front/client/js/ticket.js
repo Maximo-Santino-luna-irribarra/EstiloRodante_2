@@ -5,7 +5,7 @@ const escribirTicket = () => {
         return;
     }
     localStorage.removeItem('carrito');
-
+    console.log(carritoActual);
     carritoActual.forEach(element => {
         const ticket = document.createElement('div');
         ticket.className = "ticket-item shadow-sm";

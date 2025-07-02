@@ -17,9 +17,13 @@ const Venta = sequelize.define('detalle_ventas', {
   subtotal: {
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  fecha_venta: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW
   }
-},
-{
+}, {
   timestamps: false,
   tableName: 'detalle_ventas'
 });
