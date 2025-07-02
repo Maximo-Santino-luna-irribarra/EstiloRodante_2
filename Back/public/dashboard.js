@@ -4,7 +4,7 @@ const itemsPerPage = 8;
 let allProducts = [];
 let allBrands = [];
 
-// Filtros HTML
+// Elementos del DOM
 const tipoFiltro = document.getElementById("brands");
 const estadoFiltro = document.getElementById("estadoFiltro");
 const marcaFiltro = document.getElementById("types");
@@ -12,58 +12,76 @@ const minPrecioInput = document.querySelector(".minPrice");
 const maxPrecioInput = document.querySelector(".maxPrice");
 const searchInput = document.querySelector(".form-control");
 const paginacionContainer = document.getElementById("pagination");
-
-// 🌙 MODO NOCHE
+const contenedorProductos = document.querySelector(".box");
 const toggleBtn = document.getElementById('modoNocheBtn');
 const body = document.body;
 
-const setTheme = (theme) => {
+// 🌙 Modo noche
+function setTheme(theme) {
   body.classList.remove('light-mode', 'dark-mode');
   body.classList.add(theme);
   toggleBtn.textContent = theme === 'dark-mode' ? '☀️' : '🌙';
   localStorage.setItem('theme', theme);
-};
+}
 
-toggleBtn.addEventListener('click', () => {
-  const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
-  setTheme(newTheme);
-});
-
-const savedTheme = localStorage.getItem('theme') || 'light-mode';
-setTheme(savedTheme);
-
-// FETCH de productos unificados
-fetch('http://localhost:3000/api/productos/')
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
-    allProducts = data;
-    allBrands = [...new Set(data.map(p => p.marca))];
-    renderProductos();
-    renderPaginacion();
-    ingresarMarcas();
-  });
-
-// Eventos de filtros
-[tipoFiltro, marcaFiltro, minPrecioInput, maxPrecioInput, estadoFiltro].forEach(filtro => {
-  if (filtro) {
-    filtro.addEventListener("change", () => {
-      currentPage = 1;
-      renderProductos();
-      renderPaginacion();
-    });
-  }
-});
-
-if (searchInput) {
-  searchInput.addEventListener("input", () => {
-    currentPage = 1;
-    renderProductos();
-    renderPaginacion();
+function initModoNoche() {
+  const savedTheme = localStorage.getItem('theme') || 'light-mode';
+  setTheme(savedTheme);
+  toggleBtn.addEventListener('click', () => {
+    const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
+    setTheme(newTheme);
   });
 }
 
-// Filtro de productos
+// Cargar productos desde API
+function cargarProductos() {
+  fetch('http://localhost:3000/api/productos/')
+    .then(res => res.json())
+    .then(data => {
+      allProducts = data;
+      allBrands = [...new Set(data.map(p => p.marca))];
+      renderProductos();
+      renderPaginacion();
+      ingresarMarcas();
+    })
+    .catch(err => console.error("Error cargando productos:", err));
+}
+
+// Ingresar marcas dinámicamente
+function ingresarMarcas() {
+  if (!marcaFiltro) return;
+  marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;
+  allBrands.forEach(marca => {
+    if (!marca) return;
+    const option = document.createElement("option");
+    option.value = marca;
+    option.textContent = marca;
+    marcaFiltro.appendChild(option);
+  });
+}
+
+// Inicializar eventos de filtros
+function inicializarFiltros() {
+  const filtros = [tipoFiltro, marcaFiltro, minPrecioInput, maxPrecioInput, estadoFiltro];
+  filtros.forEach(filtro => {
+    if (filtro) {
+      filtro.addEventListener("change", actualizarVista);
+    }
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", actualizarVista);
+  }
+}
+
+// Actualizar productos y paginación
+function actualizarVista() {
+  currentPage = 1;
+  renderProductos();
+  renderPaginacion();
+}
+
+// Aplicar filtros
 function filtrarProductos() {
   const tipo = tipoFiltro?.value;
   const marca = marcaFiltro?.value || "Todos";
@@ -71,14 +89,9 @@ function filtrarProductos() {
   const min = parseFloat(minPrecioInput?.value) || 0;
   const max = parseFloat(maxPrecioInput?.value) || Infinity;
   const busqueda = searchInput?.value.toLowerCase().trim();
-  console.log("Filtrando productos:", {
-    tipo, marca, estado, min, max, busqueda
-  });
-  return allProducts.filter(p =>
-  
 
-   (tipo === "Todos" || p.categoria === tipo) &&
-  
+  return allProducts.filter(p =>
+    (tipo === "Todos" || p.categoria === tipo) &&
     (marca === "Todos" || p.marca === marca) &&
     (
       estado === "Todos" ||
@@ -93,87 +106,80 @@ function filtrarProductos() {
 
 // Renderizar productos
 function renderProductos() {
-  const contenedor = document.querySelector(".box");
-  contenedor.innerHTML = "";
+  contenedorProductos.innerHTML = "";
 
   const filtrados = filtrarProductos();
   const inicio = (currentPage - 1) * itemsPerPage;
   const pagina = filtrados.slice(inicio, inicio + itemsPerPage);
 
-  pagina.forEach(producto => {
-    const col = document.createElement("div");
-    col.className = "col mb-4";
-    const color_boton = producto.activo ? "btn-outline-success" : "btn-outline-secondary";
-    const mensaje = producto.activo ? "Desactivar" : "Activar";
+  pagina.forEach(p => contenedorProductos.appendChild(renderCardProducto(p)));
+}
 
-    col.innerHTML = `
-      <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
-        style="height: 100%; max-height: 320px; overflow: hidden;">
-        <div class="text-center p-3">
-          <img src="${producto.urlIMG || 'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg'}"
-              class="rounded-circle img-fluid"
-              alt="Producto"
-              style="width: 120px; height: 120px; object-fit: cover;" />
-        </div>
-        <div class="px-3 pb-3">
-          <h5 class="fw-bold text-dark mb-1 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            ${producto.nombre}
-          </h5>
-          <p class="text-muted mb-0 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            ${producto.marca}
-          </p>
-          <p class="text-primary fw-semibold fs-5 mb-2 text-center">
-            $${producto.precio}
-          </p>
-          <div class="d-flex justify-content-between gap-2">
-            <button class="btn btn-sm btn-outline-primary btn-editar w-100" onClick="editar('${producto.id}')">
-              ✏️ Editar
-            </button>
-            <button class="btn btn-sm ${color_boton} btn-toggle w-100"
-              data-id="${producto.id}"
-              data-activo="${producto.activo}">
-              ${mensaje}
-            </button>
-          </div>
+// Crear tarjeta de producto
+function renderCardProducto(producto) {
+  const col = document.createElement("div");
+  col.className = "col mb-4";
+
+  const color_boton = producto.activo ? "btn-outline-success" : "btn-outline-secondary";
+  const mensaje = producto.activo ? "Desactivar" : "Activar";
+
+  col.innerHTML = `
+    <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
+      style="height: 100%; max-height: 320px; overflow: hidden;">
+      <div class="text-center p-3">
+        <img src="${producto.urlIMG || 'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg'}"
+            class="rounded-circle img-fluid"
+            alt="Producto"
+            style="width: 120px; height: 120px; object-fit: cover;" />
+      </div>
+      <div class="px-3 pb-3">
+        <h5 class="fw-bold text-dark mb-1 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          ${producto.nombre}
+        </h5>
+        <p class="text-muted mb-0 text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          ${producto.marca}
+        </p>
+        <p class="text-primary fw-semibold fs-5 mb-2 text-center">
+          $${producto.precio}
+        </p>
+        <div class="d-flex justify-content-between gap-2">
+          <button class="btn btn-sm btn-outline-primary btn-editar w-100">✏️ Editar</button>
+          <button class="btn btn-sm ${color_boton} btn-toggle w-100">${mensaje}</button>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
-    contenedor.appendChild(col);
-
-    // Eventos botones
-    col.querySelector(".btn-editar").addEventListener("click", () => editar(producto.id));
-    col.querySelector(".btn-toggle").addEventListener("click", () => {
-      mostrarModal(() => activarProducto(producto.id, producto.activo));
-    });
+  col.querySelector(".btn-editar").addEventListener("click", () => editar(producto.id));
+  col.querySelector(".btn-toggle").addEventListener("click", () => {
+    mostrarModal(() => activarProducto(producto.id, producto.activo));
   });
+
+  return col;
 }
 
 // Activar/Desactivar producto
-const activarProducto = (id, activo) => {
+function activarProducto(id, activo) {
   const nuevoEstado = !activo;
   fetch(`/api/productos/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ activo: nuevoEstado })
   })
-  .then(response => {
-    if (response.ok) {
+    .then(res => {
+      if (!res.ok) throw new Error("Error al cambiar estado");
       const producto = allProducts.find(p => p.id === id);
       if (producto) producto.activo = nuevoEstado;
       renderProductos();
       renderPaginacion();
-    } else {
-      console.error('Error al cambiar estado');
-    }
-  })
-  .catch(err => console.error('Error en la solicitud:', err));
-};
+    })
+    .catch(err => console.error('Error en la solicitud:', err));
+}
 
 // Redirección a edición
-const editar = (id) => {
+function editar(id) {
   window.location.href = `/editar/${id}`;
-};
+}
 
 // Modal de confirmación
 function mostrarModal(onConfirmar) {
@@ -225,19 +231,7 @@ function renderPaginacion() {
   }
 }
 
-// Ingreso dinámico de marcas
-function ingresarMarcas() {
-  const marcaFiltro = document.getElementById("types"); // Antes era .querySelector(".form-select")
-  if (!marcaFiltro) return;
-
-  marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;
-
-  const marcasUnicas = [...new Set(allBrands)];
-  marcasUnicas.forEach(marca => {
-    if (!marca) return;
-    const option = document.createElement("option");
-    option.value = marca;
-    option.textContent = marca;
-    marcaFiltro.appendChild(option);
-  });
-}
+// Inicialización
+initModoNoche();
+inicializarFiltros();
+cargarProductos();
