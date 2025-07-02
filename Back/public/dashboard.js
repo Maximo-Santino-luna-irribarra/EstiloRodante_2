@@ -36,6 +36,7 @@ setTheme(savedTheme);
 fetch('http://localhost:3000/api/productos/')
   .then(res => res.json())
   .then(data => {
+    console.log(data);
     allProducts = data;
     allBrands = [...new Set(data.map(p => p.marca))];
     renderProductos();
@@ -70,9 +71,14 @@ function filtrarProductos() {
   const min = parseFloat(minPrecioInput?.value) || 0;
   const max = parseFloat(maxPrecioInput?.value) || Infinity;
   const busqueda = searchInput?.value.toLowerCase().trim();
-
+  console.log("Filtrando productos:", {
+    tipo, marca, estado, min, max, busqueda
+  });
   return allProducts.filter(p =>
-    (tipo === "Todos" || p.categoria === tipo) &&
+  
+
+   (tipo === "Todos" || p.categoria === tipo) &&
+  
     (marca === "Todos" || p.marca === marca) &&
     (
       estado === "Todos" ||
@@ -221,7 +227,7 @@ function renderPaginacion() {
 
 // Ingreso dinámico de marcas
 function ingresarMarcas() {
-  const marcaFiltro = document.querySelector(".form-select");
+  const marcaFiltro = document.getElementById("types"); // Antes era .querySelector(".form-select")
   if (!marcaFiltro) return;
 
   marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;

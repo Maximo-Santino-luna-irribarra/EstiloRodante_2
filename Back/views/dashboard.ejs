@@ -9,11 +9,11 @@
 </head>
 
 <body>
-
   <%- include('../partial/header.ejs') %>
+
   <main class="container">
     <div class="d-flex" id="contenedor-principal">
-      
+
       <!-- ASIDE: filtros -->
       <aside class="aside-fixed bg-white p-3 shadow-sm">
         <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
@@ -33,18 +33,19 @@
             <label for="brands" class="form-label fw-semibold">Tipo</label>
             <select class="form-select form-select-sm" id="brands">
               <option value="Todos">Todos</option>
-              <option value="Rin">Llanta</option>
+              <option value="llanta">Llanta</option>
               <option value="Cubierta">Neumático</option>
             </select>
           </div>
+
           <!--Filtro de Estado -->
           <div>
             <label for="estadoFiltro" class="form-label fw-semibold">Estado</label>
-              <select class="form-select form-select-sm" id="estadoFiltro">
-                <option value="Todos">Todos</option>
-                <option value="Activo">Activos</option>
-                <option value="Desactivado">Desactivados</option>
-              </select>
+            <select class="form-select form-select-sm" id="estadoFiltro">
+              <option value="Todos">Todos</option>
+              <option value="Activo">Activos</option>
+              <option value="Desactivado">Desactivados</option>
+            </select>
           </div>
 
           <!-- Filtro de Precio -->
@@ -93,8 +94,8 @@
       </main>
 
     </div>
-
   </main>
+
   <!-- Modal de confirmación -->
   <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -103,19 +104,14 @@
           <h5 class="modal-title">Confirmar</h5>
           <button type="button" class="btn-close" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <!-- Se completa por JS -->
-        </div>
-        <div class="modal-footer">
-          <!-- Se completa por JS -->
-        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer"></div>
       </div>
     </div>
   </div>
 
   <%- include('../partial/footer.ejs') %>
 
-  <script src="/dashboard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboard.js"></script>
 </body>
-</html>
