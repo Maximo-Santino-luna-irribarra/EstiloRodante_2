@@ -5,7 +5,6 @@ const escribirTicket = () => {
         return;
     }
     localStorage.removeItem('carrito');
-    console.log(carritoActual);
     carritoActual.forEach(element => {
         const ticket = document.createElement('div');
         ticket.className = "ticket-item shadow-sm";
@@ -19,14 +18,13 @@ const escribirTicket = () => {
         registrarVenta({
             nombre_cliente: localStorage.getItem('nombreCliente') || 'Cliente Anónimo',
             producto_id: element.id,
-            tipo_producto: element.tipo,
+            tipo_producto: element.categoria,
             cantidad: element.cantidad,
             precio_unitario: element.precio,
             subtotal: element.precio * element.cantidad
         });
     });
 
-    imprimirTicket();
 }
 
 function volverInicio() {
@@ -58,6 +56,7 @@ function descargarTicket() {
 }
 
 async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unitario, subtotal }) {
+  console.log(producto_id, tipo_producto, cantidad, precio_unitario, subtotal);
   try {
     const response = await fetch('http://localhost:3000/api/ventas', {
       method: 'POST',
