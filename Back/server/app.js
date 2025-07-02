@@ -41,6 +41,7 @@ app.get('/editar/:id', (req, res) => res.render('editar'));
 app.get('/agregar', (req, res) => res.render('agregar'));
 app.get('/login', (req, res) => res.render('login'));
 app.get('/dashboard', (req, res) => res.render('dashboard'));
+app.get('/vista_ventas', (req, res) => res.render('vista_ventas'));
 
 // Listener
 app.listen(PORT, () => {
