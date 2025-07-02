@@ -4,9 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import adminRoutes from '../routes/admin.router.js';
 import clienteRoutes from '../routes/cliente.router.js';
-import neumaticoRoutes from '../routes/neumatico.router.js';
 import ventaRoutes from '../routes/venta.router.js';
-import llantaRoutes from '../routes/llanta.router.js';
+import productoRoutes from '../routes/producto.router.js';
 import cors from 'cors';
 import authRoutes from '../routes/auth.route.js';
 import dotenv from 'dotenv';
@@ -32,13 +31,12 @@ app.use(cors());
 // Rutas API
 app.use('/api/admin', adminRoutes);
 app.use('/api/cliente', clienteRoutes);
-app.use('/api/neumatico', neumaticoRoutes);
-app.use('/api/llanta', llantaRoutes);
+app.use('/api/producto', productoRoutes);
 app.use('/api/ventas', ventaRoutes);
 app.use('/auth', authRoutes);
 
 // Rutas vistas
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => res.render('login'));
 app.get('/editar/:id', (req, res) => res.render('editar'));
 app.get('/agregar', (req, res) => res.render('agregar'));
 app.get('/login', (req, res) => res.render('login'));
