@@ -42,23 +42,23 @@ const formHTML = `
   </div>
 `;
 
-// Renderizar formulario si se elige tipo válido
+
 const tipoSelect = document.getElementById("tipo");
 tipoSelect.addEventListener("change", (e) => {
   const container = document.querySelector(".restForm");
   const value = e.target.value;
-  if (value === "Cubierta" || value === "Llanta") {
-    container.innerHTML = formHTML;
-  } else {
-    container.innerHTML = `
-      <div class="alert alert-danger mt-3" role="alert">
-        Por favor, selecciona un tipo de producto válido.
-      </div>
-    `;
-  }
+    if (value === "Cubierta" || value === "Llanta") {
+      container.innerHTML = formHTML;
+    } else {
+      container.innerHTML = `
+        <div class="alert alert-danger mt-3" role="alert">
+          Por favor, selecciona un tipo de producto válido.
+        </div>
+      `;
+    }
 });
 
-// Función para obtener los valores del formulario
+
 function getFormData() {
   return {
     nombre: document.getElementById("nombre")?.value || "",
@@ -73,7 +73,7 @@ function getFormData() {
   };
 }
 
-// Vista previa
+// actuliza la vista previa
 function updatePreview() {
   const data = getFormData();
   document.getElementById("previewNombre").textContent = data.nombre || "Nombre del Producto";
@@ -83,7 +83,7 @@ function updatePreview() {
   document.getElementById("previewPrecio").textContent = `$${data.precio}`;
 }
 
-// Envío a la API unificada
+// llama a la api para subir el producto
 function agregarProducto() {
   const producto = getFormData();
   console.log(producto)
@@ -112,10 +112,10 @@ const form = document.getElementById('productForm')
 form.addEventListener("submit", async (e) =>{
   e.preventDefault();
   const subidaOK = await subirImagen(form);
-  if (!subidaOK) return;
+    if (!subidaOK) return;
   agregarProducto()
 })
-
+// sube una imagen
 const subirImagen = async (form) => {
     const fileInput = document.getElementById('imagen');
     const file = fileInput.files[0];
