@@ -5,6 +5,7 @@ const escribirTicket = () => {
         return;
     }
     localStorage.removeItem('carrito');
+    
     carritoActual.forEach(element => {
         if(element.cantidad == undefined || element.cantidad <= 0) {
             element.cantidad = 1;
@@ -20,12 +21,14 @@ const escribirTicket = () => {
         document.querySelector('.ticket').appendChild(ticket);
         registrarVenta({
             nombre_cliente: localStorage.getItem('nombreCliente') || 'Cliente Anónimo',
+            
             producto_id: element.id,
             tipo_producto: element.categoria,
             cantidad: element.cantidad,
             precio_unitario: element.precio,
             subtotal: element.precio * element.cantidad
         });
+        localStorage.removeItem('nombreCliente');
     })
     let fecha = document.createElement('p')
     fecha.innerHTML = `<strong>Fecha: </strong>${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;

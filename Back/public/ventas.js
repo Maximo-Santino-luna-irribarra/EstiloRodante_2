@@ -19,7 +19,7 @@
             <td>${venta.cantidad }</td>
             <td>${venta.subtotal}</td>
             <td>$${venta.precio_unitario}</td>
-            <td>$${venta.fecha_venta}</td>
+            <td>${venta.fecha_venta}</td>
             
         </tr>
         `;
