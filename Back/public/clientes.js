@@ -1,6 +1,5 @@
 const tbody = document.getElementById('clientes-body');
 
-
 fetch('/api/cliente')
     .then(res => res.json())
     .then(clientes => {

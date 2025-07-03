@@ -1,3 +1,22 @@
+// 🌙 Modo noche
+function setTheme(theme) {
+  body.classList.remove('light-mode', 'dark-mode');
+  body.classList.add(theme);
+  toggleBtn.textContent = theme === 'dark-mode' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+function initModoNoche() {
+  const savedTheme = localStorage.getItem('theme') || 'light-mode';
+  setTheme(savedTheme);
+  toggleBtn.addEventListener('click', () => {
+    const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
+    setTheme(newTheme);
+  });
+}
+
+initModoNoche()
+
 const formHTML = `
   <div class="row g-3">
     <div class="col-md-6">
@@ -42,6 +61,7 @@ const formHTML = `
   </div>
 `;
 
+let urlIMG = "";
 
 const tipoSelect = document.getElementById("tipo");
 tipoSelect.addEventListener("change", (e) => {
@@ -67,7 +87,7 @@ function getFormData() {
     medida: document.getElementById("medida")?.value || "",
     precio: parseFloat(document.getElementById("precio")?.value) || 0,
     stock: parseInt(document.getElementById("stock")?.value) || 0,
-    urlIMG: urlIMGU,
+    urlIMG: urlIMG,
     categoria: tipoSelect.value,
     activo: 1
   };
@@ -135,7 +155,7 @@ const subirImagen = async (form) => {
         if (!response.ok) throw new Error('Error al subir la imagen');
         const data = await response.json();
 
-        urlIMGU = data.file.path;
+        urlIMG = data.file.path;
         return true;
 
     } catch (error) {
