@@ -12,9 +12,11 @@ const router = express.Router();
 
 router.get('/', getAllProductos);
 
+router.get('/paginados',getProductosPaginados);
+
 router.get('/:id', getProducto);
 
-router.get('/paginados',getProductosPaginados);
+
 
 router.post('/', postProducto);
 

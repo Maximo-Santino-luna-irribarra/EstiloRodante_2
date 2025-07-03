@@ -45,13 +45,23 @@ export const deleteProducto = async (req, res) => {
 
 
 export const getProductosPaginados = async (req, res) => {
-    const page = parseInt(req.query.page) || 1; // Página actual, por defecto 1
-    const limit = parseInt(req.query.limit) || 9; // Límites de productos por página, por defecto 10
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
 
-    try {
-        const productos = await productoservice.productoPaginados(page, limit);
-        res.json(productos);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener productos paginados' });
-    }
-}
+  const filtros = {
+    marca: req.query.marca,
+    categoria: req.query.categoria,
+    estado: req.query.estado,
+    min: parseFloat(req.query.min),
+    max: parseFloat(req.query.max),
+    busqueda: req.query.busqueda,
+  };
+
+  try {
+    const resultado = await productoservice.productoPaginados(page, limit, filtros);
+    res.json(resultado);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener productos paginados con filtros' });
+  }
+};

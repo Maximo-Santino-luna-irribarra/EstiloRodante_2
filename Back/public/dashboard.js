@@ -1,8 +1,9 @@
 // Variables globales
 let currentPage = 1;
-const itemsPerPage = 8;
+const itemsPerPage = 9;
 let allProducts = [];
 let allBrands = [];
+let totalProductos = 0;
 
 // Elementos del DOM
 const tipoFiltro = document.getElementById("brands");
@@ -35,24 +36,44 @@ function initModoNoche() {
 
 // Cargar productos desde API
 function cargarProductos() {
-  fetch('http://localhost:3000/api/productos/')
+  const tipo = tipoFiltro?.value || "Todos";
+  const marca = marcaFiltro?.value || "Todos";
+  const estado = estadoFiltro?.value || "Todos";
+  const min = parseFloat(minPrecioInput?.value);
+  const max = parseFloat(maxPrecioInput?.value);
+  const busqueda = searchInput?.value.toLowerCase().trim() || "";
+
+  const queryParams = new URLSearchParams({
+    page: currentPage,
+    limit: itemsPerPage,
+    categoria: tipo,
+    marca: marca,
+    estado: estado,
+    min,
+    max,
+    busqueda
+  });
+
+  fetch(`http://localhost:3000/api/productos/paginados?${queryParams}`)
     .then(res => res.json())
     .then(data => {
-      allProducts = data;
-      allBrands = [...new Set(data.map(p => p.marca))];
+      console.log("Respuesta del backend:", data);
+      allProducts = data.productos;
+      totalProductos = data.total;
       renderProductos();
       renderPaginacion();
       ingresarMarcas();
     })
     .catch(err => console.error("Error cargando productos:", err));
 }
-
 // Ingresar marcas dinámicamente
 function ingresarMarcas() {
   if (!marcaFiltro) return;
+
+  const marcasUnicas = [...new Set(allProducts.map(p => p.marca).filter(Boolean))];
+
   marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;
-  allBrands.forEach(marca => {
-    if (!marca) return;
+  marcasUnicas.forEach(marca => {
     const option = document.createElement("option");
     option.value = marca;
     option.textContent = marca;
@@ -77,42 +98,17 @@ function inicializarFiltros() {
 // Actualizar productos y paginación
 function actualizarVista() {
   currentPage = 1;
-  renderProductos();
-  renderPaginacion();
+  cargarProductos();
 }
 
 // Aplicar filtros
-function filtrarProductos() {
-  const tipo = tipoFiltro?.value;
-  const marca = marcaFiltro?.value || "Todos";
-  const estado = estadoFiltro?.value || "Todos";
-  const min = parseFloat(minPrecioInput?.value) || 0;
-  const max = parseFloat(maxPrecioInput?.value) || Infinity;
-  const busqueda = searchInput?.value.toLowerCase().trim();
 
-  return allProducts.filter(p =>
-    (tipo === "Todos" || p.categoria === tipo) &&
-    (marca === "Todos" || p.marca === marca) &&
-    (
-      estado === "Todos" ||
-      (estado === "Activo" && p.activo === true) ||
-      (estado === "Desactivado" && p.activo === false)
-    ) &&
-    p.precio >= min &&
-    p.precio <= max &&
-    p.nombre.toLowerCase().includes(busqueda)
-  );
-}
 
 // Renderizar productos
 function renderProductos() {
+
   contenedorProductos.innerHTML = "";
-
-  const filtrados = filtrarProductos();
-  const inicio = (currentPage - 1) * itemsPerPage;
-  const pagina = filtrados.slice(inicio, inicio + itemsPerPage);
-
-  pagina.forEach(p => contenedorProductos.appendChild(renderCardProducto(p)));
+  allProducts.forEach(p => contenedorProductos.appendChild(renderCardProducto(p)));
 }
 
 // Crear tarjeta de producto
@@ -216,8 +212,7 @@ function mostrarModal(onConfirmar) {
 
 // Renderizar paginación
 function renderPaginacion() {
-  const totalItems = filtrarProductos().length;
-  const totalPaginas = Math.ceil(totalItems / itemsPerPage);
+  const totalPaginas = Math.ceil(totalProductos / itemsPerPage);
   paginacionContainer.innerHTML = "";
 
   for (let i = 1; i <= totalPaginas; i++) {
@@ -226,12 +221,12 @@ function renderPaginacion() {
     li.innerHTML = `<button class="page-link">${i}</button>`;
     li.querySelector("button").addEventListener("click", () => {
       currentPage = i;
-      renderProductos();
-      renderPaginacion();
+      cargarProductos(); // recarga esa página
     });
     paginacionContainer.appendChild(li);
   }
 }
+
 
 function logout() {
   const logoutBtn = document.getElementById("LogOut");

@@ -1,5 +1,6 @@
 // Back/services/llanta.service.js
 import Producto from '../models/producto.js';
+import { Op } from 'sequelize';
 
 export const getProductos = async () => await Producto.findAll();
 
@@ -21,13 +22,45 @@ export const deleteProducto = async (id) => {
     return true;
 };
 
-export const productoPaginados = async (page, limit) => {
-    const offset = (page - 1) * limit;
-    const productos = await Producto.findAll({
-        offset: offset,
-        limit: limit,
-        order: [['createdAt', 'DESC']]
-    });
-    return productos;
+export const productoPaginados = async (page, limit, filtros) => {
+const offset = (page - 1) * limit;
+
+const where = {};
+
+if (filtros.marca && filtros.marca !== 'Todos') {
+    where.marca = filtros.marca;
 }
 
+if (filtros.categoria && filtros.categoria !== 'Todos') {
+    where.categoria = filtros.categoria;
+}
+
+if (filtros.estado && filtros.estado !== 'Todos') {
+    where.activo = filtros.estado === 'Activo';
+}
+
+if (filtros.min || filtros.max) {
+    where.precio = {
+    [Op.gte]: filtros.min || 0,
+    [Op.lte]: filtros.max || Number.MAX_SAFE_INTEGER,
+    };
+}
+
+if (filtros.busqueda) {
+    where.nombre = {
+    [Op.iLike]: `%${filtros.busqueda}%`,
+    };
+}
+
+const { count, rows } = await Producto.findAndCountAll({
+    where,
+    offset,
+    limit,
+    order: [['createdAt', 'DESC']],
+});
+
+return {
+    total: count,
+    productos: rows,
+};
+};
