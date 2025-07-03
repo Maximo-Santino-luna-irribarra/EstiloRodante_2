@@ -42,6 +42,7 @@ const formHTML = `
   </div>
 `;
 
+let urlIMG = "";
 
 const tipoSelect = document.getElementById("tipo");
 tipoSelect.addEventListener("change", (e) => {
@@ -67,7 +68,7 @@ function getFormData() {
     medida: document.getElementById("medida")?.value || "",
     precio: parseFloat(document.getElementById("precio")?.value) || 0,
     stock: parseInt(document.getElementById("stock")?.value) || 0,
-    urlIMG: urlIMGU,
+    urlIMG: urlIMG,
     categoria: tipoSelect.value,
     activo: 1
   };
@@ -135,7 +136,7 @@ const subirImagen = async (form) => {
         if (!response.ok) throw new Error('Error al subir la imagen');
         const data = await response.json();
 
-        urlIMGU = data.file.path;
+        urlIMG = data.file.path;
         return true;
 
     } catch (error) {
