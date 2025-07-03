@@ -47,38 +47,69 @@ modoBtn.addEventListener("click", () => {
 // ==============================
 // RENDERIZACIÓN DE PRODUCTOS
 // ==============================
+
+function renderButtons(producto, controlsDiv) {
+  const existente = carrito.find(p => p.id === producto.id);
+
+  if (existente && existente.cantidad > 0) {
+    controlsDiv.innerHTML = `
+      <button class="btn btn-sm btn-outline-danger w-100 btn-eliminar">🗑️ Eliminar</button>
+      <button class="btn btn-sm btn-outline-success w-100 btn-agregar">➕ Agregar</button>
+    `;
+  } else {
+    controlsDiv.innerHTML = `
+      <button class="btn btn-sm btn-outline-success w-100 btn-agregar">🛒 Agregar</button>
+    `;
+  }
+
+  const btnAgregar = controlsDiv.querySelector(".btn-agregar");
+  if (btnAgregar) {
+    btnAgregar.addEventListener("click", () => {
+      agregarAlCarrito(producto);
+      renderButtons(producto, controlsDiv);
+    });
+  }
+
+  const btnEliminar = controlsDiv.querySelector(".btn-eliminar");
+  if (btnEliminar) {
+    btnEliminar.addEventListener("click", () => {
+      eliminarDelCarrito(producto);
+      renderButtons(producto, controlsDiv);
+    });
+  }
+}
+
 const writeProducto = (producto) => {
-  const { id, nombre, marca, categoria, modelo, urlIMG, precio, activo } = producto;
+  const { nombre, marca, categoria, modelo, urlIMG, precio } = producto;
   const product = document.createElement("div");
   product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
-  if(producto.cantidad){
-    msj = `
-      <button class="btn btn-sm btn-outline-danger w-100 btn-eliminar">🗑️ Eliminar</button>
-      <button class="btn btn-sm btn-outline-success w-100 btn-agregar">🛒 Agregar</button>
-    `
-  }else{
-    msj = `
-      <button class="btn btn-sm btn-outline-success w-100 btn-agregar">🛒 Agregar</button>
-    `
-  }
+
+  // Creamos el div que contendrá los botones
+  const controlsDiv = document.createElement("div");
+  controlsDiv.className = "d-flex justify-content-between gap-2";
+
+  // Renderizamos los botones por primera vez
+  renderButtons(producto, controlsDiv);
+
+  // Construimos el resto de la tarjeta
   product.innerHTML = `
     <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
-      style="height: 100%; max-height: 320px; overflow: hidden;">
-      
+         style="height: 100%; max-height: 320px; overflow: hidden;">
+
       <div class="text-center p-3">
-          <img src="http://localhost:3000/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
-            class="rounded-circle img-fluid"
-            alt="${modelo}"
-            style="width: 120px; height: 120px; object-fit: cover;" />
+        <img src="http://localhost:3000/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
+             class="rounded-circle img-fluid"
+             alt="${modelo}"
+             style="width: 120px; height: 120px; object-fit: cover;" />
       </div>
 
       <div class="px-3 pb-3">
         <h5 class="fw-bold text-dark mb-1 text-center"
-          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           ${nombre}
         </h5>
         <p class="text-muted mb-0 text-center"
-          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           ${marca}
         </p>
         <p class="text-primary fw-semibold fs-5 mb-2 text-center">
@@ -87,16 +118,17 @@ const writeProducto = (producto) => {
         <p class="mb-2 text-center text-secondary" style="font-size: 0.9rem;">
           Categoría: ${categoria}
         </p>
-        <div class="d-flex justify-content-between gap-2">
-          ${msj}
-        </div>
+      </div>
     </div>
-  `
-  product.querySelector(".btn-agregar").addEventListener("click", () => agregarAlCarrito(producto))
-  
-  product.querySelector(".btn-eliminar").addEventListener("click", () => eliminarDelCarrito(producto));
+  `;
+
+  // Insertamos controlsDiv dentro del body de la tarjeta
+  product.querySelector(".px-3.pb-3").appendChild(controlsDiv);
+
+  // Y finalmente al contenedor general
   contenedorProductos.appendChild(product);
 };
+  
 
 function mostrarProductos(pagina) {
   contenedorProductos.innerHTML = "";
