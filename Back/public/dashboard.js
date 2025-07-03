@@ -143,21 +143,37 @@ function renderCardProducto(producto) {
 // Activar/Desactivar producto
 function activarProducto(id, activo) {
   const nuevoEstado = !activo;
+  console.log(`Intentando cambiar producto ${id} a estado: ${nuevoEstado}`);
+
   fetch(`/api/productos/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ activo: nuevoEstado })
   })
-    .then(res => {
-      if (!res.ok) throw new Error("Error al cambiar estado");
-      const producto = allProducts.find(p => p.id === id);
-      if (producto) producto.activo = nuevoEstado;
+    .then(async res => {
+      if (!res.ok) {
+        const error = await res.json();
+        console.error('Error del servidor:', error);
+        
+      }
+
+      // Actualiza estado en allProducts
+      const producto = allProducts.find(p => p.id === id || p.id === Number(id));
+      if (producto) {
+        producto.activo = nuevoEstado;
+        console.log(`Estado del producto ${id} actualizado localmente.`);
+      }
+
       renderProductos();
       renderPaginacion();
     })
-    .catch(err => console.error('Error en la solicitud:', err));
+    .catch(err => {
+      console.error('Error en la solicitud fetch:', err.message);
+      alert('Error al cambiar el estado del producto.');
+    });
 }
-
 // Redirección a edición
 function editar(id) {
   window.location.href = `/editar/${id}`;
