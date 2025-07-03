@@ -9,19 +9,25 @@ import {
   loginAdmin
 } from '../controllers/admin.controllers.js';
 
-
+// Creacion de router
 const router = express.Router();
 
+// Ruta obtener todos los admins
 router.get('/', getAllAdmins);
 
+// Ruta obtener admin por ID
 router.get('/:id', getAdmin);
 
+// Ruta para crear un admin
 router.post('/', postAdmin);
 
+// Ruta para editar un admin
 router.put('/:id', putAdmin);
 
+// Ruta para eliminar un admin por ID
 router.delete('/:id', deleteAdmin);
 
+// Ruta para loguear admin
 router.get('login',(loginAdmin));
 
 export default router;
