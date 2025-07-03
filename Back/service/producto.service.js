@@ -30,35 +30,29 @@ const where = {};
 if (filtros.marca && filtros.marca !== 'Todos') {
     where.marca = filtros.marca;
 }
-
 if (filtros.categoria && filtros.categoria !== 'Todos') {
     where.categoria = filtros.categoria;
 }
-
 if (filtros.estado && filtros.estado !== 'Todos') {
     where.activo = filtros.estado === 'Activo';
 }
-
 if (filtros.min || filtros.max) {
     where.precio = {
     [Op.gte]: filtros.min || 0,
     [Op.lte]: filtros.max || Number.MAX_SAFE_INTEGER,
     };
 }
-
 if (filtros.busqueda) {
     where.nombre = {
     [Op.iLike]: `%${filtros.busqueda}%`,
     };
 }
-
 const { count, rows } = await Producto.findAndCountAll({
     where,
     offset,
     limit,
     order: [['createdAt', 'DESC']],
 });
-
 return {
     total: count,
     productos: rows,

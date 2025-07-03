@@ -36,9 +36,9 @@ export const putProducto = async (req, res) => {
 
 export const deleteProducto = async (req, res) => {
 
-    const eliminada = await productoservice.deleteProducto(req.params.id);
+  const eliminada = await productoservice.deleteProducto(req.params.id);
     // Elimina la producto con el ID proporcionado en los parámetros de la solicitud
-    if (!eliminada) return res.status(404).json({ error: 'Producto no encontrada' });
+      if (!eliminada) return res.status(404).json({ error: 'Producto no encontrada' });
     // Si la producto no se encuentra, se devuelve un error 404
     res.json({ message: 'Producto eliminada correctamente' });
 };

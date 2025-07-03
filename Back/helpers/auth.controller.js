@@ -1,6 +1,5 @@
 import adminService from "../service/admin.service.js";
 import authHelper from '../helpers/authHelper.js';
-import { localsName } from "ejs";
 
 const loginAdmin = async (req, res) => {
     

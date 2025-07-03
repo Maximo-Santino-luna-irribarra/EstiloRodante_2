@@ -9,7 +9,7 @@
         return;
     }
 
-    tbody.innerHTML = ''; // Limpiar fila de "Cargando..."
+    tbody.innerHTML = ''; 
     ventas.forEach((venta, index) => {
         const fila = `
         <tr>
@@ -20,7 +20,6 @@
             <td>${venta.subtotal}</td>
             <td>$${venta.precio_unitario}</td>
             <td>${venta.fecha_venta}</td>
-            
         </tr>
         `;
         tbody.innerHTML += fila;

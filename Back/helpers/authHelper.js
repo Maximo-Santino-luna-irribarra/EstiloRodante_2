@@ -5,6 +5,7 @@ const saltRounds = 10;
 
 
 // pasword123 10 
+// hashea la contraseña 
 const hashPassword = async (password) => {
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -14,7 +15,7 @@ const hashPassword = async (password) => {
     throw error;
   }
 }
-
+// compara la contraseña
 const comparePassword = async (password, hashedPassword) => {
   try {
     const isMatch = await bcrypt.compare(password, hashedPassword);
