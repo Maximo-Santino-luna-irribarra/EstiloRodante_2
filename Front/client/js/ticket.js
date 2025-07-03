@@ -26,7 +26,10 @@ const escribirTicket = () => {
             precio_unitario: element.precio,
             subtotal: element.precio * element.cantidad
         });
-    });
+    })
+    let fecha = document.createElement('p')
+    fecha.innerHTML = `<strong>Fecha: </strong>${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+    document.querySelector('.ticket').appendChild(fecha);
 
 }
 

@@ -1,7 +1,7 @@
 // ==============================
 // VARIABLES GLOBALES
 // ==============================
-const tipoSelect    = document.getElementById("types");
+const tipoSelect    = document.querySelector('select[name="type"]');
 const marcaSelect   = document.querySelector('select[name="brands"]');
 const modeloSelect  = document.querySelector('select[name="models"]');
 const minPriceInput = document.querySelector(".minPrice");
@@ -9,7 +9,7 @@ const maxPriceInput = document.querySelector(".maxPrice");
 const ordenarSelect = document.getElementById("ordenar");
 const searchInput   = document.querySelector('input[type="text"]');
 const contenedorProductos = document.querySelector(".box");
-const modoBtn       = document.getElementById("modoNocheBtn");
+const modoBtn = document.getElementById("modoNocheBtn");
 
 const allProducts = [];
 const productosPorPagina = 12;
@@ -202,7 +202,7 @@ function mostrarAlerta(msg) {
   alerta.style.display = "block";
   setTimeout(() => alerta.style.display = "none", 3000);
 }
-function mostrarAlertaRepetido() { mostrarAlerta("repetido"); }
+function mostrarAlertaRepetido() { mostrarAlerta("repetido Porfavor seleccione la cantidad en el carrito"); }
 function mostrarAlertaEliminado()  { mostrarAlerta("eliminado"); }
 
 // ==============================

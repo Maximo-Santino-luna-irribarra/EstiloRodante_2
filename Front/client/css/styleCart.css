@@ -12,6 +12,7 @@ html, body {
     color: var(--text-color);
     font-family: cursive;
     font-weight: 100;
+    min-width: 100dvw;
 }
 
 .nav a{

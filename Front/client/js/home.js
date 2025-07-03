@@ -1,9 +1,9 @@
 document.getElementById("btn1").addEventListener("click", function() {
-    window.location.href = "/Front/client/html/products.html?tipo=Rin";
+    window.location.href = "/Front/client/html/products.html?tipo=Llanta";
 });
 
 document.getElementById("btn2").addEventListener("click", function() {
-    window.location.href = "/Front/client/html/products.html?tipo=cubierta";
+    window.location.href = "/Front/client/html/products.html?tipo=Cubierta";
 });
 
 const nombre = localStorage.getItem('nombreCliente');
