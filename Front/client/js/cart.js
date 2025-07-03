@@ -126,16 +126,16 @@ const actualizarResumen = () => {
 }
 
 
-const verificarVacio = () =>{
-    if(box.innerHTML == ''){
+const verificarVacio = () => {
+    if (box.children.length === 0) {
         box.innerHTML = `
-        <div class="alert text-center fw-semibold shadow-sm" style="background-color: var(--second-color); color: var(--main-color); border-radius: 10px;">
+        <div class="alert text-center fw-semibold shadow-sm mx-auto mt-5" style="max-width: 500px; background-color: var(--second-color); color: var(--main-color); border-radius: 10px;" style="background-color: var(--second-color); color: var(--main-color); border-radius: 10px;">
             No hay productos en el carrito
         </div>
         `
-    }else{
-        return true
+        return false
     }
+    return true
 }
 
 setProductos()
