@@ -3,6 +3,7 @@
     fetch('/api/ventas')
     .then(res => res.json())
     .then(ventas => {
+        console.log('Ventas cargadas:', ventas);
     if (ventas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No hay ventas registradas.</td></tr>';
         return;
@@ -12,13 +13,14 @@
     ventas.forEach((venta, index) => {
         const fila = `
         <tr>
-            <td>${index + 1}</td>
-            <td>${venta.cliente || '---'}</td>
-            <td>${venta.producto || '---'}</td>
-            <td>${venta.cantidad}</td>
-            <td>$${venta.precioUnitario}</td>
-            <td>$${venta.total}</td>
-            <td>${new Date(venta.createdAt).toLocaleDateString()}</td>
+            <td>${venta.id}</td>
+            <td>${venta.nombre_cliente }</td>
+            <td>${venta.tipo_producto }</td>
+            <td>${venta.cantidad }</td>
+            <td>${venta.subtotal}</td>
+            <td>$${venta.precio_unitario}</td>
+            <td>$${venta.fecha_venta}</td>
+            
         </tr>
         `;
         tbody.innerHTML += fila;
