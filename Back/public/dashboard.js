@@ -43,6 +43,7 @@ function cargarProductos() {
   const max = parseFloat(maxPrecioInput?.value);
   const busqueda = searchInput?.value.toLowerCase().trim() || "";
 
+  //Construye los parámetros de consulta (query string) que se van a enviar al backend como:
   const queryParams = new URLSearchParams({
     page: currentPage,
     limit: itemsPerPage,
@@ -62,23 +63,8 @@ function cargarProductos() {
       totalProductos = data.total;
       renderProductos();
       renderPaginacion();
-      ingresarMarcas();
     })
     .catch(err => console.error("Error cargando productos:", err));
-}
-// Ingresar marcas dinámicamente
-function ingresarMarcas() {
-  if (!marcaFiltro) return;
-
-  const marcasUnicas = [...new Set(allProducts.map(p => p.marca).filter(Boolean))];
-
-  marcaFiltro.innerHTML = `<option value="Todos" selected>Todos</option>`;
-  marcasUnicas.forEach(marca => {
-    const option = document.createElement("option");
-    option.value = marca;
-    option.textContent = marca;
-    marcaFiltro.appendChild(option);
-  });
 }
 
 // Inicializar eventos de filtros
