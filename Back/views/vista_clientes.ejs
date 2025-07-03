@@ -19,19 +19,14 @@
         <div class="table-responsive">
         <table class="table table-striped table-hover shadow-sm">
             <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Fecha de Registro</th>
-            </tr>
+                <tr>
+                    <th>Nombre</th>
+                </tr>
             </thead>
             <tbody id="clientes-body">
-            <tr>
-                <td colspan="6" class="text-center text-muted">Cargando clientes...</td>
-            </tr>
+                <tr>
+                    <td colspan="2" class="text-center text-muted">Cargando clientes...</td>
+                </tr>
             </tbody>
         </table>
         </div>
@@ -40,6 +35,6 @@
     <%- include('../partial/footer.ejs') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/Back/public/clientes.js"></script>
+    <script src="/clientes.js"></script>
 </body>
 </html>
