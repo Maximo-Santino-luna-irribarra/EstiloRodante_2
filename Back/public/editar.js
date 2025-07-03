@@ -13,19 +13,6 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
     }
     return response.json();
 }).then(producto => {
-    const { categoria } = producto;
-    console.log("Categoría del producto:", categoria);
-
-    // Generar HTML del formulario dinámicamente
-    let medidaHTML = '';
-    if (categoria === 'cubierta') {
-        medidaHTML = `
-            <div class="col-md-6">
-                <label class="form-label">Medida</label>
-                <input type="text" id="editMedida" class="form-control" placeholder="Ej: 195/65R15">
-            </div>
-        `;
-    }
 
     form.innerHTML = `
         <div class="row g-3">
@@ -44,8 +31,6 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
                 <input type="text" id="editModelo" class="form-control" placeholder="Ej: Modelo X">
             </div>
 
-            ${medidaHTML}
-
             <div class="col-md-6">
                 <label class="form-label">Precio</label>
                 <input type="number" id="editPrecio" class="form-control" placeholder="Ej: 145000">
@@ -53,12 +38,17 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
 
             <div class="col-12">
                 <label class="form-label">Imagen (URL)</label>
-                <input type="url" id="editImagen" class="form-control" placeholder="https://...">
+                <input name="imagen" type="file" id="editImagen" class="form-control" placeholder="https://...">
             </div>
 
             <div class="col-md-6">
                 <label class="form-label">Stock</label>
                 <input type="number" id="editStock" class="form-control" placeholder="Ej: 25">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Medida</label>
+                <input type="text" id="editMedida" class="form-control" placeholder="Ej: 40cm">
             </div>
 
             <div class="text-center mt-4">
@@ -75,24 +65,29 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
     document.getElementById('editNombre').value = producto.nombre || '';
     document.getElementById('editMarca').value = producto.marca || '';
     document.getElementById('editModelo').value = producto.modelo || '';
-    if (categoria === 'cubierta') {
-        document.getElementById('editMedida').value = producto.medida || '';
-    }
+    document.getElementById('editMedida').value = producto.medida || '';
     document.getElementById('editPrecio').value = producto.precio || 0;
     document.getElementById('editStock').value = producto.stock || 0;
-    document.getElementById('editImagen').value = producto.urlIMG || '';
     document.getElementById('editPreviewImagen').src = producto.urlIMG || '/logoPage.png';
 
     // Evento submit
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        const subidaOK = await subirImagen(form);
+        if (!subidaOK) return;
+
         const nombre = document.getElementById('editNombre').value;
         const marca = document.getElementById('editMarca').value;
         const modelo = document.getElementById('editModelo').value;
         const precio = parseInt(document.getElementById('editPrecio').value);
-        const urlIMG = document.getElementById('editImagen').value;
         const stock = parseInt(document.getElementById('editStock').value);
-        const medida = categoria === 'cubierta' ? document.getElementById('editMedida').value : '';
+        const medida = document.getElementById('editMedida').value;
+
+        if (!nombre || !marca || precio <= 0) {
+            alert("Por favor, complete los campos obligatorios correctamente.");
+            return;
+        }
 
         fetch(`http://localhost:3000/api/productos/${id}`, {
             method: 'PUT',
@@ -106,9 +101,7 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
                 precio,
                 stock,
                 urlIMG,
-                medida,
-                categoria,
-                activo: true
+                medida
             })
         }).then(response => {
             if (!response.ok) {
@@ -148,3 +141,36 @@ toggleBtn?.addEventListener('click', () => {
 
 const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
+
+
+let urlIMG = ""; // Fuera de la función subirImagen
+
+const subirImagen = async (form) => {
+    const fileInput = document.getElementById('editImagen');
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Por favor, selecciona una imagen para subir.');
+        return false;
+    }
+
+    const formData = new FormData();
+    formData.append('imagen', file);
+
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) throw new Error('Error al subir la imagen');
+        const data = await response.json();
+
+        urlIMG = data.file.path;
+        document.getElementById('editPreviewImagen').src = urlIMG;
+        return true;
+
+    } catch (error) {
+        console.error('Error al subir la imagen:', error);
+        alert('No se pudo subir la imagen. Por favor, inténtelo más tarde.');
+        return false;
+    }
+};

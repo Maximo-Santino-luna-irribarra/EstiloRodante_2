@@ -32,12 +32,12 @@ const formHTML = `
 
     <div class="col-12">
       <label for="imagen" class="form-label">Imagen (URL)</label>
-      <input type="url" id="imagen" class="form-control">
+      <input type="file" id="imagen" class="form-control" name="imagen">
     </div>
 
     <div class="col-12">
       <button type="button" class="btn btn-primary w-100" onclick="updatePreview()">Cargar Vista Previa</button>
-      <button type="button" class="btn btn-success w-100" onclick="agregarProducto()">Agregar</button>
+      <button type="submit" class="btn btn-success w-100">Agregar</button>
     </div>
   </div>
 `;
@@ -47,7 +47,7 @@ const tipoSelect = document.getElementById("tipo");
 tipoSelect.addEventListener("change", (e) => {
   const container = document.querySelector(".restForm");
   const value = e.target.value;
-  if (value === "Cubierta" || value === "Rin") {
+  if (value === "Cubierta" || value === "Llanta") {
     container.innerHTML = formHTML;
   } else {
     container.innerHTML = `
@@ -67,7 +67,7 @@ function getFormData() {
     medida: document.getElementById("medida")?.value || "",
     precio: parseFloat(document.getElementById("precio")?.value) || 0,
     stock: parseInt(document.getElementById("stock")?.value) || 0,
-    urlIMG: document.getElementById("imagen")?.value || "https://placehold.co/600x400",
+    urlIMG: urlIMGU,
     categoria: tipoSelect.value,
     activo: 1
   };
@@ -107,3 +107,40 @@ function agregarProducto() {
       alert("Hubo un error al intentar guardar el producto.");
     });
 }
+
+const form = document.getElementById('productForm')
+form.addEventListener("submit", async (e) =>{
+  e.preventDefault();
+  const subidaOK = await subirImagen(form);
+  if (!subidaOK) return;
+  agregarProducto()
+})
+
+const subirImagen = async (form) => {
+    const fileInput = document.getElementById('imagen');
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Por favor, selecciona una imagen para subir.');
+        return false;
+    }
+
+    const formData = new FormData();
+    formData.append('imagen', file);
+
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) throw new Error('Error al subir la imagen');
+        const data = await response.json();
+
+        urlIMGU = data.file.path;
+        return true;
+
+    } catch (error) {
+        console.error('Error al subir la imagen:', error);
+        alert('No se pudo subir la imagen. Por favor, inténtelo más tarde.');
+        return false;
+    }
+};
