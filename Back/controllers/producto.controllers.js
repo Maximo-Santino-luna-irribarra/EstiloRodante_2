@@ -42,3 +42,16 @@ export const deleteProducto = async (req, res) => {
     // Si la producto no se encuentra, se devuelve un error 404
     res.json({ message: 'Producto eliminada correctamente' });
 };
+
+
+export const getProductosPaginados = async (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Página actual, por defecto 1
+    const limit = parseInt(req.query.limit) || 9; // Límites de productos por página, por defecto 10
+
+    try {
+        const productos = await productoservice.productoPaginados(page, limit);
+        res.json(productos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos paginados' });
+    }
+}

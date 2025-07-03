@@ -4,7 +4,8 @@ import {
     getProducto,
     postProducto,
     putProducto,
-    deleteProducto
+    deleteProducto,
+    getProductosPaginados
 } from '../controllers/producto.controllers.js';
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.get('/', getAllProductos);
 
 router.get('/:id', getProducto);
+
+router.get('/paginados',getProductosPaginados);
 
 router.post('/', postProducto);
 
