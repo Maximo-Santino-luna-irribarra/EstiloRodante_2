@@ -1,3 +1,22 @@
+// 🌙 Modo noche
+function setTheme(theme) {
+  body.classList.remove('light-mode', 'dark-mode');
+  body.classList.add(theme);
+  toggleBtn.textContent = theme === 'dark-mode' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+function initModoNoche() {
+  const savedTheme = localStorage.getItem('theme') || 'light-mode';
+  setTheme(savedTheme);
+  toggleBtn.addEventListener('click', () => {
+    const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
+    setTheme(newTheme);
+  });
+}
+
+initModoNoche()
+
 const formHTML = `
   <div class="row g-3">
     <div class="col-md-6">
