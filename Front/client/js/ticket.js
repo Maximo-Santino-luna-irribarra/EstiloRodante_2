@@ -1,40 +1,63 @@
-const escribirTicket = () => {
-    const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
-    if (carritoActual.length === 0) {
-        alert("El carrito está vacío. No se puede generar un ticket.");
-        return;
-    }
-    localStorage.removeItem('carrito');
-    
-    carritoActual.forEach(element => {
-        if(element.cantidad == undefined || element.cantidad <= 0) {
-            element.cantidad = 1;
-          }
-        const ticket = document.createElement('div');
-        ticket.className = "ticket-item shadow-sm";
-        ticket.innerHTML = `
-            <h5>${element.nombre} - ${element.marca}</h5>
-            <p>Precio: <span class="price">$${element.precio}</span></p>
-            <p>Cantidad: ${element.cantidad}</p>
-            <hr class="border-light"/>
-        `;
-        document.querySelector('.ticket').appendChild(ticket);
-        registrarVenta({
-            nombre_cliente: localStorage.getItem('nombreCliente') || 'Cliente Anónimo',
-            
-            producto_id: element.id,
-            tipo_producto: element.categoria,
-            cantidad: element.cantidad,
-            precio_unitario: element.precio,
-            subtotal: element.precio * element.cantidad
-        });
-        localStorage.removeItem('nombreCliente');
-    })
-    let fecha = document.createElement('p')
-    fecha.innerHTML = `<strong>Fecha: </strong>${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
-    document.querySelector('.ticket').appendChild(fecha);
+const escribirTicket = async () => {
+  const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
+  const nombreCliente = localStorage.getItem('nombreCliente') || 'Cliente Anónimo';
+  const ticketContainer = document.querySelector('.ticket');
 
-}
+  if (carritoActual.length === 0) {
+    alert("El carrito está vacío. No se puede generar un ticket.");
+    return;
+  }
+
+  const productos = carritoActual.map(item => {
+    const cantidad = item.cantidad && item.cantidad > 0 ? item.cantidad : 1;
+
+    const ticket = document.createElement('div');
+    ticket.className = "ticket-item shadow-sm";
+    ticket.innerHTML = `
+      <h5>${item.nombre} - ${item.marca}</h5>
+      <p>Precio: <span class="price">$${item.precio}</span></p>
+      <p>Cantidad: ${cantidad}</p>
+      <hr class="border-light"/>
+    `;
+    ticketContainer.appendChild(ticket);
+
+    return {
+      producto_id: item.id,
+      tipo_producto: item.categoria,
+      cantidad,
+      precio_unitario: item.precio
+    };
+  });
+
+  const ventaData = { nombre_cliente: nombreCliente, productos };
+
+  try {
+    const response = await fetch('http://localhost:3000/api/ventas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(ventaData)
+    });
+
+    if (!response.ok) throw new Error("Error al registrar la venta");
+
+    const nuevaVenta = await response.json();
+    console.log("Venta creada:", nuevaVenta);
+  } catch (error) {
+    console.error("Error al enviar la venta:", error.message);
+    alert("No se pudo registrar la venta");
+  }
+
+  // Agregar fecha al ticket
+  const fecha = document.createElement('p');
+  fecha.innerHTML = `<strong>Fecha:</strong> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+  ticketContainer.appendChild(fecha);
+
+  // Limpiar localStorage
+  localStorage.removeItem('carrito');
+  localStorage.removeItem('nombreCliente');
+};
+
+
 
 function volverInicio() {
     window.location.href = "/Front/client/html/login.html";
