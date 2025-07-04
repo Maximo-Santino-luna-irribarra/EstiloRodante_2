@@ -8,7 +8,7 @@ fetch('/api/cliente')
             return;
         }
 
-    tbody.innerHTML = ''; // Limpiar fila de "Cargando..."
+    tbody.innerHTML = ''; 
         clientes.forEach((cliente, index) => {
             const fila = `
             <tr>

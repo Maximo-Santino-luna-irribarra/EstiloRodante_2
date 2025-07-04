@@ -21,8 +21,6 @@
     <div class="mb-4 text-end">
         <select id="ordenar" class="form-select w-auto d-inline-block">
             <option value="">Ordenar</option>
-            <option value="precio-asc">Precio: menor a mayor</option>
-            <option value="precio-desc">Precio: mayor a menor</option>
             <option value="mas-reciente">Fecha: más reciente</option>
             <option value="mas-viejo">Fecha: más antiguo</option>
         </select>
@@ -31,16 +29,16 @@
     <div class="table-responsive">
         <table class="table table-striped table-hover shadow-sm">
             <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Cliente</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Total</th>
-                    <th>Fecha</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo de Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th>Fecha de Venta</th>
+                    </tr>
+                </thead>
             <tbody id="ventas-body">
                 <tr>
                     <td colspan="7" class="text-center text-muted">Cargando ventas...</td>
