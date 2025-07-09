@@ -8,9 +8,9 @@ import ventaRoutes from '../routes/venta.router.js';
 import productoRoutes from '../routes/producto.router.js';
 import cors from 'cors';
 import authRoutes from '../routes/auth.route.js';
-import dotenv from 'dotenv';
+import {SERVER_PORT} from '../config/envConfig.js'
 import upload from '../middlewares/multerMiddleware.js';
-dotenv.config()
+import viewRoutes from '../routes/view.router.js';
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Settings
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = SERVER_PORT || 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, '../views'));
 
@@ -36,14 +36,8 @@ app.use('/api/productos', productoRoutes);
 app.use('/api/ventas', ventaRoutes);
 app.use('/auth', authRoutes);
 
-// Rutas vistas
-app.get('/', (req, res) => res.render('login'));
-app.get('/editar/:id', (req, res) => res.render('editar'));
-app.get('/agregar', (req, res) => res.render('agregar'));
-app.get('/login', (req, res) => res.render('login'));
-app.get('/dashboard', (req, res) => res.render('dashboard'));
-app.get('/vista_ventas', (req, res) => res.render('vista_ventas'));
-app.get('/vista_clientes', (req, res) => res.render('vista_clientes'));
+// Rutas views
+app.use('/', viewRoutes);
 
 // Ruta para subir archivos
 app.post('/upload', upload.single('imagen'), (req, res) => {
