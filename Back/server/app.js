@@ -9,42 +9,18 @@ import productoRoutes from '../routes/producto.router.js';
 import cors from 'cors';
 import authRoutes from '../routes/auth.route.js';
 import dotenv from 'dotenv';
-import multer from 'multer';
-dotenv.config();
+import upload from '../middlewares/multerMiddleware.js';
+dotenv.config()
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configuración de Multer para manejo de archivos
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../public/images/'));
-  },
-  filename: (req, file, cb) => {
-    const safeName = Date.now() + '-' + file.originalname.replace(/\s+/g, '_');
-    cb(null, safeName);
-  }
-});
-
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Tipo de archivo no permitido. Solo se aceptan imágenes.'), false);
-  }
-};
-
-const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
-
-
 // Inicialización de Express
 const app = express();
 
 // Settings
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, '../views'));
 

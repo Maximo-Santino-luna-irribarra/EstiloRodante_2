@@ -90,7 +90,7 @@ function updatePreview() {
 function agregarProducto() {
   const producto = getFormData();
   console.log(producto)
-  fetch("http://localhost:3000/api/productos", {
+  fetch("/api/productos", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -131,7 +131,7 @@ const subirImagen = async (form) => {
     formData.append('imagen', file);
 
     try {
-        const response = await fetch('http://localhost:3000/upload', {
+        const response = await fetch('/upload', {
             method: 'POST',
             body: formData
         });

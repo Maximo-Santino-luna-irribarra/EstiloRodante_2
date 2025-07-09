@@ -5,7 +5,6 @@ import  authHelper from '../helpers/authHelper.js'
  // Obtiene todos los administradores
 export const getAllAdmins = async (req, res) => {
    
-
     const admins = await adminservice.getAdmins();
     if (!admins || admins.length === 0) {
         return res.status(404).json({ error: 'No se encontraron administradores' });

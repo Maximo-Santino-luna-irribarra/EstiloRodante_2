@@ -55,7 +55,7 @@ function cargarProductos() {
     busqueda
   });
 
-  fetch(`http://localhost:3000/api/productos/paginados?${queryParams}`)
+  fetch(`/api/productos/paginados?${queryParams}`)
     .then(res => res.json())
     .then(data => {
       console.log("Respuesta del backend:", data);

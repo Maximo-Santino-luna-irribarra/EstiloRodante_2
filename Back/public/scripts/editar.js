@@ -2,7 +2,7 @@ const path = window.location.pathname;
 const id = path.split('/')[2];
 const form = document.querySelector("#editForm");
 
-fetch(`http://localhost:3000/api/productos/${id}`, {
+fetch(`/api/productos/${id}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const subidaOK = await subirImagen(form);
+        const subidaOK = await subirImagen(form, producto.urlIMG);
         if (!subidaOK) return;
 
         const nombre = document.getElementById('editNombre').value;
@@ -89,7 +89,7 @@ fetch(`http://localhost:3000/api/productos/${id}`, {
             return;
         }
 
-        fetch(`http://localhost:3000/api/productos/${id}`, {
+        fetch(`/api/productos/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -142,22 +142,19 @@ toggleBtn?.addEventListener('click', () => {
 const savedTheme = localStorage.getItem('theme') || 'light-mode';
 setTheme(savedTheme);
 
-
-let urlIMG = ""; // Fuera de la función subirImagen
-
-const subirImagen = async (form) => {
+const subirImagen = async (form, img) => {
     const fileInput = document.getElementById('editImagen');
     const file = fileInput.files[0];
     if (!file) {
-        alert('Por favor, selecciona una imagen para subir.');
-        return false;
+        urlIMG = img;
+        return true;
     }
 
     const formData = new FormData();
     formData.append('imagen', file);
 
     try {
-        const response = await fetch('http://localhost:3000/upload', {
+        const response = await fetch('/upload', {
             method: 'POST',
             body: formData
         });
