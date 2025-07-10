@@ -1,14 +1,14 @@
 document.getElementById("btn1").addEventListener("click", function() {
-    window.location.href = "/Front/client/html/products.html?tipo=Llanta";
+    window.location.href = "./products.html?tipo=Llanta";
 });
 
 document.getElementById("btn2").addEventListener("click", function() {
-    window.location.href = "/Front/client/html/products.html?tipo=Cubierta";
+    window.location.href = "./products.html?tipo=Cubierta";
 });
 
 const nombre = localStorage.getItem('nombreCliente');
 if (!nombre) {
-    window.location.href = 'http://localhost:5500/Front/client/html/login.html';
+    window.location.href = './login.html';
 }
 document.querySelector('.welcome').innerHTML = `
     <h1 class="text-white">¡Bienvenido ${nombre} a EstiloRodante!</h1>

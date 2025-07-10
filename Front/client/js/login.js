@@ -1,3 +1,5 @@
+import {CLIENTES} from './constants.js'
+
 const buttonLogin = document.querySelector('.btn-login');
 const nombreUsuario = document.getElementById('nombre');
 
@@ -15,11 +17,11 @@ buttonLogin.addEventListener('click', async (e) => {
     }
 
     localStorage.setItem('nombreCliente', nombre);
-    window.location.href = 'http://localhost:5500/Front/client/html/home.html';
+    window.location.href = './home.html';
     
 
     try {
-        const response = await fetch('http://localhost:3000/api/cliente', {
+        const response = await fetch(CLIENTES, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,7 +33,7 @@ buttonLogin.addEventListener('click', async (e) => {
             throw new Error('Error en el inicio de sesión');
         }
 
-        window.location.href = 'http://localhost:5500/Front/client/html/home.html';
+        window.location.href = './home.html';
     } catch (error) {
         console.error('Error:', error);
         alert('Credenciales incorrectas. Inténtalo de nuevo.');

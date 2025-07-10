@@ -2,6 +2,7 @@
 // VARIABLES GLOBALES
 // ==============================
 
+import { PRODUCTOS } from './constants.js'; 
 
 const tipoSelect    = document.querySelector('select[name="type"]');
 const marcaSelect   = document.querySelector('select[name="brands"]');
@@ -277,7 +278,7 @@ function mostrarAlertaEliminado()  { mostrarAlerta("eliminado"); }
 // ==============================
 async function init() {
   try {
-    const productos = await fetch("http://localhost:3000/api/productos").then(res => res.json());
+    const productos = await fetch(PRODUCTOS).then(res => res.json());
     allProducts.push(...productos);
     allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
     ingresarMarcas();

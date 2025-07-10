@@ -9,7 +9,7 @@ const getProductos = () =>{
 }
 
 const setProductos = () =>{
-    lista = JSON.parse(getProductos())
+    let lista = JSON.parse(getProductos())
     lista.forEach(element => {
     const cantidad = element.cantidad || 1
     productosPrecios += element.precio * cantidad
@@ -113,7 +113,7 @@ const crearResumen = () =>{
 const actualizarResumen = () => {
     ticketBox.innerHTML = ''
 
-    ticket = document.createElement('div')
+    var ticket = document.createElement('div')
     ticket.className = "aside-ticket shadow"
     ticket.innerHTML = `
         <h5>Resumen</h5>
@@ -162,9 +162,10 @@ const confirmarCompra = () => {
 
 btnConfirmarCompra.onclick = () => {
   modal.style.display = 'none';
-  window.location.href = "/Front/client/html/ticket.html";
+  window.location.href = "./ticket.html";
 }
 
 btnCancelarCompra.onclick = () => {
   modal.style.display = 'none';
 }
+window.confirmarCompra = confirmarCompra;

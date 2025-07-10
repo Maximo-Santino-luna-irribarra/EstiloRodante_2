@@ -1,3 +1,5 @@
+import {VENTAS} from './constants.js'
+
 const escribirTicket = async () => {
   const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
   const nombreCliente = localStorage.getItem('nombreCliente') || 'Cliente Anónimo';
@@ -32,7 +34,7 @@ const escribirTicket = async () => {
   const ventaData = { nombre_cliente: nombreCliente, productos };
 
   try {
-    const response = await fetch('http://localhost:3000/api/ventas', {
+    const response = await fetch(VENTAS, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(ventaData)
@@ -57,10 +59,8 @@ const escribirTicket = async () => {
   localStorage.removeItem('nombreCliente');
 };
 
-
-
 function volverInicio() {
-    window.location.href = "/Front/client/html/login.html";
+    window.location.href = "./login.html";
 }
 
 function descargarTicket() {
@@ -90,7 +90,7 @@ function descargarTicket() {
 async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unitario, subtotal }) {
   try {
 
-    const response = await fetch('http://localhost:3000/api/ventas', {
+    const response = await fetch(VENTAS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -129,3 +129,4 @@ if (localStorage.getItem("modoNoche") === "true") {
 }
 
 escribirTicket();
+window.volverInicio = volverInicio;
