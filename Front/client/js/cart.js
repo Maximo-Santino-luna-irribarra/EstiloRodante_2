@@ -3,6 +3,7 @@ const listaProductos = []
 let productosPrecios = 0
 let productosContador = 0
 
+
 const getProductos = () =>{
     return localStorage.getItem('carrito')
 }
