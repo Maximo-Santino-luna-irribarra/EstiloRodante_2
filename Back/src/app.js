@@ -22,11 +22,12 @@ const app = express();
 // Settings
 const PORT = SERVER_PORT || 3000;
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, '../views'));
+app.set("views", path.join(__dirname, 'web', 'views'));
 
 // Middlewares
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'web', 'public')));
+
 app.use(cors());
 
 // Rutas API
@@ -39,7 +40,7 @@ app.use('/auth', authRoutes);
 // Rutas views
 app.use('/', viewRoutes);
 
-// Ruta para subir archivos
+// Ruta para subir archivos FALTA CAMBIAR ACAA  NO SEAS BOLUDO SANTY
 app.post('/upload', upload.single('imagen'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No se ha subido ningún archivo.');

@@ -1,27 +1,42 @@
-<header class="bg-dark text-white py-3 sticky-top mb-3">
-    <nav class="container">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <h1 class="text-white fs-4 text-center text-md-start">EstiloRodante</h1>
+<header class="bg-dark text-white sticky-top shadow-sm">
+  <nav class="navbar navbar-expand-md navbar-dark container py-2">
+    <a class="navbar-brand fw-bold" href="/dashboard">EstiloRodante</a>
 
-        <!-- Buscador solo visible desde md en adelante -->
-        <div class="w-100 d-none d-md-block">
-          <input type="text" class="form-control" placeholder="Search by name..." />
-        </div>
-
-        <!-- Enlaces + logo -->
-        <div class="nav flex-column flex-md-row align-items-center">
-          <a class="nav-link text-white px-2" href="/dashboard">Home</a>
-          <a class="nav-link text-white px-2" href="/agregar">Añadir</a>
-          <a class="nav-link text-white px-2" href="/vista_ventas">Ventas</a>
-          <a class="nav-link text-white px-2" href="/vista_clientes">Clientes</a>
-          <button id="LogOut" style="margin: 0 1em; border-radius: 10px;" onclick="logout()">Log Out🚪</button>
-          <img id="logoPage" src="/images/logoPage.png" alt="LogoPagina"class="img-fluid mt-2 mt-md-0" style="max-width: 50px; padding: 5px;">
-          
-        </div>
-      </div>
-    </nav>
-
-    <button id="modoNocheBtn" class="btn btn-outline-secondary" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
-      🌙
+    <!-- Botón hamburguesa -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
     </button>
-  </header>
+
+    <!-- Contenido del navbar -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/agregar">Añadir</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/vista_ventas">Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/vista_clientes">Clientes</a>
+        </li>
+      </ul>
+
+      <!-- Buscador -->
+      <form class="d-flex me-3 w-100 w-md-auto">
+        <input class="form-control" type="search" placeholder="Buscar por nombre..." aria-label="Buscar">
+      </form>
+
+      <!-- Acciones: logout + logo + modo noche -->
+      <div class="d-flex align-items-center gap-2 flex-wrap justify-content-end">
+        <button id="LogOut" class="btn btn-outline-light btn-sm" onclick="logout()">Desconectar 🚪</button>
+        <button id="modoNocheBtn" class="btn btn-outline-secondary btn-sm" title="Modo noche">
+          🌙
+        </button>
+        <img src="/images/logoPage.png" alt="Logo" style="max-width: 40px;" class="img-fluid rounded">
+      </div>
+    </div>
+  </nav>
+</header>
