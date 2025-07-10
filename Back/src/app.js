@@ -2,15 +2,15 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import adminRoutes from '../routes/admin.router.js';
-import clienteRoutes from '../routes/cliente.router.js';
-import ventaRoutes from '../routes/venta.router.js';
-import productoRoutes from '../routes/producto.router.js';
+import adminRoutes from './api/routes/admin.router.js';
+import clienteRoutes from './api/routes/cliente.router.js';
+import ventaRoutes from './api/routes/venta.router.js';
+import productoRoutes from './api/routes/producto.router.js';
 import cors from 'cors';
-import authRoutes from '../routes/auth.route.js';
-import {SERVER_PORT} from '../config/envConfig.js'
-import upload from '../middlewares/multerMiddleware.js';
-import viewRoutes from '../routes/view.router.js';
+import authRoutes from './api/routes/auth.route.js';
+import {SERVER_PORT} from './config/envConfig.js'
+import upload from './api/middlewares/multerMiddleware.js';
+import viewRoutes from './api/routes/view.router.js';
 
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
