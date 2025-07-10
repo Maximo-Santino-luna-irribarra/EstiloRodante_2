@@ -28,5 +28,5 @@ const comparePassword = async (password, hashedPassword) => {
 
 export default {
   hashPassword,
-  comparePassword,
+  comparePassword
 };
