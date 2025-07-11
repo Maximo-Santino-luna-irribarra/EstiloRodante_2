@@ -1,5 +1,7 @@
 import Venta from '../models/venta.js';
 import DetalleVenta from '../models/DetalleVenta.js';
+import Producto from '../models/producto.js';
+
 
 export const getVentas = async () => {
     return await Venta.findAll({
