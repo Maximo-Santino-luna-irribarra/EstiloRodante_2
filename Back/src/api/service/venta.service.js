@@ -3,18 +3,34 @@ import DetalleVenta from '../models/DetalleVenta.js';
 import Producto from '../models/producto.js';
 
 
+
 export const getVentas = async () => {
     return await Venta.findAll({
-    include: DetalleVenta
+        include: [
+        {
+            model: DetalleVenta,
+            as: 'detalles',
+            include: [
+            { model: Producto }
+            ]
+        }
+        ]
     });
-};
+    };
 
-export const getVentaById = async (id) => {
+    export const getVentaById = async (id) => {
     return await Venta.findByPk(id, {
-    include: DetalleVenta
+        include: [
+        {
+            model: DetalleVenta,
+            as: 'detalles',
+            include: [
+            { model: Producto }
+            ]
+        }
+        ]
     });
-};
-
+    };
 export const createVenta = async (data) => {
 const { nombre_cliente, productos } = data;
 

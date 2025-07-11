@@ -11,7 +11,7 @@ import authRoutes from './api/routes/auth.route.js';
 import {SERVER_PORT} from './config/envConfig.js'
 import upload from './api/middlewares/multerMiddleware.js';
 import viewRoutes from './api/routes/view.router.js';
-
+import './api/models/relacionesl.js'
 // Necesario para usar __dirname con ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

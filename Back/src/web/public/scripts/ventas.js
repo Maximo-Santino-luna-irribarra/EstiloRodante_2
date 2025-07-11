@@ -42,34 +42,33 @@ function manejarOrdenamiento() {
 }
 
 function renderizarVentas(ventas) {
+  const tbody = document.querySelector('tbody');
   tbody.innerHTML = '';
 
-  ventas.forEach((venta, index) => {
-    const productosHTML = venta.detalle_venta.map(detalle => {
-    const producto = detalle.Producto || {};
-      console.log(producto)
-    return `
-      <div class="mb-1">
-        <strong>${producto.nombre || detalle.tipo_producto || 'Producto'}</strong> 
-        (${detalle.cantidad} x $${detalle.precio_unitario})<br>
-        Marca: ${producto.marca || '-'} | Modelo: ${producto.modelo || '-'} | Medida: ${producto.medida || '-'}
-      </div>
-    `;
-  }).join('')
+  ventas.forEach((venta) => {
+    if (!venta.detalles) return;
 
-    const totalVenta = venta.detalle_venta.reduce((sum, d) => sum + d.subtotal, 0);
+   
+    const productosHTML = venta.detalles.map(detalle => {
+      const producto = detalle.Producto;
+      const nombre = producto?.nombre || 'Producto';
+      const marca = producto?.marca || 'Sin marca';
+      const cantidad = detalle.cantidad;
+      const precio = detalle.precio_unitario;
+
+      return `<div><strong>${nombre}</strong> (${cantidad} x $${precio}) - ${marca}</div>`;
+    }).join('');
 
     const fila = document.createElement('tr');
     fila.innerHTML = `
-      <td>${index + 1}</td>
       <td>${venta.nombre_cliente}</td>
+      <td>${venta.fecha_venta?.slice(0, 10) || ''}</td>
       <td>${productosHTML}</td>
-      <td>$${totalVenta}</td>
-      <td>${new Date(venta.fecha_venta).toLocaleDateString()}</td>
     `;
     tbody.appendChild(fila);
   });
 }
+
 
 function mostrarMensaje(texto, clase) {
   tbody.innerHTML = `

@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.js';
 
+
 const Venta = sequelize.define('venta', {
   nombre_cliente: {
     type: DataTypes.STRING,
