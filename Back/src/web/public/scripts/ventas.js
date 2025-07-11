@@ -64,9 +64,7 @@ function manejarOrdenamiento() {
 
 function renderizarVentas(ventas, modo = '') {
   tbody.innerHTML = '';
-
   ventas.forEach((venta, index) => {
-    if (!venta.detalles) return;
 
     let contenidoProductos = '';
 
