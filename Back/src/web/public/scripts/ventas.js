@@ -11,7 +11,6 @@ function cargarVentas() {
   fetch('/api/ventas')
     .then(res => res.json())
     .then(ventas => {
-      console.log('Ventas cargadas:', ventas);
       renderizarVentas(ventas);
       ventasGlobal = ventas;
 
@@ -25,7 +24,7 @@ function manejarOrdenamiento() {
   const criterio = ordenarSelect.value;
 
   if (criterio === 'mas-vendidos') {
-    fetch('/api/top10productos')
+    fetch('/api/ventas/top10Productos')
       .then(res => res.json())
       .then(data => {
         renderizarVentas(data);
@@ -38,9 +37,10 @@ function manejarOrdenamiento() {
   }
 
   if (criterio === 'ventas-caras') {
-    fetch('/api/top10ventas')
+    fetch('/api/top10Ventas')
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         renderizarVentas(data);
       })
       .catch(err => {
@@ -73,6 +73,7 @@ function renderizarVentas(ventas, modo = '') {
     if (modo === 'mas-vendidos') {
       // Mostrar solo nombre del producto y cantidad
       contenidoProductos = venta.detalles.map(detalle => {
+        console.log(producto)
         const producto = detalle.producto;
         return `<div>${producto?.nombre || 'Producto'}: ${detalle.cantidad} unidades</div>`;
       }).join('');
