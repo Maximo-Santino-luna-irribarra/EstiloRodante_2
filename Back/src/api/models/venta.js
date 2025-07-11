@@ -15,4 +15,4 @@ const Venta = sequelize.define('venta', {
   timestamps: false
 });
 
-export default Venta;
+export default Venta

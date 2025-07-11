@@ -1,4 +1,6 @@
 import * as ventaService from '../service/venta.service.js';
+import Venta from '../models/venta.js';
+import Producto from '../models/producto.js';
 
 export const getAllVentas = async (req, res) => {
   try{
@@ -54,3 +56,25 @@ export const deleteVenta = async (req, res) => {
         res.status(500).json({ error:'Error del servidor' })
     }
 };
+
+export async function top10Productos(req, res) {
+  const results = await VentaItem.findAll({
+    attributes: [
+      'productoId',
+      [ fn('SUM', col('cantidad')), 'totalVendido' ]
+    ],
+    group: ['productoId'],
+    order: [[ literal('totalVendido'), 'DESC' ]],
+    limit: 10,
+    include: [{ model: Producto, attributes: ['nombre', 'marca', 'modelo'] }]
+  });
+  res.json(results);
+}
+
+export async function top10Ventas(req, res) {
+  const results = await Venta.findAll({
+    order: [['total', 'DESC']],
+    limit: 10
+  });
+  res.json(results);
+}
