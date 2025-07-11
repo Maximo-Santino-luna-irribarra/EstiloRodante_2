@@ -11,6 +11,4 @@ DetalleVenta.belongsTo(Venta, {
   as: 'venta'
 });
 
-DetalleVenta.belongsTo(Producto, {
-  foreignKey: 'producto_id'
-});
+DetalleVenta.belongsTo(Producto, { foreignKey: 'producto_id' });
