@@ -143,14 +143,6 @@ setProductos()
 verificarVacio()
 actualizarResumen() 
 
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem("modoNoche", document.body.classList.contains("dark-mode"));
-}
-
-if (localStorage.getItem("modoNoche") === "true") {
-    document.body.classList.add("dark-mode");
-}
 
 const modal = document.getElementById('modalConfirmacion');
 const btnConfirmarCompra = document.getElementById('btnConfirmarCompra');
