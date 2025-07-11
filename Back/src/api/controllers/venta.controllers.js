@@ -82,10 +82,29 @@ export async function top10Productos(req, res) {
 }
 
 
-export async function top10Ventas(req, res) {
-  const results = await Venta.findAll({
-    order: [['total', 'DESC']],
-    limit: 10
-  });
-  res.json(results);
-}
+export const top10Ventas = async (req, res) => {
+  try {
+    const topProductos = await DetalleVenta.findAll({
+      attributes: [
+        'producto_id',
+        [fn('SUM', col('cantidad')), 'total_vendido'],
+        [fn('SUM', col('subtotal')), 'total_ganancia']
+      ],
+      include: [
+        {
+          model: Producto,
+          as: 'producto',
+          attributes: ['nombre', 'marca', 'categoria']
+        }
+      ],
+      group: ['producto_id', 'producto.id'],
+      order: [[literal('total_ganancia'), 'DESC']],
+      limit: 10
+    });
+
+    res.json(topProductos);
+  } catch (error) {
+    console.error('Error al obtener top 10 productos más vendidos:', error);
+    res.status(500).json({ error: 'Error al obtener el top 10 de productos más vendidos' });
+  }
+};
