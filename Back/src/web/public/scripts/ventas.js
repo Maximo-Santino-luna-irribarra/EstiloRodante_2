@@ -7,25 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
   ordenarSelect.addEventListener('change', manejarOrdenamiento);
 });
 
-async function cargarVentas() {
-  try {
-    const res = await fetch('/api/ventas');
-    if (!res.ok) throw new Error("Error en la carga");
+function cargarVentas() {
+  fetch('/api/ventas')
+    .then(res => res.json())
+    .then(ventas => {
+      console.log('Ventas cargadas:', ventas);
+      renderizarVentas(ventas);
+      ventasGlobal = ventas;
 
-    const ventas = await res.json();
-    console.log('Ventas cargadas:', ventas);
-
-    if (!ventas.length) {
-      mostrarMensaje('No hay ventas registradas.', 'text-muted');
-      return;
-    }
-
-    ventasGlobal = ventas;
-    renderizarVentas(ventasGlobal);
-  } catch (error) {
-    console.error('Error al cargar ventas:', error);
-    mostrarMensaje('Error al cargar los datos.', 'text-danger');
-  }
+    })
+    .catch(error => {
+      console.error('Error al cargar ventas:', error);
+    });
 }
 
 function manejarOrdenamiento() {
@@ -41,34 +34,40 @@ function manejarOrdenamiento() {
   renderizarVentas(ventasOrdenadas);
 }
 
+
 function renderizarVentas(ventas) {
-  const tbody = document.querySelector('tbody');
   tbody.innerHTML = '';
 
-  ventas.forEach((venta) => {
+  ventas.forEach((venta, index) => {
     if (!venta.detalles) return;
 
    
-    const productosHTML = venta.detalles.map(detalle => {
-      const producto = detalle.Producto;
-      const nombre = producto?.nombre || 'Producto';
-      const marca = producto?.marca || 'Sin marca';
-      const cantidad = detalle.cantidad;
-      const precio = detalle.precio_unitario;
+    const totalVenta = venta.detalles.reduce((acc, detalle) => acc + detalle.subtotal, 0);
 
-      return `<div><strong>${nombre}</strong> (${cantidad} x $${precio}) - ${marca}</div>`;
+    const productosHTML = venta.detalles.map(detalle => {
+      const producto = detalle.producto;
+
+      return `
+        <div>
+          ${producto?.nombre || 'Producto'}
+          (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
+          - ${producto?.marca || 'Marca no especificada'}
+        </div>
+      `;
     }).join('');
 
+    // Crear fila
     const fila = document.createElement('tr');
     fila.innerHTML = `
+      <td>${index + 1}</td>
       <td>${venta.nombre_cliente}</td>
-      <td>${venta.fecha_venta?.slice(0, 10) || ''}</td>
       <td>${productosHTML}</td>
+      <td>$${totalVenta}</td>
+      <td>${venta.fecha_venta?.slice(0, 10)}</td>
     `;
     tbody.appendChild(fila);
-  });
-}
-
+  
+  })}
 
 function mostrarMensaje(texto, clase) {
   tbody.innerHTML = `
