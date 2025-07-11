@@ -14,21 +14,37 @@ export const getVentaById = async (id) => {
 };
 
 export const createVenta = async (data) => {
-    const { nombre_cliente, productos } = data;
-    const nuevaVenta = await Venta.create({ nombre_cliente });
+const { nombre_cliente, productos } = data;
 
-    for (const item of productos) {
-        await DetalleVenta.create({
-            venta_id: nuevaVenta.id,
-            producto_id: item.producto_id,
-            tipo_producto: item.tipo_producto,
-            cantidad: item.cantidad,
-            precio_unitario: item.precio_unitario,
-            subtotal: item.cantidad * item.precio_unitario
-            });
-    }
+  // Crear venta
+const nuevaVenta = await Venta.create({ nombre_cliente });
 
-    return nuevaVenta;
+// Crear detalles de la venta
+for (const item of productos) {
+await DetalleVenta.create({
+    venta_id: nuevaVenta.id,
+    producto_id: item.producto_id,
+    tipo_producto: item.tipo_producto,
+    cantidad: item.cantidad,
+    precio_unitario: item.precio_unitario,
+    subtotal: item.cantidad * item.precio_unitario
+});
+}
+
+// Obtener los detalles con info del producto
+const detalles = await DetalleVenta.findAll({
+where: { venta_id: nuevaVenta.id },
+include: {
+    model: Producto,
+    attributes: ['nombre', 'marca', 'tipo'] // lo que quieras mostrar
+}
+});
+
+// Devolver venta + detalles con producto incluido
+    return {
+    venta: nuevaVenta,
+    detalles
+    };
 };
 
 export const deleteVenta = async (id) => {

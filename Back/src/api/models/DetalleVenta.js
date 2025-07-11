@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.js';
 import Venta from './venta.js';
+import producto from './producto.js'
 
 const DetalleVenta = sequelize.define('detalle_venta', {
 producto_id: {
@@ -31,5 +32,5 @@ tipo_producto: {
 // Relación
 Venta.hasMany(DetalleVenta, { foreignKey: 'venta_id' });
 DetalleVenta.belongsTo(Venta, { foreignKey: 'venta_id' });
-
+DetalleVenta.belongsTo(producto, { foreignKey: 'producto_id' });
 export default DetalleVenta;
