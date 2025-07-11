@@ -27,7 +27,7 @@ function manejarOrdenamiento() {
     fetch('/api/ventas/top10Productos')
       .then(res => res.json())
       .then(data => {
-        renderizarVentas(data);
+        renderizarVentas(data, 'mas-vendidos');
       })
       .catch(err => {
         console.error('Error al cargar productos más vendidos:', err);
@@ -37,11 +37,11 @@ function manejarOrdenamiento() {
   }
 
   if (criterio === 'ventas-caras') {
-    fetch('/api/top10Ventas')
+    fetch('/api/ventas/top10Ventas')
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        renderizarVentas(data);
+        renderizarVentas(data, 'ventas-caras');
       })
       .catch(err => {
         console.error('Error al cargar ventas más caras:', err);
@@ -50,7 +50,6 @@ function manejarOrdenamiento() {
     return;
   }
 
-  // Si no es uno de los criterios especiales, usamos el ordenamiento local
   const ventasOrdenadas = [...ventasGlobal];
 
   const comparadores = {
@@ -64,37 +63,67 @@ function manejarOrdenamiento() {
 
 function renderizarVentas(ventas, modo = '') {
   tbody.innerHTML = '';
+
+  if (modo === 'mas-vendidos') {
+    document.getElementById('2columna').textContent = 'Producto'
+    document.getElementById('3columna').textContent = 'Marca'
+    ventas.forEach((item, index) => {
+      const producto = item.producto;
+      const totalVendido = item.totalVendido;
+
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${producto?.nombre || 'Producto'}</td>
+        <td>${producto?.marca || 'Marca no especificada'}</td>
+        <td>${totalVendido} unidades</td>
+        <td>${item.fecha_venta}</td>
+      `;
+      tbody.appendChild(fila);
+    });
+    return;
+  }
+  if (modo === 'ventas-caras') {
+    document.getElementById('2columna').textContent = 'Producto';
+    document.getElementById('3columna').textContent = 'Marca';
+
+    ventas.forEach((item, index) => {
+      const producto = item.producto;
+      const totalGanancia = item.total_ganancia;
+
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${producto?.nombre || 'Producto'}</td>
+        <td>${producto?.marca || 'Marca no especificada'}</td>
+        <td>$${Number(totalGanancia).toLocaleString()}</td>
+        <td>${item.fecha_venta}</td>
+      `;
+      tbody.appendChild(fila);
+    });
+    return;
+  }
+
+  document.getElementById('2columna').textContent = 'Cliente'
+  document.getElementById('3columna').textContent = 'Productos'
   ventas.forEach((venta, index) => {
-
-    let contenidoProductos = '';
-
-    if (modo === 'mas-vendidos') {
-      // Mostrar solo nombre del producto y cantidad
-      contenidoProductos = venta.detalles.map(detalle => {
-        console.log(producto)
-        const producto = detalle.producto;
-        return `<div>${producto?.nombre || 'Producto'}: ${detalle.cantidad} unidades</div>`;
-      }).join('');
-    } else {
-      // Renderizado normal
-      contenidoProductos = venta.detalles.map(detalle => {
-        const producto = detalle.producto;
-        return `
-          <div>
-            ${producto?.nombre || 'Producto'} 
-            (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
-            - ${producto?.marca || 'Marca no especificada'}
-          </div>
-        `;
-      }).join('');
-    }
+    let contenidoProductos = (venta.detalles ?? []).map(detalle => {
+      const producto = detalle.producto;
+      return `
+        <div>
+          ${producto?.nombre || 'Producto'} 
+          (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
+          - ${producto?.marca || 'Marca no especificada'}
+        </div>
+      `;
+    }).join('');
 
     const fila = document.createElement('tr');
     fila.innerHTML = `
       <td>${index + 1}</td>
       <td>${venta.nombre_cliente}</td>
       <td>${contenidoProductos}</td>
-      <td>${modo === 'mas-vendidos' ? '-' : `$${venta.detalles.reduce((acc, d) => acc + d.subtotal, 0)}`}</td>
+      <td>$${venta.detalles.reduce((acc, d) => acc + d.subtotal, 0)}</td>
       <td>${venta.fecha_venta?.slice(0, 10)}</td>
     `;
     tbody.appendChild(fila);
