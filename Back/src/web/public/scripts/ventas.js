@@ -23,6 +23,34 @@ function cargarVentas() {
 
 function manejarOrdenamiento() {
   const criterio = ordenarSelect.value;
+
+  if (criterio === 'mas-vendidos') {
+    fetch('/api/top10productos')
+      .then(res => res.json())
+      .then(data => {
+        renderizarVentas(data);
+      })
+      .catch(err => {
+        console.error('Error al cargar productos más vendidos:', err);
+        mostrarMensaje('Error al obtener los productos más vendidos', 'text-danger');
+      });
+    return;
+  }
+
+  if (criterio === 'ventas-caras') {
+    fetch('/api/top10ventas')
+      .then(res => res.json())
+      .then(data => {
+        renderizarVentas(data);
+      })
+      .catch(err => {
+        console.error('Error al cargar ventas más caras:', err);
+        mostrarMensaje('Error al obtener las ventas más caras', 'text-danger');
+      });
+    return;
+  }
+
+  // Si no es uno de los criterios especiales, usamos el ordenamiento local
   const ventasOrdenadas = [...ventasGlobal];
 
   const comparadores = {
@@ -34,40 +62,45 @@ function manejarOrdenamiento() {
   renderizarVentas(ventasOrdenadas);
 }
 
-
-function renderizarVentas(ventas) {
+function renderizarVentas(ventas, modo = '') {
   tbody.innerHTML = '';
 
   ventas.forEach((venta, index) => {
     if (!venta.detalles) return;
 
-   
-    const totalVenta = venta.detalles.reduce((acc, detalle) => acc + detalle.subtotal, 0);
+    let contenidoProductos = '';
 
-    const productosHTML = venta.detalles.map(detalle => {
-      const producto = detalle.producto;
+    if (modo === 'mas-vendidos') {
+      // Mostrar solo nombre del producto y cantidad
+      contenidoProductos = venta.detalles.map(detalle => {
+        const producto = detalle.producto;
+        return `<div>${producto?.nombre || 'Producto'}: ${detalle.cantidad} unidades</div>`;
+      }).join('');
+    } else {
+      // Renderizado normal
+      contenidoProductos = venta.detalles.map(detalle => {
+        const producto = detalle.producto;
+        return `
+          <div>
+            ${producto?.nombre || 'Producto'} 
+            (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
+            - ${producto?.marca || 'Marca no especificada'}
+          </div>
+        `;
+      }).join('');
+    }
 
-      return `
-        <div>
-          ${producto?.nombre || 'Producto'}
-          (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
-          - ${producto?.marca || 'Marca no especificada'}
-        </div>
-      `;
-    }).join('');
-
-    // Crear fila
     const fila = document.createElement('tr');
     fila.innerHTML = `
       <td>${index + 1}</td>
       <td>${venta.nombre_cliente}</td>
-      <td>${productosHTML}</td>
-      <td>$${totalVenta}</td>
+      <td>${contenidoProductos}</td>
+      <td>${modo === 'mas-vendidos' ? '-' : `$${venta.detalles.reduce((acc, d) => acc + d.subtotal, 0)}`}</td>
       <td>${venta.fecha_venta?.slice(0, 10)}</td>
     `;
     tbody.appendChild(fila);
-  
-  })}
+  });
+}
 
 function mostrarMensaje(texto, clase) {
   tbody.innerHTML = `
