@@ -1,34 +1,35 @@
+// src/models/DetalleVenta.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.js';
 
-
 const DetalleVenta = sequelize.define('detalle_venta', {
-producto_id: {
+  producto_id: {
     type: DataTypes.INTEGER,
     allowNull: false
-},
-tipo_producto: {
+  },
+  venta_id: {                
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  tipo_producto: {
     type: DataTypes.STRING,
     allowNull: false
-},
-    cantidad: {
+  },
+  cantidad: {
     type: DataTypes.INTEGER,
     allowNull: false
-},
-    precio_unitario: {
+  },
+  precio_unitario: {
     type: DataTypes.INTEGER,
     allowNull: false
-},
-    subtotal: {
+  },
+  subtotal: {
     type: DataTypes.INTEGER,
     allowNull: false
-}
+  }
 }, {
-    timestamps: false,
-    tableName: 'detalle_ventas'
+  timestamps: false,
+  tableName: 'detalle_ventas'
 });
-
-// Relación
-
 
 export default DetalleVenta;

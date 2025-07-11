@@ -26,5 +26,5 @@ sequelize.sync({ alter: true })
   .then(() => console.log('Tablas sincronizadas con Sequelize'))
   .catch(err => console.error('Error al sincronizar tablas:', err));
 
-export default sequelize;
+export default sequelize
 

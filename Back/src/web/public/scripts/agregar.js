@@ -71,17 +71,16 @@ tipoSelect.addEventListener("change", (e) => {
 function initImagePreview() {
   const input = document.getElementById('imagen');
   const img   = document.getElementById('previewImage');
-  if (!input || !img) return;
-
   input.addEventListener('change', () => {
     const file = input.files[0];
     if (!file) return;
-
     const blobURL = URL.createObjectURL(file);
-    img.src       = blobURL;
+    urlIMG = blobURL;
+    img.src = blobURL;
     img.style.display = 'block';
   });
 }
+
 
 
 function getFormData() {
@@ -93,7 +92,7 @@ function getFormData() {
     medida: document.getElementById("medida")?.value || "",
     precio: parseFloat(document.getElementById("precio")?.value) || 0,
     stock: parseInt(document.getElementById("stock")?.value) || 0,
-    urlIMG: document.getElementById('imagen').value,
+    urlIMG: urlIMG,
     categoria: tipoSelect.value,
     activo: 1
   };
