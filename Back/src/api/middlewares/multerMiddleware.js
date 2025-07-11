@@ -1,9 +1,11 @@
 import multer from 'multer';
+import path from 'path';
+import { __filename, __dirname } from '../helpers/pathHelper.js';
 
 // Configuración de Multer para manejo de archivos
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../public/images/'));
+    cb(null, path.join(__dirname, '../../web/public/images/'));
   },
   filename: (req, file, cb) => {
     const safeName = Date.now() + '-' + file.originalname.replace(/\s+/g, '_');

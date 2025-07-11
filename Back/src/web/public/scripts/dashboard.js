@@ -14,25 +14,7 @@ const maxPrecioInput = document.querySelector(".maxPrice");
 const searchInput = document.querySelector(".form-control");
 const paginacionContainer = document.getElementById("pagination");
 const contenedorProductos = document.querySelector(".box");
-const toggleBtn = document.getElementById('modoNocheBtn');
 const body = document.body;
-
-// 🌙 Modo noche
-function setTheme(theme) {
-  body.classList.remove('light-mode', 'dark-mode');
-  body.classList.add(theme);
-  toggleBtn.textContent = theme === 'dark-mode' ? '☀️' : '🌙';
-  localStorage.setItem('theme', theme);
-}
-
-function initModoNoche() {
-  const savedTheme = localStorage.getItem('theme') || 'light-mode';
-  setTheme(savedTheme);
-  toggleBtn.addEventListener('click', () => {
-    const newTheme = body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode';
-    setTheme(newTheme);
-  });
-}
 
 // Cargar productos desde API
 function cargarProductos() {
@@ -252,6 +234,5 @@ function logout() {
 }
 
 // Inicialización
-initModoNoche();
 inicializarFiltros();
 cargarProductos();

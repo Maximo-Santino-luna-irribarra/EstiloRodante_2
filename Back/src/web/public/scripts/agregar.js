@@ -9,7 +9,13 @@ const formHTML = `
 
     <div class="col-md-6">
       <label for="marca" class="form-label">Marca</label>
-      <input type="text" id="marca" class="form-control" required>
+      <select id="marca" class="form-select" required>
+        <option value="Pirelli">Pirelli</option>
+        <option value="Goodyear">Goodyear</option>
+        <option value="Bridgestone">Bridgestone</option>
+        <option value="Firestone">Firestone</option>
+        <option value="Micheline">Micheline</option>
+      </select>
     </div>
 
     <div class="col-md-6">
@@ -52,6 +58,7 @@ tipoSelect.addEventListener("change", (e) => {
   const value = e.target.value;
     if (value === "Cubierta" || value === "Llanta") {
       container.innerHTML = formHTML;
+      initImagePreview()
     } else {
       container.innerHTML = `
         <div class="alert alert-danger mt-3" role="alert">
@@ -61,8 +68,24 @@ tipoSelect.addEventListener("change", (e) => {
     }
 });
 
+function initImagePreview() {
+  const input = document.getElementById('imagen');
+  const img   = document.getElementById('previewImage');
+  if (!input || !img) return;
+
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (!file) return;
+
+    const blobURL = URL.createObjectURL(file);
+    img.src       = blobURL;
+    img.style.display = 'block';
+  });
+}
+
 
 function getFormData() {
+  console.log(document.getElementById('imagen').value)
   return {
     nombre: document.getElementById("nombre")?.value || "",
     marca: document.getElementById("marca")?.value || "",
@@ -70,7 +93,7 @@ function getFormData() {
     medida: document.getElementById("medida")?.value || "",
     precio: parseFloat(document.getElementById("precio")?.value) || 0,
     stock: parseInt(document.getElementById("stock")?.value) || 0,
-    urlIMG: urlIMG,
+    urlIMG: document.getElementById('imagen').value,
     categoria: tipoSelect.value,
     activo: 1
   };
@@ -78,12 +101,23 @@ function getFormData() {
 
 // actuliza la vista previa
 function updatePreview() {
-  const data = getFormData();
-  document.getElementById("previewNombre").textContent = data.nombre || "Nombre del Producto";
-  document.getElementById("previewImage").src = data.urlIMG;
-  document.getElementById("previewMarca").textContent = `${data.marca} - ${data.modelo} - ${data.medida}`;
-  document.getElementById("previewType").textContent = data.categoria;
-  document.getElementById("previewPrecio").textContent = `$${data.precio}`;
+  // primero asegúrate de actualizar la imagen (por si no disparó el 'change')
+  const file = document.getElementById('imagen')?.files[0];
+  if (file) {
+    document.getElementById('previewImage').src = URL.createObjectURL(file);
+  }
+
+  // después actualizas texto y precio
+  const nombre  = document.getElementById('nombre')?.value;
+  const modelo  = document.getElementById('modelo')?.value;
+  const marca   = document.getElementById('marca')?.value;
+  const medida  = document.getElementById('medida')?.value;
+  const precio  = parseFloat(document.getElementById('precio')?.value) || 0;
+
+  if (nombre) document.getElementById('previewNombre').textContent = nombre;
+  document.getElementById('previewMarca').textContent = `${marca} – ${modelo} – ${medida}`;
+  document.getElementById('previewType').textContent  = document.getElementById('tipo').value;
+  document.getElementById('previewPrecio').textContent = `$${precio.toFixed(2)}`;
 }
 
 // llama a la api para subir el producto
