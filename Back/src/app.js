@@ -12,7 +12,7 @@ import {SERVER_PORT} from './config/envConfig.js'
 import upload from './api/middlewares/multerMiddleware.js';
 import viewRoutes from './api/routes/view.router.js';
 import './api/models/relacionesl.js'
-import { sequelize } from './api/models/index.js';
+import { sequelize } from './api/models/relacionesl.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -40,7 +40,7 @@ app.use('/auth', authRoutes);
 // Rutas views
 app.use('/', viewRoutes);
 
-// Ruta para subir archivos FALTA CAMBIAR ACAA  NO SEAS BOLUDO SANTY
+// Ruta para subir archivos
 app.post('/upload', upload.single('imagen'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No se ha subido ningún archivo.');
@@ -51,7 +51,6 @@ app.post('/upload', upload.single('imagen'), (req, res) => {
 // Confir bdd
 (async () => {
   await sequelize.authenticate();
-  // si usás sync(): await sequelize.sync({ alter: true });
   console.log('DB conectada y asociaciones cargadas');
 })();
 

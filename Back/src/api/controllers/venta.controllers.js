@@ -1,6 +1,6 @@
 import * as ventaService from '../service/venta.service.js';
-import Venta from '../models/venta.js';
-import Producto from '../models/producto.js';
+import { fn, col, literal } from 'sequelize';
+import { DetalleVenta, Producto, Venta } from '../models/relacionesl.js';
 
 export const getAllVentas = async (req, res) => {
   try{
@@ -58,18 +58,29 @@ export const deleteVenta = async (req, res) => {
 };
 
 export async function top10Productos(req, res) {
-  const results = await VentaItem.findAll({
-    attributes: [
-      'productoId',
-      [ fn('SUM', col('cantidad')), 'totalVendido' ]
-    ],
-    group: ['productoId'],
-    order: [[ literal('totalVendido'), 'DESC' ]],
-    limit: 10,
-    include: [{ model: Producto, attributes: ['nombre', 'marca', 'modelo'] }]
-  });
-  res.json(results);
+  try {
+    const results = await DetalleVenta.findAll({
+      attributes: [
+        'producto_id',
+        [fn('SUM', col('cantidad')), 'totalVendido']
+      ],
+      group: ['producto_id', 'producto.id'],
+      order: [[literal('totalVendido'), 'DESC']],
+      limit: 10,
+      include: [{
+        model: Producto,
+        as: 'producto',
+        attributes: ['nombre', 'marca', 'modelo']
+      }]
+    });
+
+    res.json(results);
+  } catch (error) {
+    console.error('Error al obtener top 10 productos:', error);
+    res.status(500).json({ error: 'Error al obtener top 10 productos' });
+  }
 }
+
 
 export async function top10Ventas(req, res) {
   const results = await Venta.findAll({

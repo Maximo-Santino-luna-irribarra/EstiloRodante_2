@@ -5,57 +5,67 @@ import Producto from '../models/producto.js';
 
 
 export const getVentas = async () => {
-    return await Venta.findAll({
+  return await Venta.findAll({
+    include: [
+      {
+        model: DetalleVenta,
+        as: 'detalles',
         include: [
-        {
-            model: DetalleVenta,
-            as: 'detalles',
-            include: [
-            { model: Producto }
-            ]
-        }
+          {
+            model: Producto,
+            as: 'producto'
+          }
         ]
-    });
-    };
+      }
+    ]
+  });
+};
 
-    export const getVentaById = async (id) => {
-    return await Venta.findByPk(id, {
+
+export const getVentaById = async (id) => {
+  return await Venta.findByPk(id, {
+    include: [
+      {
+        model: DetalleVenta,
+        as: 'detalles',
         include: [
-        {
-            model: DetalleVenta,
-            as: 'detalles',
-            include: [
-            { model: Producto }
-            ]
-        }
+          {
+            model: Producto,
+            as: 'producto'
+          }
         ]
-    });
-    };
+      }
+    ]
+  });
+};
+
+
 export const createVenta = async (data) => {
-const { nombre_cliente, productos } = data;
+    const { nombre_cliente, productos } = data;
 
-  // Crear venta
-const nuevaVenta = await Venta.create({ nombre_cliente });
+    // Crear venta
+    const nuevaVenta = await Venta.create({ nombre_cliente });
 
-// Crear detalles de la venta
-for (const item of productos) {
-await DetalleVenta.create({
-    venta_id: nuevaVenta.id,
-    producto_id: item.producto_id,
-    tipo_producto: item.tipo_producto,
-    cantidad: item.cantidad,
-    precio_unitario: item.precio_unitario,
-    subtotal: item.cantidad * item.precio_unitario
-});
+    // Crear detalles de la venta
+    for (const item of productos) {
+    await DetalleVenta.create({
+        venta_id: nuevaVenta.id,
+        producto_id: item.producto_id,
+        tipo_producto: item.tipo_producto,
+        cantidad: item.cantidad,
+        precio_unitario: item.precio_unitario,
+        subtotal: item.cantidad * item.precio_unitario
+    });
 }
 
-// Obtener los detalles con info del producto
-const detalles = await DetalleVenta.findAll({
-where: { venta_id: nuevaVenta.id },
-include: {
-    model: Producto,
-    attributes: ['nombre', 'marca', 'tipo'] // lo que quieras mostrar
-}
+    // Obtener los detalles con info del producto
+    const detalles = await DetalleVenta.findAll({
+    where: { venta_id: nuevaVenta.id },
+    include: {
+        model: Producto,
+        as: 'producto',
+        attributes: ['nombre', 'marca', 'tipo'] // lo que quieras mostrar
+    }
 });
 
 // Devolver venta + detalles con producto incluido
