@@ -58,17 +58,15 @@ export const createVenta = async (data) => {
     });
 }
 
-    // Obtener los detalles con info del producto
     const detalles = await DetalleVenta.findAll({
     where: { venta_id: nuevaVenta.id },
     include: {
         model: Producto,
         as: 'producto',
-        attributes: ['nombre', 'marca', 'tipo'] // lo que quieras mostrar
+        attributes: ['nombre', 'marca', 'categoria'] 
     }
 });
 
-// Devolver venta + detalles con producto incluido
     return {
     venta: nuevaVenta,
     detalles
