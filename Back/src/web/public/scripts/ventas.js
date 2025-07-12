@@ -36,7 +36,7 @@ function manejarOrdenamiento() {
     return;
   }
 
-  if (criterio === 'ventas-caras') {
+  if (criterio === 'ganancia') {
     fetch('/api/ventas/top10Ventas')
       .then(res => res.json())
       .then(data => {
@@ -47,6 +47,17 @@ function manejarOrdenamiento() {
         console.error('Error al cargar ventas más caras:', err);
         mostrarMensaje('Error al obtener las ventas más caras', 'text-danger');
       });
+    return;
+  }
+
+  if (criterio === 'ventas-caras') {
+    const ventasOrdenadas = [...ventasGlobal];
+    ventasOrdenadas.sort((a, b) => {
+      const totalA = a.detalles.reduce((acc, d) => acc + d.subtotal, 0);
+      const totalB = b.detalles.reduce((acc, d) => acc + d.subtotal, 0);
+      return totalB - totalA;
+    });
+    renderizarVentas(ventasOrdenadas);
     return;
   }
 
