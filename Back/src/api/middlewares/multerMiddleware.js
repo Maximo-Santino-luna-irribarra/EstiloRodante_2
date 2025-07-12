@@ -1,29 +1,15 @@
 import multer from 'multer';
 import path from 'path';
-import { __filename, __dirname } from '../helpers/pathHelper.js';
 
-// Configuración de Multer para manejo de archivos
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../web/public/images/'));
+  destination: function (req, file, cb) {
+    cb(null, 'public/images');
   },
-  filename: (req, file, cb) => {
-    const safeName = Date.now() + '-' + file.originalname.replace(/\s+/g, '_');
-    cb(null, safeName);
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+    cb(null, uniqueName);
   }
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Tipo de archivo no permitido. Solo se aceptan imágenes.'), false);
-  }
-};
-
-const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
-
-
-export default upload
+export const upload = multer({ storage });

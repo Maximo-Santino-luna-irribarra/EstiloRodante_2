@@ -9,10 +9,9 @@ import productoRoutes from './api/routes/producto.router.js';
 import cors from 'cors';
 import authRoutes from './api/routes/auth.route.js';
 import {SERVER_PORT} from './config/envConfig.js'
-import upload from './api/middlewares/multerMiddleware.js';
+import uploadRoutes from './api/routes/upload.routes.js';
 import viewRoutes from './api/routes/view.router.js';
 import './api/models/relacionesl.js'
-import { sequelize } from './api/models/relacionesl.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,7 +25,7 @@ app.set("views", path.join(__dirname, 'web', 'views'));
 
 // Middlewares
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'web', 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(cors());
 
@@ -41,18 +40,7 @@ app.use('/auth', authRoutes);
 app.use('/', viewRoutes);
 
 // Ruta para subir archivos
-app.post('/upload', upload.single('imagen'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No se ha subido ningún archivo.');
-  }
-  res.status(200).json({ file: { path: `/images/${req.file.filename}`}});
-});
-
-// Confir bdd
-(async () => {
-  await sequelize.authenticate();
-  console.log('DB conectada y asociaciones cargadas');
-})();
+app.post('/upload', uploadRoutes);
 
 // Listener
 app.listen(PORT, () => {
