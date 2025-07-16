@@ -119,14 +119,6 @@ async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unit
   }
 }
 
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem("modoNoche", document.body.classList.contains("dark-mode"));
-}
-
-if (localStorage.getItem("modoNoche") === "true") {
-    document.body.classList.add("dark-mode");
-}
 
 escribirTicket();
 window.volverInicio = volverInicio;

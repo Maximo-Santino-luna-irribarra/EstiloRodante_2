@@ -151,6 +151,8 @@ form.addEventListener("submit", async (e) =>{
     if (!subidaOK) return;
   agregarProducto()
 })
+
+
 // sube una imagen
 const subirImagen = async (form) => {
     const fileInput = document.getElementById('imagen');
