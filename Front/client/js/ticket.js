@@ -60,7 +60,7 @@ const escribirTicket = async () => {
 };
 
 function volverInicio() {
-    window.location.href = "./login.html";
+    window.location.href = "./survey.html";
 }
 
 function descargarTicket() {

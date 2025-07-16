@@ -30,6 +30,9 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
 
     if (resp.ok) {
       document.getElementById('modal').classList.add('show');
+      setTimeout(function() {
+          window.location.href = '/login.html';
+      }, 1500);
     } else {
       alert("Hubo un error al enviar la encuesta.");
     }
