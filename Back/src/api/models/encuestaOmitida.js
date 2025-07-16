@@ -5,7 +5,7 @@ const EncuestaOmitida = sequelize.define('encuestaOmitida', {
   nombre: DataTypes.STRING
 },
 {
-  tableName: 'encuestas'
+  tableName: 'encuestasOmitidas'
 });
 
 export default EncuestaOmitida;
