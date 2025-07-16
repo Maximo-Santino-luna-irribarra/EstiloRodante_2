@@ -1,9 +1,19 @@
-const express = require('express');
+import express from 'express';
+import{
+    crear,
+    omitir,
+    listar
+}from '../controllers/encuesta.controllers.js';
+
+
 const router = express.Router();
-const ctrl = require('../controllers/encuestaController');
 
-router.post('/', ctrl.crear);
-router.post('/omitida', ctrl.omitir);
-router.get('/', ctrl.listar);
 
-module.exports = router;
+
+router.post('/', crear);
+router.post('/omitida', omitir);
+router.get('/', listar);
+
+
+
+export default router;

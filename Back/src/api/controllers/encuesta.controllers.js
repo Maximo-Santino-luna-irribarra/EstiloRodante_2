@@ -1,6 +1,7 @@
-const service = require('../services/encuestaService');
+import * as service from '../service/encuesta.service.js'
 
-exports.crear = async (req, res) => {
+
+export const crear = async (req, res) => {
   try {
     const encuesta = await service.crearEncuesta(req.body);
     res.status(201).json(encuesta);
@@ -9,7 +10,7 @@ exports.crear = async (req, res) => {
   }
 };
 
-exports.omitir = async (req, res) => {
+export const omitir = async (req, res) => {
   try {
     const omitida = await service.registrarOmitida(req.body.email);
     res.status(201).json(omitida);
@@ -18,7 +19,7 @@ exports.omitir = async (req, res) => {
   }
 };
 
-exports.listar = async (req, res) => {
+export const listar = async (req, res) => {
   try {
     const { desde, hasta } = req.query;
     const resultados = await service.obtenerEncuestas(desde, hasta);

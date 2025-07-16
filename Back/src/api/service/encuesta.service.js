@@ -1,28 +1,24 @@
-const Encuesta = require('../models/encuesta.js');
-const EncuestaOmitida = require('../models/encuestaOmitida.js');
+import Encuesta from '../models/encuesta.js';
+import EncuestaOmitida from '../models/encuestaOmitida.js';
 
-async function crearEncuesta(datos) {
-  const nueva = new Encuesta(datos);
-  return await nueva.save();
+export const  crearEncuesta = async (datos) => {
+  const nueva = await Encuesta.create(datos);
+  return nueva;
 }
 
-async function registrarOmitida(email) {
-  const omitida = new EncuestaOmitida({ email });
-  return await omitida.save();
+export const registrarOmitida =  async (email) => { 
+  const omitida = await EncuestaOmitida.create({ email });
+  return omitida;
 }
 
-async function obtenerEncuestas(desde, hasta) {
+export const obtenerEncuestas= async(desde, hasta) =>{
   const filtro = {};
-  if (desde) filtro.fecha = { $gte: new Date(desde) };
-  if (hasta) {
-    filtro.fecha = filtro.fecha || {};
-    filtro.fecha.$lte = new Date(hasta);
-  }
+  if (desde) filtro.fecha = { [Op.gte]: new Date(desde) };
+  if (hasta) filtro.fecha = { ...(filtro.fecha || {}), [Op.lte]: new Date(hasta) };
 
-  const completadas = await Encuesta.find(filtro).sort({ fecha: -1 });
-  const omitidas = await EncuestaOmitida.find(filtro).sort({ fecha: -1 });
+  const completadas = await Encuesta.findAll({ where: filtro, order: [['fecha', 'DESC']] });
+  const omitidas = await EncuestaOmitida.findAll({ where: filtro, order: [['fecha', 'DESC']] });
 
   return { completadas, omitidas };
 }
 
-module.exports = { crearEncuesta, registrarOmitida, obtenerEncuestas };

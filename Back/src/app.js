@@ -6,7 +6,7 @@ import adminRoutes from './api/routes/admin.router.js';
 import clienteRoutes from './api/routes/cliente.router.js';
 import ventaRoutes from './api/routes/venta.router.js';
 import productoRoutes from './api/routes/producto.router.js';
-import encuestaRoutes from './api/routes/encuest.router.js'
+import encuestaRoutes from './api/routes/encuesta.router.js'
 import cors from 'cors';
 import authRoutes from './api/routes/auth.route.js';
 import {SERVER_PORT} from './config/envConfig.js'
@@ -35,7 +35,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/cliente', clienteRoutes);
 app.use('/api/productos', productoRoutes);
 app.use('/api/ventas', ventaRoutes);
-app.use('/api/ventas', encuestaRoutes);
+app.use('/api/encuestas', encuestaRoutes);
 app.use('/auth', authRoutes);
 
 // Rutas views
