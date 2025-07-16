@@ -56,12 +56,14 @@ const escribirTicket = async () => {
 
   // Limpiar localStorage
   localStorage.removeItem('carrito');
+  console.log("se borro")
   localStorage.removeItem('nombreCliente');
 };
 
-function volverInicio() {
-    window.location.href = "./survey.html";
-}
+document.querySelector('.terminarCompra').addEventListener('click', () => {
+   window.location.href = "./survey.html";
+})
+
 
 function descargarTicket() {
   const elementos = document.querySelectorAll('.ticket-item');
@@ -121,4 +123,3 @@ async function registrarVenta({ producto_id, tipo_producto, cantidad,precio_unit
 
 
 escribirTicket();
-window.volverInicio = volverInicio;

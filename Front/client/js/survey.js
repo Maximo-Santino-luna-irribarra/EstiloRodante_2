@@ -1,4 +1,5 @@
 import { ENCUESTAS } from './constants.js'; 
+import { ENCUESTASOMITIDAS } from './constants.js'; 
 
 document.getElementById('encuesta-form').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -31,7 +32,7 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
     if (resp.ok) {
       document.getElementById('modal').classList.add('show');
       setTimeout(function() {
-          window.location.href = '/login.html';
+          window.location.href = './login.html';
       }, 1500);
     } else {
       alert("Hubo un error al enviar la encuesta.");
@@ -42,8 +43,22 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
   }
 });
 
-document.getElementById('omitir-btn').addEventListener('click', () => {
-  window.location.href = 'login.html'; 
+document.getElementById('omitir-btn').addEventListener('click', async () => {
+  try {
+      const resp = await fetch(ENCUESTASOMITIDAS, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({nombre:localStorage.getItem('nombreCliente')})
+      });
+
+      if (!resp.ok) {
+        alert("Hubo un error al enviar la encuesta.");
+      }
+      window.location.href = './login.html';
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión.");
+    }
 });
 
 const slider = document.getElementById('slider');
