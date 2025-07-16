@@ -14,6 +14,7 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
   }
 
   const datos = {
+    nombre: localStorage.getItem('nombreCliente'),
     opinion,
     email,
     puntuacion,
