@@ -133,12 +133,27 @@ export async function mostrarAsistencias(req, res) {
     const { desde, hasta } = req.query || {};
     const where = {};
 
-    if (desde) where.createdAt = { [Op.gte]: new Date(desde) };
-    if (hasta) where.createdAt = { ...(where.createdAt || {}), [Op.lte]: new Date(hasta) };
+    if (desde || hasta) {
+      where.createdAt = {
+        [Op.and]: []
+      };
 
-    const encuestas = await Encuesta.findAll({ where, order: [['createdAt', 'DESC']] });
+      if (desde) {
+        where.createdAt[Op.and].push({ [Op.gte]: new Date(desde) });
+      }
+
+      if (hasta) {
+        where.createdAt[Op.and].push({ [Op.lte]: new Date(hasta) });
+      }
+    }
+
+    const encuestas = await Encuesta.findAll({
+      where,
+      order: [['createdAt', 'DESC']],
+    });
 
     const total = encuestas.length;
+
     const promedioPuntaje = encuestas.reduce((acc, e) => acc + (e.puntuacion || 0), 0) / (total || 1);
 
     const porDia = {};
@@ -147,7 +162,7 @@ export async function mostrarAsistencias(req, res) {
       porDia[fecha] = (porDia[fecha] || 0) + 1;
     });
 
-    res.render('admin/asistencia', {
+    res.render('asistencia', {
       encuestas,
       total,
       promedioPuntaje: promedioPuntaje.toFixed(2),
@@ -157,6 +172,5 @@ export async function mostrarAsistencias(req, res) {
     });
   } catch (error) {
     console.error('Error al mostrar asistencias:', error);
-    res.status(500).render('admin/error', { mensaje: 'Error al cargar asistencias' });
   }
 }

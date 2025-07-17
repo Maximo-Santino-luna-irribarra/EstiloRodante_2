@@ -28,8 +28,6 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
     return;
   }
 
-
-
   const datos = {
     nombre: localStorage.getItem('nombreCliente'),
     opinion,
