@@ -14,6 +14,22 @@ document.getElementById('encuesta-form').addEventListener('submit', async functi
     return;
   }
 
+  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (!email || !emailValido) {
+    alert("Por favor ingresa un email válido.");
+    return;
+  }
+
+  const slider = document.getElementById('slider').value;
+
+  if (slider < 1 || slider > 10) {
+    alert("La puntuación debe estar entre 1 y 10.");
+    return;
+  }
+
+
+
   const datos = {
     nombre: localStorage.getItem('nombreCliente'),
     opinion,
