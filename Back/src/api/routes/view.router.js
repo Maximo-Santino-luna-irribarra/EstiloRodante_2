@@ -6,7 +6,8 @@ import {
   renderEditar,
   renderAgregar,
   renderVentas,
-  renderClientes
+  renderClientes,
+  renderAsistencias
 } from '../controllers/view.controller.js';
 
 const router = Router();
@@ -18,5 +19,5 @@ router.get('/editar/:id', renderEditar);
 router.get('/agregar', renderAgregar);
 router.get('/vista_ventas', renderVentas);
 router.get('/vista_clientes', renderClientes);
-
+router.get('/asistencia', renderAsistencias)
 export default router;

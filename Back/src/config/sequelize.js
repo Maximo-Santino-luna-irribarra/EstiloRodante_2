@@ -1,10 +1,8 @@
-// Back/database/sequelize.js
-
 import { Sequelize } from 'sequelize';
 
 import {DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT} from './envConfig.js'
 
-// coneccion a la base de datos
+
 export const sequelize = new Sequelize(
 
   DB_NAME,

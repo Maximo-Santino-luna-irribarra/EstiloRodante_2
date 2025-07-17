@@ -6,12 +6,14 @@ import {
   postAdmin,
   putAdmin,
   deleteAdmin,
-  loginAdmin
+  loginAdmin,
+  mostrarAsistencias
 } from '../controllers/admin.controllers.js';
 
 // Creacion de router
 const router = express.Router();
 
+router.get('/asistencia',  mostrarAsistencias);
 // Ruta obtener todos los admins
 router.get('/', getAllAdmins);
 

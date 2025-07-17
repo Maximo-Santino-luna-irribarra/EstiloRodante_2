@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Asistencias - Panel Admin</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <header>
+    <h1>Registro de Asistencias</h1>
+  </header>
+
+  <section class="filtros">
+    <form method="GET" action="/admin/asistencia">
+      <label for="desde">Desde:</label>
+      <input type="date" name="desde" value="<%= desde || '' %>" />
+
+      <label for="hasta">Hasta:</label>
+      <input type="date" name="hasta" value="<%= hasta || '' %>" />
+
+      <button type="submit">Filtrar</button>
+    </form>
+  </section>
+
+  <section class="resumen">
+    <h2>Estadísticas</h2>
+    <p><strong>Total encuestas:</strong> <%= total %></p>
+    <p><strong>Puntaje promedio:</strong> <%= promedioPuntaje %></p>
+  </section>
+
+  <section class="por-dia">
+    <h3>Asistencias por día</h3>
+    <ul>
+      <% for (let dia in porDia) { %>
+        <li><%= dia %>: <%= porDia[dia] %> asistencia(s)</li>
+      <% } %>
+    </ul>
+  </section>
+
+  <section class="tabla-encuestas">
+    <h2>Detalle de encuestas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Puntuación</th>
+          <th>Comentarios</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% encuestas.forEach((e, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= e.fecha.toISOString().split('T')[0] %></td>
+            <td><%= e.nombre_cliente || '—' %></td>
+            <td><%= e.puntuacion %></td>
+            <td><%= e.comentario || '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
+</body>
+</html>
