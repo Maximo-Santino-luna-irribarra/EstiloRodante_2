@@ -60,21 +60,25 @@ function renderButtons(producto, controlsDiv) {
 }
 
 const writeProducto = (producto) => {
-  const { nombre, marca, categoria, modelo, urlIMG, precio } = producto;
+  const { id, nombre, marca, categoria, modelo, urlIMG, precio } = producto;
   const product = document.createElement("div");
   product.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
 
-  // Creamos el div que contendrá los botones
+  // Creamos el div que contendrá los botones del carrito
   const controlsDiv = document.createElement("div");
   controlsDiv.className = "d-flex justify-content-between gap-2";
-
-  // Renderizamos los botones por primera vez
   renderButtons(producto, controlsDiv);
 
-  // Construimos el resto de la tarjeta
+  // Construimos la tarjeta
   product.innerHTML = `
     <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
-         style="height: 100%; max-height: 320px; overflow: hidden;">
+         style="height: 100%; max-height: 340px; overflow: hidden; position: relative;">
+      
+      <!-- Botón Ver más detalles -->
+      <a href="/Front/client/html/detalleProducto.html?idProducto=${id}" 
+         class="btn btn-sm btn-primary position-absolute top-0 end-0 m-2">
+        Ver más
+      </a>
 
       <div class="text-center p-3">
         <img src="http://localhost:3000/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
@@ -102,13 +106,11 @@ const writeProducto = (producto) => {
     </div>
   `;
 
-  // Insertamos controlsDiv dentro del body de la tarjeta
+  // Insertamos los botones del carrito en la tarjeta
   product.querySelector(".px-3.pb-3").appendChild(controlsDiv);
 
-  // Y finalmente al contenedor general
   contenedorProductos.appendChild(product);
 };
-  
 
 function mostrarProductos(pagina) {
   contenedorProductos.innerHTML = "";
