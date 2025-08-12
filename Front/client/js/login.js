@@ -1,4 +1,4 @@
-import {CLIENTES} from './constants.js'
+import { CLIENTES } from "./constantes/rutas.js";
 
 const buttonLogin = document.querySelector('.btn-login');
 const nombreUsuario = document.getElementById('nombre');

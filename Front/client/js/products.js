@@ -2,7 +2,7 @@
 // VARIABLES GLOBALES
 // ==============================
 
-import { PRODUCTOS } from './constants.js'; 
+import { PRODUCTOS } from "./constantes/rutas.js";
 
 const tipoSelect    = document.querySelector('select[name="type"]');
 const marcaSelect   = document.querySelector('select[name="brands"]');

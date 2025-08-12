@@ -1,4 +1,4 @@
-import { PRODUCTOS } from "./constants.js";
+import { PRODUCTOS } from "./constantes/rutas.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);

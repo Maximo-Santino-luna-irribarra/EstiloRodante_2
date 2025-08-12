@@ -1,5 +1,4 @@
-import { VENTAS } from './constants.js';
-
+import {VENTAS} from "./constantes/rutas.js";
 const escribirTicket = async () => {
   const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
   const nombreCliente = localStorage.getItem('nombreCliente') || 'Cliente Anónimo';

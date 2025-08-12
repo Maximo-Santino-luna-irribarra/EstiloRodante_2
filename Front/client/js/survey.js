@@ -1,5 +1,5 @@
-import { ENCUESTAS } from './constants.js'; 
-import { ENCUESTASOMITIDAS } from './constants.js'; 
+import { ENCUESTAS } from "./constantes/rutas.js";
+import { ENCUESTASOMITIDAS} from "./constantes/rutas.js";
 
 document.getElementById('encuesta-form').addEventListener('submit', async function (e) {
   e.preventDefault();
