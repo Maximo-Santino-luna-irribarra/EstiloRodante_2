@@ -35,20 +35,34 @@ export const postProducto = async (req, res) => {
   }
 };
 
+// controllers/producto.controller.js
 export const putProducto = async (req, res) => {
-  try{
-    const actualizada = await productoservice.updateProducto(req.params.id, req.body);
-    // Actualiza la producto con los datos proporcionados en el cuerpo de la solicitud
-    if (!actualizada) return res.status(404).json({ error: 'Producto no encontrada' });
-    // Si la producto no se encuentra, se devuelve un error 404
+  try {
+    // Si subís archivo, manejalo con multer
+    const datos = {
+      nombre: req.body.nombre,
+      marca: req.body.marca,
+      modelo: req.body.modelo,
+      medida: req.body.medida,
+      precio: parseInt(req.body.precio),
+      stock: parseInt(req.body.stock),
+      urlIMG: req.file ? `/uploads/${req.file.filename}` : req.body.urlIMG
+    };
 
-    // Si se encuentra, se devuelve la producto actualizada en formato JSON
-    res.status(201).json(actualizada);
-  }catch(error){
-      console.error('Error al actualizar el Producto:', error)
-      res.status(500).json({ error:'Error del servidor' })
+    const actualizada = await productoservice.updateProducto(req.params.id, datos);
+
+    if (!actualizada) {
+      return res.status(404).send('Producto no encontrado');
+    }
+
+    // Redirigir al dashboard en lugar de devolver JSON
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+    res.status(500).send('Error al actualizar producto');
   }
 };
+
 
 export const deleteProducto = async (req, res) => {
   try{
@@ -83,5 +97,18 @@ export const getProductosPaginados = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al obtener productos paginados con filtros' });
+  }
+};
+
+export const renderEditar = async (req, res) => {
+  try {
+    const producto = await productoservice.getProductoById(req.params.id);
+    if (!producto) {
+      return res.status(404).send('Producto no encontrado');
+    }
+    res.render('editar', { producto });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error interno del servidor');
   }
 };

@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import {
     getAllProductos,
     getProducto,
@@ -9,6 +10,8 @@ import {
 } from '../controllers/producto.controllers.js';
 
 const router = express.Router();
+
+const upload = multer({ dest: 'uploads/' });
 
 // Ruta para obtener todos los productos
 router.get('/', getAllProductos);
@@ -23,7 +26,7 @@ router.get('/:id', getProducto);
 router.post('/', postProducto);
 
 // Ruta para actualizar producto
-router.put('/:id', putProducto);
+router.put('/:id', upload.single('imagen'), putProducto);
 
 // Ruta para eliminar producto por ID
 router.delete('/:id', deleteProducto);
