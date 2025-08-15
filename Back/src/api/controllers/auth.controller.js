@@ -23,6 +23,7 @@ const loginAdmin = async (req, res) => {
         }
 
         res.status(200).json({message: "Inicio de sesión exitoso", admin});
+        console.log("sjfsajfashjfsaj")
     }
     
     catch (error) {
