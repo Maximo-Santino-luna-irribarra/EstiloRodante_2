@@ -182,18 +182,3 @@ export async function mostrarAsistencias(req, res) {
 
 
 
-export const getLogsAdmin = async (req, res) => {
-  try {
-    const logs = await LogAdmin.findAll({
-      include: [{
-        model: Admin,
-        attributes: ['nombre', 'email']
-      }],
-      order: [['fecha', 'DESC']]
-    });
-    res.status(200).json(logs);
-  } catch (error) {
-    console.error('Error al obtener logs:', error);
-    res.status(500).json({ error: 'Error del servidor' });
-  }
-};

@@ -8,7 +8,7 @@ import {
   deleteAdmin,
   loginAdmin,
   mostrarAsistencias,
-  getLogsAdmin
+
 } from '../controllers/admin.controllers.js';
 
 // Creacion de router
@@ -31,9 +31,9 @@ router.put('/:id', putAdmin);
 router.delete('/:id', deleteAdmin);
 
 // Ruta para loguear admin
-router.get('login',(loginAdmin));
 
-router.get('logs', getLogsAdmin);
+
+
 
 
 export default router;
