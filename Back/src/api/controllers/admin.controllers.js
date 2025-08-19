@@ -1,6 +1,6 @@
 import adminservice from '../service/admin.service.js';
 import authHelper from '../helpers/authHelper.js';
-import LogAdmin from '../models/logAdmin.js';
+
 import Encuesta from '../models/encuesta.js';
 import { isValidString, isValidEmail } from '../helpers/validationHelper.js';
 import { Op } from 'sequelize';
@@ -102,35 +102,6 @@ export const deleteAdmin = async (req, res) => {
   }
 };
 
-export const loginAdmin = async (req, res) => {
-  try {
-
-    const { email, password } = req.body;
-    // validacion
-    if (!email || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Email obligatorio y válido' });
-    }
-    // validacion
-    if (!password || typeof password !== 'string') {
-      return res.status(400).json({ error: 'Contraseña obligatoria' });
-    }
-
-    const logeado = await adminservice.loginAdmin(email, password);
-
-    // validacion
-    if (!logeado) return res.status(401).json({ error: 'Credenciales incorrectas' });
-
-    console.log("efaujnowrfgen. j jn.zxm. czdx naedx cz")
-    await LogAdmin.create({ adminId: logeado.id });
-
-    res.status(200).json({ message: 'Login exitoso', admin: logeado });
-  } catch (error) {
-
-    console.error('Error al loguear admin:', error);
-
-    res.status(500).json({ error: 'Error del servidor' });
-  }
-};
 
 
 export async function mostrarAsistencias(req, res) {

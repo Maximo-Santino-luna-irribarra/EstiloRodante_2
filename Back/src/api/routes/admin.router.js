@@ -6,7 +6,6 @@ import {
   postAdmin,
   putAdmin,
   deleteAdmin,
-  loginAdmin,
   mostrarAsistencias,
 
 } from '../controllers/admin.controllers.js';
