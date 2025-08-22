@@ -1,6 +1,7 @@
 import adminService from "../service/admin.service.js";
 import authHelper from '../helpers/authHelper.js';
 import LogAdmin from '../models/logAdmin.js';
+import Admin from '../models/admin.js';  //
 
 const loginAdmin = async (req, res) => {
     
@@ -58,8 +59,16 @@ export const getLogs = async (req, res) => {
     res.status(500).json({ error: "Error al obtener logs" });
     }
 };
+
+export const postLogs = async (req, res) =>{
+    const logs = await LogAdmin.create(req.body)
+    res.status(201).json(logs)
+}
+
+
 export default {
     loginAdmin,
     logoutAdmin,
-    getLogs
+    getLogs,
+    postLogs
 };

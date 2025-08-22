@@ -9,7 +9,9 @@ router.post('/login', authController.loginAdmin);
 // Ruta para desloguear
 router.post('/logout', authController.logoutAdmin);
 
-router.get('/getLogs',authController.getLogs)
+router.get('/Logs',authController.getLogs)
+
+router.post("/Logs", authController.postLogs)
 
 
 export default router;
