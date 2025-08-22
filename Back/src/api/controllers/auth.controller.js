@@ -24,7 +24,7 @@ const loginAdmin = async (req, res) => {
         }
 
         res.status(200).json({message: "Inicio de sesión exitoso", admin});
-        console.log("sjfsajfashjfsaj")
+        console.log("se loge y crea la el log")
           // 🔹 Guardar log de login
         await LogAdmin.create({ adminId: admin.id });
     }
@@ -43,7 +43,23 @@ const logoutAdmin = async (req, res) => {
     }
 }
 
+export const getLogs = async (req, res) => {
+    try {
+    const logs = await LogAdmin.findAll({
+        include: [{ model: Admin, attributes: ['id', 'nombre', 'email'] }],
+        order: [['fecha', 'DESC']]
+
+    });
+    res.json(logs);
+    console.log(logs)
+    }
+    catch (error) {
+    console.error("Error al obtener logs:", error);
+    res.status(500).json({ error: "Error al obtener logs" });
+    }
+};
 export default {
     loginAdmin,
-    logoutAdmin
+    logoutAdmin,
+    getLogs
 };

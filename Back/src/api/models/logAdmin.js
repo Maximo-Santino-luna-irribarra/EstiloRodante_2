@@ -1,27 +1,23 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.js';
-import Admin from './admin.js'; 
+
 const LogAdmin = sequelize.define('log_admin', {
-    id: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
-    },
-    adminId: {
+  },
+  adminId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: Admin,
-        key: 'id'
-    }
-    },
-    fecha: {
+    allowNull: false
+  },
+  fecha: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
-    }
+  }
+}, {
+  tableName: 'log_admin',
+  timestamps: false
 });
-
-Admin.hasMany(LogAdmin, { foreignKey: 'adminId' });
-LogAdmin.belongsTo(Admin, { foreignKey: 'adminId' });
 
 export default LogAdmin;

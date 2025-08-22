@@ -20,6 +20,38 @@ function cargarVentas() {
     });
 }
 
+function cargarLogs() {
+  fetch('/api/logs')
+    .then(res => res.json())
+    .then(logs => {
+      renderizarLogs(logs);
+    })
+    .catch(err => {
+      console.error('Error al cargar logs:', err);
+      mostrarMensaje('Error al obtener los logs', 'text-danger');
+    });
+}
+function renderizarLogs(logs) {
+  tbody.innerHTML = '';
+
+  // Cambiar encabezados para mostrar datos de logs
+  document.getElementById('2columna').textContent = 'Administrador';
+  document.getElementById('3columna').textContent = 'Acción';
+  document.querySelector('.4columna').textContent = 'Detalle';
+  document.querySelector('.5columna').textContent = 'Fecha';
+
+  logs.forEach((log, index) => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${log.admin?.usuario || 'Desconocido'}</td>
+      <td>${log.accion}</td>
+      <td>${log.detalle || '-'}</td>
+      <td>${log.fecha?.slice(0, 10) || 'Sin fecha'}</td>
+    `;
+    tbody.appendChild(fila);
+  });
+}
 function manejarOrdenamiento() {
   const criterio = ordenarSelect.value;
 
@@ -35,7 +67,10 @@ function manejarOrdenamiento() {
       });
     return;
   }
-
+  if (criterio === 'logs') {
+    cargarLogs();
+    return;
+  }
   if (criterio === 'ganancia') {
     fetch('/api/ventas/top10Ventas')
       .then(res => res.json())
@@ -148,3 +183,5 @@ function mostrarMensaje(texto, clase) {
     </tr>
   `;
 }
+
+

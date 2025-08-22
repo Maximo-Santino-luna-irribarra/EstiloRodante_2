@@ -24,7 +24,14 @@ DetalleVenta.belongsTo(Producto, {
   targetKey:  'id',
   as:         'producto' 
 });
+import Admin from './admin.js';
+import LogAdmin from './logAdmin.js';
 
+// Relaciones
+Admin.hasMany(LogAdmin, { foreignKey: 'adminId' });
+LogAdmin.belongsTo(Admin, { foreignKey: 'adminId' });
+
+export { Admin, LogAdmin };
 export {
   sequelize,
   Producto,
