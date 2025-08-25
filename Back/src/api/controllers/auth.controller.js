@@ -25,7 +25,6 @@ const loginAdmin = async (req, res) => {
         }
 
         res.status(200).json({message: "Inicio de sesión exitoso", admin});
-        console.log("se loge y crea la el log")
           // 🔹 Guardar log de login
         await LogAdmin.create({ adminId: admin.id });
     }
@@ -52,7 +51,6 @@ export const getLogs = async (req, res) => {
 
     });
     res.json(logs);
-    console.log(logs)
     }
     catch (error) {
     console.error("Error al obtener logs:", error);

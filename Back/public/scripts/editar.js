@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname;
   const id = path.split('/')[2];
+  console.log("ID del producto:", id);
   const form = document.querySelector("#editForm");
 
   fetch(`/api/productos/${id}`)
@@ -9,9 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then(producto => {
-      form.innerHTML = generarFormulario(producto);
-      cargarValores(producto);
-
+      form.innerHTML = generarFormulario(); // genera el form vacío
+      cargarValores(producto);              // carga los valores del producto
+      bloquearEEnInputsNumber();
+      
       form.addEventListener("submit", async e => {
         e.preventDefault();
 
@@ -49,8 +51,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Generar formulario HTML
+// ---------------- Funciones auxiliares ----------------
+
+function bloquearEEnInputsNumber() {
+  document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    input.addEventListener("paste", function (e) {
+      const pasteData = (e.clipboardData || window.clipboardData).getData("text");
+      if (/[^0-9]/.test(pasteData)) {
+        e.preventDefault();
+      }
+    });
+  });
+}
+
 function generarFormulario() {
+  const marcas = ["Pirelli","Goodyear","Bridgestone","Firestone","Micheline"];
+  const opcionesMarca = marcas.map(m => `<option value="${m}">${m}</option>`).join('');
+
   return `
     <div class="row g-3">
       <div class="col-md-6">
@@ -59,7 +80,9 @@ function generarFormulario() {
       </div>
       <div class="col-md-6">
         <label class="form-label">Marca</label>
-        <input type="text" id="editMarca" class="form-control" placeholder="Ej: Marca X">
+        <select id="editMarca" class="form-select">
+          ${opcionesMarca}
+        </select>
       </div>
       <div class="col-md-6">
         <label class="form-label">Modelo</label>
@@ -92,7 +115,6 @@ function generarFormulario() {
   `;
 }
 
-// Cargar valores en inputs
 function cargarValores(producto) {
   document.getElementById('editNombre').value = producto.nombre || '';
   document.getElementById('editMarca').value = producto.marca || '';
@@ -103,7 +125,6 @@ function cargarValores(producto) {
   document.getElementById('editPreviewImagen').src = producto.urlIMG || '/logoPage.png';
 }
 
-// Obtener datos del formulario
 function obtenerDatosFormulario() {
   return {
     nombre: document.getElementById('editNombre').value,

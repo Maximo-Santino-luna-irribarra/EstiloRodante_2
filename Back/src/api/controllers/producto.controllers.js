@@ -55,8 +55,7 @@ export const putProducto = async (req, res) => {
       return res.status(404).send('Producto no encontrado');
     }
 
-    // Redirigir al dashboard en lugar de devolver JSON
-    res.redirect('/dashboard');
+    res.json({ success: true, producto: actualizada });
   } catch (error) {
     console.error('Error al actualizar el producto:', error);
     res.status(500).send('Error al actualizar producto');
