@@ -123,8 +123,8 @@ function renderizarVentas(ventas, modo = '') {
   tbody.innerHTML = '';
 
   if (modo === 'mas-vendidos') {
-    document.getElementById('2columna').textContent = 'Producto'
-    document.getElementById('3columna').textContent = 'Marca'
+    document.getElementById('2columna').textContent = 'Producto';
+    document.getElementById('3columna').textContent = 'Marca';
     ventas.forEach((item, index) => {
       const producto = item.producto;
       const totalVendido = item.totalVendido;
@@ -141,6 +141,7 @@ function renderizarVentas(ventas, modo = '') {
     });
     return;
   }
+
   if (modo === 'ventas-caras') {
     document.getElementById('2columna').textContent = 'Producto';
     document.getElementById('3columna').textContent = 'Marca';
@@ -162,31 +163,43 @@ function renderizarVentas(ventas, modo = '') {
     return;
   }
 
-  document.getElementById('2columna').textContent = 'Cliente'
-  document.getElementById('3columna').textContent = 'Productos'
+  // ------------------------
+  // Ventas normales (mejora estética en productos)
+  // ------------------------
+  document.getElementById('2columna').textContent = 'Cliente';
+  document.getElementById('3columna').textContent = 'Productos';
+
   ventas.forEach((venta, index) => {
     let contenidoProductos = (venta.detalles ?? []).map(detalle => {
       const producto = detalle.producto;
+
       return `
-        <div>
-          ${producto?.nombre || 'Producto'} 
-          (${detalle.cantidad} x $${detalle.precio_unitario}) = $${detalle.subtotal}
-          - ${producto?.marca || 'Marca no especificada'}
-        </div>
+        <li>
+          <strong>${producto?.nombre || 'Producto'}</strong><br>
+          Cantidad: ${detalle.cantidad} x $${detalle.precio_unitario} = 
+          <span class="text-success">$${detalle.subtotal}</span><br>
+          <small class="text-muted">Marca: ${producto?.marca || 'No especificada'}</small>
+        </li>
       `;
     }).join('');
 
+    // envolvemos los productos en una lista para mejor legibilidad
     const fila = document.createElement('tr');
     fila.innerHTML = `
       <td>${index + 1}</td>
       <td>${venta.nombre_cliente}</td>
-      <td>${contenidoProductos}</td>
-      <td>$${venta.detalles.reduce((acc, d) => acc + d.subtotal, 0)}</td>
+      <td>
+        <ul style="padding-left:15px; margin:0;">
+          ${contenidoProductos}
+        </ul>
+      </td>
+      <td><strong>$${venta.detalles.reduce((acc, d) => acc + d.subtotal, 0)}</strong></td>
       <td>${venta.fecha_venta?.slice(0, 10)}</td>
     `;
     tbody.appendChild(fila);
   });
 }
+
 
 function mostrarMensaje(texto, clase) {
   tbody.innerHTML = `
