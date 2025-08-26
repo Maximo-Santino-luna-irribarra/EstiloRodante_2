@@ -21,7 +21,7 @@ function cargarVentas() {
 }
 
 function cargarLogs() {
-  fetch('/api/logs')
+  fetch('/auth/Logs')
     .then(res => res.json())
     .then(logs => {
       renderizarLogs(logs);
@@ -31,27 +31,39 @@ function cargarLogs() {
       mostrarMensaje('Error al obtener los logs', 'text-danger');
     });
 }
-function renderizarLogs(logs) {
-  tbody.innerHTML = '';
 
-  // Cambiar encabezados para mostrar datos de logs
-  document.getElementById('2columna').textContent = 'Administrador';
-  document.getElementById('3columna').textContent = 'Acción';
-  document.querySelector('.4columna').textContent = 'Detalle';
-  document.querySelector('.5columna').textContent = 'Fecha';
+
+  // Ajustar encabezados de tabla para logs
+function renderizarLogs(logs) {
+   
+  const col2 = document.getElementById('2columna');
+  const col3 = document.getElementById('3columna');
+  const col4 = document.getElementById('4columna');
+  const col5 = document.getElementById('5columna');
+   tbody.innerHTML = '';
+  if (col2) col2.textContent = 'Administrador';
+  if (col3) col3.textContent = 'Email';
+  if (col4) col4.textContent = 'ID Log';
+  if (col5) col5.textContent = 'Fecha';
+
 
   logs.forEach((log, index) => {
     const fila = document.createElement('tr');
+
     fila.innerHTML = `
       <td>${index + 1}</td>
-      <td>${log.admin?.usuario || 'Desconocido'}</td>
-      <td>${log.accion}</td>
-      <td>${log.detalle || '-'}</td>
-      <td>${log.fecha?.slice(0, 10) || 'Sin fecha'}</td>
+      <td>${log.admin?.nombre || 'Desconocido'}</td>
+      <td>${log.admin?.email || '-'}</td>
+      <td>${ '-'}</td>
+      <td>${log.fecha ? new Date(log.fecha).toLocaleString() : 'Sin fecha'}</td>
     `;
+
     tbody.appendChild(fila);
   });
 }
+
+
+
 function manejarOrdenamiento() {
   const criterio = ordenarSelect.value;
 
