@@ -46,5 +46,6 @@ app.post('/upload', uploadRoutes);
 
 // Listener
 app.listen(PORT, () => {
-  console.log(`Server corriendo en puerto ${PORT}`);
+  console.log(`Server corriendo en puerto ${PORT} copia y pega esto mi rey(http://localhost:3000/)`);
+
 });
