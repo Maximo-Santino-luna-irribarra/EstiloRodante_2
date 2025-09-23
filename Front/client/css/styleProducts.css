@@ -123,6 +123,13 @@ aside{
     transition: transform 0.2s ease-in-out;
 }
 
+button[data-bs-toggle="collapse"] {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    text-align: left;
+}
+
 .product-box:hover {
     transform: scale(1.02);
 }

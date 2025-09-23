@@ -1,5 +1,7 @@
 import { PRODUCTOS } from "./constantes/rutas.js";
 
+let carrito = cargarCarrito();
+
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const idProducto = params.get("idProducto");
@@ -29,6 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+function cargarCarrito() { return JSON.parse(localStorage.getItem("carrito")) || []; }
+
 function renderDetalle(producto) {
   const { nombre, marca, categoria, modelo, medida, activo, urlIMG, precio, stock } = producto;
 
@@ -51,9 +55,43 @@ function renderDetalle(producto) {
       <p class="mb-3"><span class="badge ${activo ? "bg-success" : "bg-danger"}">
         ${activo ? "Disponible" : "No disponible"}
       </span></p>
-      <button class="btn btn-success btn-lg w-100">Agregar al carrito 🛒</button>
+      <button id="btnAgregarDetalle" class="btn btn-success btn-lg w-100">Agregar al carrito 🛒</button>
     </div>
   `;
 
   document.getElementById("detalle-container").innerHTML = html;
+
+  // Asignamos el click al botón
+  const btn = document.getElementById("btnAgregarDetalle");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      agregarAlCarrito(producto); // usa la misma función de tu lista principal
+    });
+  }
 }
+
+function mostrarAlerta(msg) {
+  const alerta = document.getElementById("alerta-carrito");
+  const contenido = document.getElementById("alerta-contenido");
+  contenido.textContent = `Producto ${msg}`;
+  alerta.style.display = "block";
+  setTimeout(() => alerta.style.display = "none", 3000);
+}
+
+// Función de agregar al carrito compartida
+function agregarAlCarrito(producto) {
+  const existente = carrito.find(p => p.id === producto.id);
+
+  if (existente) {
+    existente.cantidad += 1;
+    mostrarAlerta(`${producto.nombre} - Cantidad actual: ${existente.cantidad}`);
+  } else {
+    const productoConCantidad = { ...producto, cantidad: 1 };
+    carrito.push(productoConCantidad);
+    mostrarAlerta(`${producto.nombre} añadido al carrito`);
+  }
+
+  guardarCarrito();
+}
+
+function guardarCarrito() { localStorage.setItem("carrito", JSON.stringify(carrito)); }

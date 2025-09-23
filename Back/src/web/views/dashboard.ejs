@@ -15,78 +15,87 @@
   <main class="container">
     <div class="d-flex" id="contenedor-principal">
 
-      <!-- ASIDE: filtros -->
-      <aside class="aside-fixed bg-white p-3 shadow-sm">
-        <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
-          Cubiertas
-        </div>
-        <form class="filterForm d-flex flex-column gap-4">
+      <!-- BOTÓN PARA MÓVILES -->
+<button class="btn btn-outline-dark d-md-none w-100 mb-2 mt-1" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#filterCubiertas" 
+        aria-expanded="false" 
+        aria-controls="filterCubiertas">
+    🔍 Filtros
+</button>
 
-          <!-- Filtro de Marca -->
-          <div>
+<!-- ASIDE: FILTROS CUBIERTAS -->
+<aside class="aside-fixed bg-white p-3 shadow-sm collapse d-md-block" id="filterCubiertas">
+    <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
+        Cubiertas
+    </div>
+    <form class="filterForm d-flex flex-column gap-4">
+
+        <!-- Filtro de Marca -->
+        <div>
             <label for="types" class="form-label fw-semibold">Marca</label>
             <select class="form-select form-select-sm" id="types">
-              <option value="Todos">Todos</option>
-              <option value="Pirelli">Pirelli</option>
-              <option value="Goodyear">Goodyear</option>
-              <option value="Bridgestone">Bridgestone</option>
-              <option value="Firestone">Firestone</option>
-              <option value="Michelin">Michelin</option>
+                <option value="Todos">Todos</option>
+                <option value="Pirelli">Pirelli</option>
+                <option value="Goodyear">Goodyear</option>
+                <option value="Bridgestone">Bridgestone</option>
+                <option value="Firestone">Firestone</option>
+                <option value="Michelin">Michelin</option>
             </select>
-          </div>
+        </div>
 
-          <!-- Filtro de Tipo -->
-          <div>
+        <!-- Filtro de Tipo -->
+        <div>
             <label for="brands" class="form-label fw-semibold">Tipo</label>
             <select class="form-select form-select-sm" id="brands">
-              <option value="Todos">Todos</option>
-              <option value="Llanta">Llanta</option>
-              <option value="Cubierta">Neumático</option>
+                <option value="Todos">Todos</option>
+                <option value="Llanta">Llanta</option>
+                <option value="Cubierta">Neumático</option>
             </select>
-          </div>
+        </div>
 
-          <!--Filtro de Estado -->
-          <div>
+        <!-- Filtro de Estado -->
+        <div>
             <label for="estadoFiltro" class="form-label fw-semibold">Estado</label>
             <select class="form-select form-select-sm" id="estadoFiltro">
-              <option value="Todos">Todos</option>
-              <option value="Activo">Activos</option>
-              <option value="Desactivado">Desactivados</option>
+                <option value="Todos">Todos</option>
+                <option value="Activo">Activos</option>
+                <option value="Desactivado">Desactivados</option>
             </select>
-          </div>
+        </div>
 
-          <!-- Filtro de Precio -->
-          <div>
+        <!-- Filtro de Precio -->
+        <div>
             <label class="form-label fw-semibold">Precio</label>
             <div class="d-flex flex-column gap-3">
-              <div class="mb-3">
-                <label class="form-label fw-semibold mb-1">Mínimo</label>
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text py-0 px-2 bg-light" style="height: 32px;">$</span>
-                  <input type="number" class="form-control minPrice" placeholder="Precio mínimo" style="height: 32px;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold mb-1">Mínimo</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text py-0 px-2 bg-light" style="height: 32px;">$</span>
+                        <input type="number" class="form-control minPrice" placeholder="Precio mínimo" style="height: 32px;">
+                    </div>
                 </div>
-              </div>
 
-              <div class="mb-3">
-                <label class="form-label fw-semibold mb-1">Máximo</label>
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text py-0 px-2 bg-light" style="height: 32px;">$</span>
-                  <input type="number" class="form-control maxPrice" placeholder="Precio máximo" style="height: 32px;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold mb-1">Máximo</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text py-0 px-2 bg-light" style="height: 32px;">$</span>
+                        <input type="number" class="form-control maxPrice" placeholder="Precio máximo" style="height: 32px;">
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+        </div>
 
-          <a class="btn btn-success" href="/agregar">agregar Nuevo producto</a>
-        </form>
-      </aside>
+        <a class="btn btn-success" href="/agregar">Agregar Nuevo Producto</a>
+    </form>
+</aside>
 
-      <!-- MAIN: panel productos -->
     <main class="flex-grow-1 px-4 py-4 bg-light">
         <div class="modal-dialog modal-sm"></div>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h2>Panel</h2>
-          <a class="btn btn-success" href="/agregar">agregar Nuevo producto</a>
+          <a class="btn btn-success add-product" href="/agregar">agregar Nuevo producto</a>
         </div>
 
         <!-- Productos -->

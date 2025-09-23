@@ -15,92 +15,93 @@
 
 <body class="min-vh-100 d-flex flex-column justify-content-between">
 
-<header class="bg-dark text-white py-1 ">
-    <nav class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <h1 class="text-white m-0 flex-grow-1">EstiloRodante</h1>
+<header class="bg-dark text-white py-1">
+  <nav class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <h1 class="text-white m-0 flex-grow-1">EstiloRodante</h1>
 
-        <input type="text" class="form-control w-100 w-md-25" placeholder="Buscar por nombre..." />
+    <button class="btn btn-outline-light d-md-none w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav" aria-expanded="false" aria-controls="mobileNav">
+      ☰ Menu / Buscar
+    </button>
 
-        <div class="nav d-flex flex-wrap justify-content-center gap-2">
+    <div class="collapse d-md-flex flex-wrap justify-content-between w-100 w-md-auto" id="mobileNav">
+      <input type="text" class="form-control w-100 w-md-25 mb-2 mb-md-0" placeholder="Buscar por nombre..." />
+
+      <div class="nav d-flex flex-wrap justify-content-center gap-2 mb-2 mb-md-0">
         <a class="nav-link text-white" href="/Front/client/html/home.html">Inicio</a>
         <a class="nav-link text-white" href="/Front/client/html/products.html">Productos</a>
         <a class="nav-link text-white" href="/Front/client/html/cart.html">Carrito</a>
-        </div>
+      </div>
 
-        <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2">
         <img id="logoPage" src="/Front/images/assets/logoPage.png" alt="LogoPagina" class="img-fluid" style="max-width: 50px; padding: 5px; border-radius: 30%;">
-        </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 </header>
 
+<button class="btn btn-outline-dark d-md-none w-100 mb-2 mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">
+    🔍 Filtros
+</button>
 
-    <aside class="aside-fixed bg-black p-4 rounded shadow-sm">
+    <aside class="aside-fixed bg-black p-4 rounded shadow-sm collapse d-md-block" id="filterPanel">
+    <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
+        Resultados de llantas
+    </div>
 
-        <div class="fs-5 fw-bold mb-3 border-bottom pb-2">
-            Resultados de llantas
-        </div>
-
-        <form class="filterForm d-flex flex-column gap-4">
-
-            <div>
-                <label for="types" class="form-label fw-semibold">Tipos</label>
-                <select class="option form-select form-select-sm" name="type" id="types">
-                    <option value="Todos">Todos</option>
-                    <option value="Llanta">LLanta</option>
-                    <option value="Cubierta">Neumatico</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="types" class="form-label fw-semibold">Marcas</label>
-                    <select class="option form-select form-select-sm" name="brands" id="types">
-                    
-                </select>
-            </div>
-
-            <div>
-                <label for="brands" class="form-label">Modelos</label>
-                <select class="option form-select form-select-sm" name="models" id="models">
-                    <option value="Todos">Todos</option>
-                    <option value="Trail Terrain T/A">Trail Terrain T/A</option>
-                    <option value="Mud Terrain KM3">Mud Terrain KM3</option>
-                    <option value="Primacy 4">Primacy 4</option>
-                    <option value="X-Ice Snow">X-Ice Snow</option>
-                </select>
-            </div>
+    <form class="filterForm d-flex flex-column gap-4">
 
         <div>
-            
+            <label for="types" class="form-label fw-semibold">Tipos</label>
+            <select class="option form-select form-select-sm" name="type" id="types">
+                <option value="Todos">Todos</option>
+                <option value="Llanta">LLanta</option>
+                <option value="Cubierta">Neumatico</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="brands" class="form-label fw-semibold">Marcas</label>
+            <select class="option form-select form-select-sm" name="brands" id="types"></select>
+        </div>
+
+        <div>
+            <label for="models" class="form-label">Modelos</label>
+            <select class="option form-select form-select-sm" name="models" id="models">
+                <option value="Todos">Todos</option>
+                <option value="Trail Terrain T/A">Trail Terrain T/A</option>
+                <option value="Mud Terrain KM3">Mud Terrain KM3</option>
+                <option value="Primacy 4">Primacy 4</option>
+                <option value="X-Ice Snow">X-Ice Snow</option>
+            </select>
+        </div>
+
+        <div>
             <label class="form-label fw-semibold">Precio</label>
             <div class="d-flex flex-column gap-3">
-                
-            <div class="mb-3">
+                <div class="mb-3">
                     <label class="form-label fw-semibold mb-1">Precio mínimo</label>
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text align-items-center py-0 px-2 bg-light" style="height: 32px;">$</span>
-                            <input type="number" class="form-control minPrice" placeholder="Precio mínimo" style="height: 32px;">
-                        </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text align-items-center py-0 px-2 bg-light" style="height: 32px;">$</span>
+                        <input type="number" class="form-control minPrice" placeholder="Precio mínimo" style="height: 32px;">
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold mb-1">Precio máximo</label>
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text align-items-center py-0 px-2 bg-light" style="height: 32px;">$</span>
-                            <input type="number" class="form-control maxPrice" placeholder="Precio máximo" style="height: 32px;">
-                        </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text align-items-center py-0 px-2 bg-light" style="height: 32px;">$</span>
+                        <input type="number" class="form-control maxPrice" placeholder="Precio máximo" style="height: 32px;">
+                    </div>
                 </div>
-
             </div>
         </div>
 
+    </form>
 
-        </form>
-
-        <div class="d-flex justify-content-center mt-4" id = countItems>
-            <span>items en carrito <span id="cart-count">0</span> </span>
-        </div>
-        
-    </aside>
+    <div class="d-flex justify-content-center mt-4" id="countItems">
+        <span>items en carrito <span id="cart-count">0</span> </span>
+    </div>
+</aside>
 
     <!-- Contenido principal -->
     <main class="d-flex" style="margin-left: 250px;">

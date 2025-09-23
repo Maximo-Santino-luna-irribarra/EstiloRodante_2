@@ -57,55 +57,66 @@ export const deleteVenta = async (req, res) => {
     }
 };
 
-export async function top10Productos(req, res) {
+export async function top10Productos() {
   try {
     const results = await DetalleVenta.findAll({
       attributes: [
         'producto_id',
         [fn('SUM', col('cantidad')), 'totalVendido'],
-        [fn('MAX', col('fecha_venta')), 'fecha_venta']
-      ],
-      group: ['producto_id', 'producto.id'],
-      order: [[literal('totalVendido'), 'DESC']],
-      limit: 10,
-      include: [{
-        model: Producto,
-        as: 'producto',
-        attributes: ['nombre', 'marca', 'modelo']
-      }]
-    });
-
-    res.json(results);
-  } catch (error) {
-    console.error('Error al obtener top 10 productos:', error);
-    res.status(500).json({ error: 'Error al obtener top 10 productos' });
-  }
-}
-
-
-export const top10Ventas = async (req, res) => {
-  try {
-    const topProductos = await DetalleVenta.findAll({
-      attributes: [
-        'producto_id',
-        [fn('SUM', col('cantidad')), 'total_vendido'],
         [fn('SUM', col('subtotal')), 'total_ganancia'],
-        [fn('MAX', col('fecha_venta')), 'fecha_venta']
       ],
       include: [
         {
           model: Producto,
           as: 'producto',
-          attributes: ['nombre', 'marca', 'categoria']
+          attributes: ['nombre', 'marca', 'modelo']
         }
       ],
       group: ['producto_id', 'producto.id'],
-      order: [[literal('total_ganancia'), 'DESC']],
+      // ordenar por la suma directamente:
+      order: [[literal('SUM(cantidad)'), 'DESC']],
       limit: 10
     });
-    res.json(topProductos);
+
+    return results.map(r => ({
+      producto: r.get('producto'), // garantiza que producto esté accesible
+      totalVendido: Number(r.get('totalVendido') || 0),
+      total_ganancia: Number(r.get('total_ganancia') || 0)
+    }));
   } catch (error) {
-    console.error('Error al obtener top 10 productos más vendidos:', error);
-    res.status(500).json({ error: 'Error al obtener el top 10 de productos más vendidos' });
+    console.error('top10Productos error:', error);
+    return [];
   }
-};
+}
+
+export async function top10Ventas() {
+  try {
+    const results = await DetalleVenta.findAll({
+      attributes: [
+        'producto_id',
+        [fn('SUM', col('cantidad')), 'totalVendido'],
+        [fn('SUM', col('subtotal')), 'total_ganancia'],
+      ],
+      include: [
+        {
+          model: Producto,
+          as: 'producto',
+          attributes: ['nombre', 'marca']
+        }
+      ],
+      group: ['producto_id', 'producto.id'],
+      order: [[literal('SUM(subtotal)'), 'DESC']],
+      limit: 10
+    });
+
+
+    return results.map(r => ({
+      producto: r.get('producto'),
+      totalVendido: Number(r.get('totalVendido') || 0),
+      total_ganancia: Number(r.get('total_ganancia') || 0)
+    }));
+  } catch (error) {
+    console.error('top10Ventas error:', error);
+    return [];
+  }
+}
