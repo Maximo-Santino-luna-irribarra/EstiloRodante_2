@@ -19,13 +19,12 @@
   "name": "estilorodante_2",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "Back/src/app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/app.js",
-    "dev": "nodemon ./src/app.js"
-  },
+      "start": "node ./Back/src/app.js",
+      "dev": "nodemon ./Back/src/app.js"
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Maximo-Santino-luna-irribarra/EstiloRodante_2.git"
