@@ -33,6 +33,31 @@ export const getAdmin = async (req, res) => {
   }
 };
 
+export const postAdmin = async (req, res) => {
+  try {
+    const { nombre, email, contra } = req.body;
+
+    isValidString(nombre);
+    isValidEmail(email);
+    isValidString(contra);
+
+    const hashedPassword = await authHelper.hashPassword(contra);
+    const nuevo = await adminservice.createAdmin({
+      nombre,
+      email,
+      contra: hashedPassword
+    });
+
+    if (!nuevo) {
+      return res.status(400).json({ error: 'Error al crear el admin' });
+    }
+
+    res.status(201).json(nuevo);
+  } catch (error) {
+    console.error('Error al crear admin:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+};
 
 
 export const putAdmin = async (req, res) => {
