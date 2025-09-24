@@ -1,4 +1,4 @@
-import { PRODUCTOS } from "./constantes/rutas.js";
+import { PRODUCTOS, API_BASE } from "./constantes/rutas.js";
 
 let carrito = cargarCarrito();
 
@@ -38,7 +38,7 @@ function renderDetalle(producto) {
 
   const html = `
     <div class="col-md-6 text-center">
-      <img src="http://localhost:3000/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
+      <img src="${API_BASE}${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
           alt="${nombre}"
           class="img-fluid rounded shadow"
           style="max-height: 400px; object-fit: cover;" />
