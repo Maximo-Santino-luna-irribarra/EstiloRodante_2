@@ -33,7 +33,7 @@ export const getAdmin = async (req, res) => {
   }
 };
 
-co
+
 
 export const putAdmin = async (req, res) => {
   try {
