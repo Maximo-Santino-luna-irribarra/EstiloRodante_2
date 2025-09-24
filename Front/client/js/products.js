@@ -2,7 +2,7 @@
 // VARIABLES GLOBALES
 // ==============================
 
-import { PRODUCTOS } from "./constantes/rutas.js";
+import { PRODUCTOS, API_BASE  } from "./constantes/rutas.js";
 
 const tipoSelect    = document.querySelector('select[name="type"]');
 const marcaSelect   = document.querySelector('select[name="brands"]');
@@ -68,7 +68,7 @@ const writeProducto = (producto) => {
   const controlsDiv = document.createElement("div");
   controlsDiv.className = "d-flex justify-content-between gap-2";
   renderButtons(producto, controlsDiv);
-
+  console.log(urlIMG)
   // Construimos la tarjeta
   product.innerHTML = `
     <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
@@ -81,7 +81,7 @@ const writeProducto = (producto) => {
       </a>
 
       <div class="text-center p-3">
-        <img src="http://localhost:3000/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
+        <img src="${API_BASE}/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
              class="rounded-circle img-fluid"
              alt="${modelo}"
              style="width: 120px; height: 120px; object-fit: cover;" />
@@ -260,7 +260,8 @@ function mostrarAlertaEliminado()  { mostrarAlerta("eliminado"); }
 async function init() {
   try {
     const productos = await fetch(PRODUCTOS).then(res => res.json());
-    allProducts.push(...productos);
+    console.log(productos)
+    allProducts.push(...productos.filter(p => p.activo));
     allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
     ingresarMarcas();
     ingresarTipos();

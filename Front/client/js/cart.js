@@ -1,3 +1,5 @@
+import { API_BASE } from "./constantes/rutas"
+
 const box = document.querySelector(".box")
 const listaProductos = []
 let productosPrecios = 0
@@ -19,11 +21,12 @@ const setProductos = () =>{
 
 const crearProducto = (element, cantidad = 1) =>{
     let product = document.createElement('div')
+    console.log(element.urlIMG)
     product.className = 'col'
     product.innerHTML = `
             <div class="card product-box text-center p-3 shadow rounded-4">
             <div class="product-image-wrapper mx-auto mb-3">
-                <img src="/Front/images/assets/primer-plano-de-pato-de-goma.jpg" class="product-image" alt="${element.modelo}">
+                <img src="${API_BASE}/${urlIMG || '/images/primer-plano-de-pato-de-goma.jpg'}"
             </div>
             <h5 class="fw-bold text-dark mb-1">Modelo: ${element.nombre}</h5>
             <p class="text-primary fw-semibold fs-5 mb-3">Precio: $${element.precio}</p>

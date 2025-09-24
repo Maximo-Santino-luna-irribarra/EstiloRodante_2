@@ -46,7 +46,8 @@ export const putProducto = async (req, res) => {
       medida: req.body.medida,
       precio: parseInt(req.body.precio),
       stock: parseInt(req.body.stock),
-      urlIMG: req.file ? `/uploads/${req.file.filename}` : req.body.urlIMG
+      urlIMG: req.file ? `/uploads/${req.file.filename}` : req.body.urlIMG,
+      activo: req.body.activo !== undefined ? req.body.activo : true
     };
 
     const actualizada = await productoservice.updateProducto(req.params.id, datos);

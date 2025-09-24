@@ -1,4 +1,4 @@
-export const API_BASE = 'http://localhost:3000'
+export const API_BASE = 'https://estilorodante-2.onrender.com'
 
 export const PRODUCTOS =  `${API_BASE}/api/productos`
 export const CLIENTES = `${API_BASE}/api/cliente`

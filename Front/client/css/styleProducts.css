@@ -99,16 +99,21 @@ aside{
 }
 
 .aside-fixed {
-    position: fixed;
-    left: -50px;
-    top: 35px;
-    width: 200px;
-    height: 40em;
-    z-index: 900;
-    padding: 10px;
-    margin-left: 5em;
-    margin-top: 10em    ;
+    position: sticky;
+    top: 1rem;
+    left: 0;
+    width: 220px;
+    margin-left: 1rem;
+    height: fit-content;
+    padding: 1.5em 1em;
+    border-radius: 15px;
+    background-color: #111;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 10;
 }
+
 
 .product-box {
     background: var(--card-bg-gradient);

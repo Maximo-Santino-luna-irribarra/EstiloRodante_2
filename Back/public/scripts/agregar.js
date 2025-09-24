@@ -21,16 +21,30 @@ function initImagePreview() {
 initImagePreview();
 
 function getFormData() {
+  const precio = parseFloat(document.getElementById("precio").value);
+  const stock = parseInt(document.getElementById("stock").value);
+  
+  // Validar que los valores numéricos sean válidos
+  if (isNaN(precio) || precio <= 0) {
+    alert("Por favor ingrese un precio válido mayor a 0");
+    return null;
+  }
+  
+  if (isNaN(stock) || stock < 0) {
+    alert("Por favor ingrese una cantidad válida (0 o mayor)");
+    return null;
+  }
+
   return {
     nombre: document.getElementById("nombre").value,
     marca: document.getElementById("marca").value,
     modelo: document.getElementById("modelo").value,
     medida: document.getElementById("medida").value,
-    precio: parseFloat(document.getElementById("precio").value),
-    stock: parseInt(document.getElementById("stock").value),
+    precio: precio,
+    stock: stock,
     urlIMG,
     categoria: tipoSelect.value,
-    activo: 1
+    activo: true
   };
 }
 
@@ -57,26 +71,41 @@ async function subirImagen() {
 
 async function agregarProducto() {
   const producto = getFormData();
-  const res = await fetch("/api/productos", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(producto)
-  });
-  if (!res.ok) throw new Error("Error al guardar producto");
-  alert("Producto agregado");
-  window.location.href = "/dashboard";
+  if (!producto) return; // Si hay error en la validación
+
+  try {
+    const res = await fetch("/api/productos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(producto)
+    });
+    
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Error al guardar producto");
+    }
+    
+    alert("Producto agregado exitosamente");
+    window.location.href = "/dashboard";
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
 }
 
 function bloquearEEnInputsNumber() {
   document.querySelectorAll('input[type="number"]').forEach(input => {
-    input.addEventListener("input", function () {
-      // reemplaza cualquier carácter que no sea dígito
-      this.value = this.value.replace(/[^0-9]/g, '');
-    });
-
-    input.addEventListener("paste", function (e) {
-      const pasteData = (e.clipboardData || window.clipboardData).getData("text");
-      if (/[^0-9]/.test(pasteData)) {
+    input.addEventListener("keydown", function(e) {
+      // Permitir: backspace, delete, tab, escape, enter, punto decimal y números
+      if ([46, 8, 9, 27, 13, 190].indexOf(e.keyCode) !== -1 ||
+        // Permitir: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+        (e.keyCode >= 35 && e.keyCode <= 39) || 
+        // Permitir: punto decimal del teclado numérico
+        (e.keyCode === 110)) {
+        return;
+      }
+      // Bloquear cualquier tecla que no sea número
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && 
+          (e.keyCode < 96 || e.keyCode > 105)) {
         e.preventDefault();
       }
     });
