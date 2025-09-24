@@ -4,9 +4,9 @@
 
 import { PRODUCTOS, API_BASE  } from "./constantes/rutas.js";
 
-const tipoSelect    = document.querySelector('select[name="type"]');
-const marcaSelect   = document.querySelector('select[name="brands"]');
-const modeloSelect  = document.querySelector('select[name="models"]');
+const tipoSelect    = document.getElementById("types");
+const marcaSelect   = document.getElementById("brands");
+const modeloSelect  = document.getElementById("estadoFiltro"); 
 
 const minPriceInput = document.querySelector(".minPrice");
 const maxPriceInput = document.querySelector(".maxPrice");
