@@ -44,7 +44,7 @@ const escribirTicket = async () => {
 
   localStorage.removeItem('carrito');
   localStorage.removeItem('nombreCliente');
-  console.log("Se borró el carrito y el nombre del cliente");
+
 };
 
 document.querySelector('.terminarCompra').addEventListener('click', () => {
@@ -68,7 +68,6 @@ async function registrarVenta(nombre_cliente, productos) {
     }
 
     const ventaCreada = await response.json();
-    console.log('Venta registrada:', ventaCreada);
     return ventaCreada;
 
   } catch (error) {

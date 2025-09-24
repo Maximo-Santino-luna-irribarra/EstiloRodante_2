@@ -68,7 +68,6 @@ const writeProducto = (producto) => {
   const controlsDiv = document.createElement("div");
   controlsDiv.className = "d-flex justify-content-between gap-2";
   renderButtons(producto, controlsDiv);
-  console.log(urlIMG)
   // Construimos la tarjeta
   product.innerHTML = `
     <div class="card h-100 shadow-sm border-0 rounded-4 d-flex flex-column justify-content-between"
@@ -260,7 +259,6 @@ function mostrarAlertaEliminado()  { mostrarAlerta("eliminado"); }
 async function init() {
   try {
     const productos = await fetch(PRODUCTOS).then(res => res.json());
-    console.log(productos)
     allProducts.push(...productos.filter(p => p.activo));
     allBrands = Array.from(new Set(allProducts.map(p => p.marca))).sort();
     ingresarMarcas();

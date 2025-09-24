@@ -23,7 +23,6 @@ export function logout() {
 function bloquearEEnInputsNumber() {
   document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener("input", function () {
-      // reemplaza cualquier carácter que no sea dígito
       this.value = this.value.replace(/[^0-9]/g, '');
     });
 

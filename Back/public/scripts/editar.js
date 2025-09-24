@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname;
   const id = path.split('/')[2];
-  console.log("ID del producto:", id);
   const form = document.querySelector("#editForm");
 
   fetch(`/api/productos/${id}`)

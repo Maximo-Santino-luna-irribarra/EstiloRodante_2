@@ -20,8 +20,6 @@ loginButton.addEventListener('click', (event) => {
         },
         body: JSON.stringify({ email:nombre, password: pass })
     }).then(response => {
-        console.log('Response:', response);
-        console.log('Response status:', response.status);
         if (response.ok) {
             alert('Inicio de sesión exitoso');
             location.href = '/dashboard';
