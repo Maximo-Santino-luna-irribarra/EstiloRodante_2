@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
       case 'ganancia':
         datos = await top10Ventas();
         break;
-      // ...
+      
     }
     res.render('vista_ventas', { datos, orden });
   } catch (err) {

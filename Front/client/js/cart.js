@@ -21,7 +21,6 @@ const setProductos = () =>{
 
 const crearProducto = (element, cantidad = 1) =>{
     let product = document.createElement('div')
-    console.log(element.urlIMG)
     product.className = 'col'
     product.innerHTML = `
             <div class="card product-box text-center p-3 shadow rounded-4">

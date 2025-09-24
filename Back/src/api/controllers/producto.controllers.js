@@ -35,10 +35,9 @@ export const postProducto = async (req, res) => {
   }
 };
 
-// controllers/producto.controller.js
+
 export const putProducto = async (req, res) => {
   try {
-    // Si subís archivo, manejalo con multer
     const datos = {
       nombre: req.body.nombre,
       marca: req.body.marca,

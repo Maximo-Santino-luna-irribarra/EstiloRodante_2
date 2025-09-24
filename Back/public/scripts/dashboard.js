@@ -41,7 +41,6 @@ function cargarProductos() {
   fetch(`/api/productos/paginados?${queryParams}`)
     .then(res => res.json())
     .then(data => {
-      console.log("Respuesta del backend:", data);
       allProducts = data.productos;
       totalProductos = data.total;
       renderProductos();
@@ -126,7 +125,7 @@ function renderCardProducto(producto) {
 // Activar/Desactivar producto
 async function activarProducto(id, activo) {
   try {
-    console.log('1. Iniciando activación/desactivación del producto:', id);
+ 
     
     // Primero obtenemos el producto actual
     const getRes = await fetch(`/api/productos/${id}`);
@@ -136,16 +135,15 @@ async function activarProducto(id, activo) {
     }
     
     const productoActual = await getRes.json();
-    console.log('3. Producto obtenido:', productoActual);
     
     const nuevoEstado = !activo;
-    console.log('4. Nuevo estado a aplicar:', nuevoEstado);
+    
     
     const datosActualizacion = {
       ...productoActual,
       activo: nuevoEstado
     };
-    console.log('5. Datos que se enviarán en la actualización:', datosActualizacion);
+  
     
     // Actualizamos solo cambiando el estado activo
     const res = await fetch(`/api/productos/${id}`, {
@@ -155,10 +153,8 @@ async function activarProducto(id, activo) {
       },
       body: JSON.stringify(datosActualizacion)
     });
-
-    console.log('6. Respuesta del servidor status:', res.status);
     const responseText = await res.text();
-    console.log('7. Respuesta del servidor body:', responseText);
+   
 
     if (!res.ok) {
       throw new Error(responseText || 'Error al actualizar el producto');
@@ -169,14 +165,11 @@ async function activarProducto(id, activo) {
     if (producto) {
       const oldData = {...producto};
       producto.activo = nuevoEstado;
-      console.log('8. Datos del producto antes de actualizar:', oldData);
-      console.log('9. Datos del producto después de actualizar:', producto);
     }
 
     renderProductos();
     renderPaginacion();
   } catch (err) {
-    console.error('10. Error en el proceso:', err);
     alert('Error al cambiar el estado del producto: ' + err.message);
   }
 }

@@ -25,7 +25,6 @@ const loginAdmin = async (req, res) => {
         }
 
         res.status(200).json({message: "Inicio de sesión exitoso", admin});
-          // 🔹 Guardar log de login
         await LogAdmin.create({ adminId: admin.id });
     }
     
