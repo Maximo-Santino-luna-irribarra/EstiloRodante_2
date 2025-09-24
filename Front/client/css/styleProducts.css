@@ -229,12 +229,18 @@ footer{
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 991px) {
+/* Vista tablet y escritorio mantiene el aside normal */
 .aside-fixed {
+    display: none;
+}
+
+.aside-fixed.d-md-block {
+    display: block !important;
     position: static;
     width: 100%;
+    max-width: 300px;
     height: auto;
-    margin-left: 0;
-    margin-bottom: 1rem;
+    margin: 1rem;
     padding: 1rem;
 }
 
@@ -259,12 +265,22 @@ main {
 
 
 @media (max-width: 576px) {
-  .aside-fixed {
-    width: 100%;
+  .filter-panel-mobile {
+    width: 95%;
+    margin: 1rem auto;
+    background-color: #111;
+    color: white;
     padding: 1rem;
-    margin-left: 0;
-    margin-top: 1rem;
     border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .filter-panel-mobile.collapsing {
+    transition: height 0.35s ease;
+  }
+
+  .filter-panel-mobile.show {
+    display: block;
   }
 
   main {
